@@ -12,7 +12,7 @@ LOGGER_DISABLED = {
 , 'mcts':False
 , 'model': False}
 
-
+### specifics
 logger_mcts = setup_logger('logger_mcts', run_folder + 'logs/logger_mcts.log')
 logger_mcts.disabled = LOGGER_DISABLED['mcts']
 
