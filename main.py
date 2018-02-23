@@ -75,7 +75,8 @@ best_player = Agent('best_player', env.state_size, env.action_size, config.MCTS_
 iteration = 0
 
 import time
-starttime = round(time.time(),3)
+starttime = time.time()
+
 
 while 1:
 
@@ -83,19 +84,19 @@ while 1:
     reload(lg)
     reload(config)
     
-    print('ITERATION NUMBER ' + str(iteration) + ' of ' + str(config.EPISODES))
+    print('ITERATION NUMBER ' + str(iteration))
     if iteration > 1:
       # time tracker / projecter 
-      thistime = round(time.time(),3)
-      total_elapsedtime = thistime - starttime
+      thistime = time.time()
+      total_elapsedtime = round(thistime - starttime,3)
       avg_elapsedtime = total_elapsedtime / iteration
       avg_elapsedmemory = len(memory.ltmemory) / iteration
       projected_memory_cycles = config.MEMORY_SIZE / avg_elapsedmemory
       avgtime_cycle = avg_elapsedtime / projected_memory_cycles
       remainingcycles = projected_memory_cycles - iteration
       projectedseconds = avgtime_cycle * remainingcycles
-      projectedhours = projectedseconds / 3600.0
-      print("\tProjected Remaining:")
+      projectedhours = projectedseconds / 3600
+      print("Projected Remaining:")
       print('\tcycles: ' + str(remainingcycles))
       print('\ttime: ' + str(projectedseconds) + ' seconds (' + str(projectedhours) + ' hours)')
     
@@ -157,4 +158,4 @@ while 1:
             best_NN.write(env.name, best_player_version)
 
     else:
-        print('MEMORY SIZE: ' + str(len(memory.ltmemory)))
+        print('MEMORY SIZE: ' + str(len(memory.ltmemory)) + 'of' + str(config.MEMORY_SIZE))
