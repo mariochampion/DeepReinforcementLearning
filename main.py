@@ -97,7 +97,7 @@ while 1:
       projectedseconds = avg_elapsedtime * remainingcycles
       projectedhours = round(projectedseconds / 3600.0, 3)
       print("Projected Remaining:")
-      print('\tcycles: ' + str(remainingcycles))
+      print('\titerations: ' + str(remainingcycles))
       print('\ttime: ' + str(projectedseconds) + ' seconds (' + str(projectedhours) + ' hours)')
     
     lg.logger_main.info('BEST PLAYER VERSION: %d', best_player_version)
