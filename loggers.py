@@ -9,7 +9,7 @@ LOGGER_DISABLED = {
 'main':False
 , 'memory':False
 , 'tourney':False
-, 'mcts':False
+, 'mcts':True
 , 'model': False}
 
 
@@ -27,4 +27,3 @@ logger_memory.disabled = LOGGER_DISABLED['memory']
 
 logger_model = setup_logger('logger_model', run_folder + 'logs/logger_model.log')
 logger_model.disabled = LOGGER_DISABLED['model']
- 
