@@ -93,7 +93,7 @@ while 1:
       percycle = elapsedtime / elapsedcycles
       projectedseconds = percycle * remainingcycles
       projectedhours = projectedseconds / 3600.0
-      print('\titeration time: ' + str(elapsedtime) + 'seconds')
+      print('\telapsed time: ' + str(elapsedtime) + ' seconds')
       print('\tprojected remaining: ' + str(projectedseconds) + ' seconds (or ' + str(projectedhours) + ' hours)')
     
     lg.logger_main.info('BEST PLAYER VERSION: %d', best_player_version)
