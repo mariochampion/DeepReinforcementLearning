@@ -74,13 +74,28 @@ best_player = Agent('best_player', env.state_size, env.action_size, config.MCTS_
 #user_player = User('player1', env.state_size, env.action_size)
 iteration = 0
 
+import datetime as dt
+starttime = dt.datetime.now()
+print('STARTING TIME: ' + str(starttime))
+print('\n')
+
 while 1:
 
     iteration += 1
     reload(lg)
     reload(config)
     
-    print('ITERATION NUMBER ' + str(iteration))
+    print('ITERATION NUMBER ' + str(iteration) + ' of ' + str(config.EPISODES))
+    if iteration > 1:
+      # time tracker / projecter 
+      thistime = dt.datetime.now()
+      elapsedtime = starttime - thistime
+      remainingcycles = config.EPISODES - (iteration-1)
+      elapsedcycles = config.EPISODES - remainingcycles
+      percycle = elapsedtime / elapsedcycles
+      projectedseconds = percycle * remainingcycles
+      projectedhours = projectedseconds / 3600.0
+      print('\tprojected finish in ' + str(projectedseconds) + ' seconds (or ' + str(projectedhours) + ' hours)')
     
     lg.logger_main.info('BEST PLAYER VERSION: %d', best_player_version)
     print('BEST PLAYER VERSION ' + str(best_player_version))
