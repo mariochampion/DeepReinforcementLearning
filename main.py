@@ -86,16 +86,16 @@ while 1:
     
     print('ITERATION NUMBER ' + str(iteration))
     if iteration > 1:
-      # time tracker / projecter 
+      # time tracker / projecter
+      itercount = iteration - 1
       thistime = time.time()
       total_elapsedtime = round(thistime - starttime,3)
-      avg_elapsedtime = total_elapsedtime / iteration
-      avg_elapsedmemory = len(memory.ltmemory) / iteration
+      avg_elapsedtime = total_elapsedtime / itercount
+      avg_elapsedmemory = len(memory.ltmemory) / itercount
       projected_memory_cycles = config.MEMORY_SIZE / avg_elapsedmemory
-      avgtime_cycle = avg_elapsedtime / projected_memory_cycles
-      remainingcycles = projected_memory_cycles - iteration
-      projectedseconds = avgtime_cycle * remainingcycles
-      projectedhours = projectedseconds / 3600
+      remainingcycles = projected_memory_cycles - itercount
+      projectedseconds = avg_elapsedtime * remainingcycles
+      projectedhours = round(projectedseconds / 3600.0, 3)
       print("Projected Remaining:")
       print('\tcycles: ' + str(remainingcycles))
       print('\ttime: ' + str(projectedseconds) + ' seconds (' + str(projectedhours) + ' hours)')
@@ -158,4 +158,4 @@ while 1:
             best_NN.write(env.name, best_player_version)
 
     else:
-        print('MEMORY SIZE: ' + str(len(memory.ltmemory)) + 'of' + str(config.MEMORY_SIZE))
+        print('MEMORY SIZE: ' + str(len(memory.ltmemory)) + ' of ' + str(config.MEMORY_SIZE))
