@@ -10,7 +10,7 @@ https://applied-data.science/blog/how-to-build-your-own-alphazero-ai-using-pytho
 To start the learning process, run the top two panels in the run.ipynb Jupyter notebook. 
 Only when it has built up enough game positions to fill its memory will the neural network will begin training.
 
-Therefore, you will need to leave it running until the memory size, which is listed in the output in the Jupyter notebook 
+Therefore, you will need to leave it running until the memory size, which is listed in the output in the Jupyter notebook, 
 reaches the MEMORY_SIZE specified in the config.py file. (defaults to "30000")
 
 <strong>This initial training can take many hours</strong> and if you stop it before 
