@@ -106,6 +106,7 @@
 analysis/
 archive/
 ipynb/
+run/logs/
 run_archive/
 code_archive/
 games/archive/
