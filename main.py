@@ -75,7 +75,7 @@ best_player = Agent('best_player', env.state_size, env.action_size, config.MCTS_
 iteration = 0
 
 import time
-starttime = time.time()
+starttime = round(time.time(),3)
 
 while 1:
 
@@ -86,15 +86,18 @@ while 1:
     print('ITERATION NUMBER ' + str(iteration) + ' of ' + str(config.EPISODES))
     if iteration > 1:
       # time tracker / projecter 
-      thistime = time.time()
-      elapsedtime = thistime - starttime
-      remainingcycles = config.EPISODES - (iteration-1)
-      elapsedcycles = config.EPISODES - remainingcycles
-      percycle = elapsedtime / elapsedcycles
-      projectedseconds = percycle * remainingcycles
+      thistime = round(time.time(),3)
+      total_elapsedtime = thistime - starttime
+      avg_elapsedtime = total_elapsedtime / iteration
+      avg_elapsedmemory = len(memory.ltmemory) / iteration
+      projected_memory_cycles = config.MEMORY_SIZE / avg_elapsedmemory
+      avgtime_cycle = avg_elapsedtime / projected_memory_cycles
+      remainingcycles = projected_memory_cycles - iteration
+      projectedseconds = avgtime_cycle * remainingcycles
       projectedhours = projectedseconds / 3600.0
-      print('\telapsed time: ' + str(elapsedtime) + ' seconds')
-      print('\tprojected remaining: ' + str(projectedseconds) + ' seconds (or ' + str(projectedhours) + ' hours)')
+      print("\tProjected Remaining:")
+      print('\tcycles: ' + str(remainingcycles))
+      print('\ttime: ' + str(projectedseconds) + ' seconds (' + str(projectedhours) + ' hours)')
     
     lg.logger_main.info('BEST PLAYER VERSION: %d', best_player_version)
     print('BEST PLAYER VERSION ' + str(best_player_version))
