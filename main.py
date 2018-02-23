@@ -89,7 +89,7 @@ while 1:
     if iteration > 1:
       # time tracker / projecter 
       thistime = dt.datetime.now()
-      elapsedtime = starttime - thistime
+      elapsedtime = thistime - starttime
       remainingcycles = config.EPISODES - (iteration-1)
       elapsedcycles = config.EPISODES - remainingcycles
       percycle = elapsedtime / elapsedcycles
