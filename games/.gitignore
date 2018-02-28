@@ -1,6 +1,0 @@
-# mac os
-.DS_Store
-
-# building out for grid bloc game, ignore for now
-gridbloc/
-*.pyc
