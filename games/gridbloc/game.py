@@ -1,3 +1,10 @@
+'''
+the goal here is to mathematically describe the DUAL + OVERLAPPING grids of gridbloc (running tiles and blocking tiles)
+so that arrays of valid choices can be calculated. unlike most other board games, there are TWO rounds, and the winner of any one round is ALWAYS the runner.
+ * The end-round condition is no valid-move un-scored tiles available for a runner.
+ * The end-game condition is the end of round two.
+ * The winning condition is the higher run score AFTER end of round two.
+'''
 import numpy as np
 
 
