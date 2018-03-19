@@ -1,9 +1,13 @@
 '''
+PURPOSE
 the goal here is to mathematically describe the DUAL + OVERLAPPING grids of gridbloc (running tiles and blocking tiles)
 so that arrays of valid choices can be calculated. unlike most other board games, there are TWO rounds, and the winner of any one round is ALWAYS the runner.
  * The end-round condition is no valid-move un-scored tiles available for a runner.
  * The end-game condition is the end of round two.
  * The winning condition is the higher run score AFTER end of round two.
+ * "w" the parameter stands for the Width of a row or RUNNING tiles. NOTE: the blocking tiles are calculated from "w"
+ * the upper left RUNNING tile is NEITHER 1 nor 0 (zero). the upper left column top tile is actually 1. a blocking tile ATOP each row uses numbers 1 to w. so then, w+1 is the left border wall for the first row, and the first running tile is w+2.
+ * "current_tile" the parameter is the NUMBER of the tile, which is NOT a A7 or F2 chess style notation, but a simple integer calculated from row width, with additions for interjecting blocking tiles.
 '''
 import numpy as np
 
