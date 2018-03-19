@@ -18,18 +18,20 @@ PARAMETERS
  * "ct" = the NUMBER of the CurrentTile, which is NOT a A7 or F2 chess style notation, but a simple integer calculated from row width, according to the formulas which account for interposing blocking tiles.
 
 SOME FORMULAS
+# note need to calculate "n" when starting, then track as runner moves, as a shortcut for total calcs... altho maybe not.
  * run_row_length = 2w+1
  * run_row_starter = nw + ( (n-1) + (2w+1) ) + 1
- * run_row_tilerange = n + (2w-1) (by 2s) # NOT COMPLETE
+ * run_row_tilerange = n + (2w-1) (by step 2) # NOT COMPLETE
+
  * vert_tile = 3w+1 ## to current tile, add this value for below tile, and subtract for above tile.
    ** vert_above = ct - vert_tile
    ** vert_below = ct + vert_tile
+
  * block_row_hor_starter = ( (n-1)(2w+1) ) + ( (n-1)(w)+1 )
  * block_row_hor_range = b+1 in range(1,w) # NOT COMPLETE
- * block_row_vert_starter = 
- * block_row_vert_range = 
- * block_row_leftcap = 
- * block_row_rightcap =  
+ * block_row_vert_starter = run_row_starter -1
+ * block_row_vert_ender = block_row_vert_starter + 2w
+ * block_row_vert_range = range(block_row_vert_starter: block_row_vert_ender, 2) #w/step = 2
  
  # close_edges() is the function to identify all the edge tiles to prevent PACMAN style movement. (for now!)
 
