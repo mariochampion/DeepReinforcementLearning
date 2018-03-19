@@ -20,14 +20,18 @@ PARAMETERS
 SOME FORMULAS
  * run_row_length = 2w+1
  * run_row_starter = nw + ( (n-1) + (2w+1) ) + 1
- * run_row_tilerange = n + (2w-1) (by 2s)
+ * run_row_tilerange = n + (2w-1) (by 2s) # NOT COMPLETE
  * vert_tile = 3w+1 ## to current tile, add this value for below tile, and subtract for above tile.
    ** vert_above = ct - vert_tile
    ** vert_below = ct + vert_tile
  * block_row_hor_starter = ( (n-1)(2w+1) ) + ( (n-1)(w)+1 )
- * block_row_hor_range = Bn+1 in range(1,w)
+ * block_row_hor_range = b+1 in range(1,w) # NOT COMPLETE
  * block_row_vert_starter = 
  * block_row_vert_range = 
+ * block_row_leftcap = 
+ * block_row_rightcap =  
+ 
+ # close_edges() is the function to identify all the edge tiles to prevent PACMAN style movement. (for now!)
 
 NOTE: the upper left RUNNING tile is NEITHER 1 nor 0 (zero). the upper left column top tile is actually 1. a blocking tile ATOP each row uses numbers 1 to w. so then, w+1 is the left border wall for the first row, and the first running tile is w+2.
 
