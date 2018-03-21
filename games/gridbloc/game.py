@@ -18,8 +18,9 @@ PARAMETERS
  * "ct" = the NUMBER of the CurrentTile, which is NOT a A7 or F2 chess style notation, but a simple integer calculated from row width, according to the formulas which account for interposing blocking tiles.
 
 SOME FORMULAS
-# note need to calculate "n" when starting, then track as runner moves, as a shortcut for total calcs... altho maybe not.
+# NOTE: need to calculate "n" when starting, then track as runner moves, as a shortcut for total calcs... altho maybe not.
  * run_row_length = 2w+1
+ * n = floor( ct / run_row_length )
  * run_row_starter = nw + ( (n-1) + (2w+1) ) + 1
  * run_row_tilerange = range(run_row_starter, ( run_row_starter + (2w-2) ), 2) #step = 2
 
