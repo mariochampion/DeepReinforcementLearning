@@ -19,6 +19,7 @@ DEV STEPS OF THIS FILE:
 4. alt to 3: calc them ahed of time and then include theoutputs as hardcoded, but include a game-setup.py style file for thsose interested, and for me (i m interested!)
 5. determine exact role of Game.gameState Game.actionSpace, GameState.winners (especially this last one as winner is simple the greater of p1.runscore and p2.runscore (or whatever that exact equivalent might be)
 6. currentBoard = state.board and currentAV = actionValues #investigate
+7. allow for a watch out for borders, so when row1 cannot goup, and edgeright, cannot go right, etc
 
 MVP CLI phases
 1. input w and h and it calcs gamestate and tile options arrays
@@ -105,11 +106,8 @@ class GridBlocBoard(w,h):
       print "rownum:" + rownum 
       run_row_starter = self._run_row_starter(self, row_num)
       run_tiles_master_dict["rownum"] = [t in range(run_row_starter, ( run_row_starter + (2w-2) ), 2)) ] #step by two
-      
     return run_tiles_master_dict
       
-      
- 
     
   def _run_row_starter(self, row_num):
     '''
@@ -126,12 +124,26 @@ class GridBlocBoard(w,h):
     randompick = random.choice(list(dictoflists))
     return randompick
     
-      
         
   def _row_num_from_ct(self):
-    self.row_num = math.floor(self.ct / run_row_length)
+    row_num = math.floor(self.ct / run_row_length)
+    return row_num
+ 
+  
+  def _tile_up_from_ct(self):
+    '''
+    vert_tile = 3w+1 ## to current tile, add this value for below tile, and subtract for above tile.
+    '''
+    tile_up = self.ct - (3 * self.w + 1)
+    return tile_up
 
 
+  def _tile_down_from_ct(self):
+    '''
+    vert_tile = 3w+1 ## to current tile, add this value for below tile, and subtract for above tile.
+    '''
+    tile_dn = self.ct + (3 * self.w + 1)
+    return tile_dn
 
 
 
