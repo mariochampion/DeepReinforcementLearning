@@ -66,10 +66,9 @@ SOME FORMULAS
 '''
 
 
-import sys
+import sys, random, logging, math
 import numpy as np
-import logging
-import math
+
 
 
 ### add some gridbloc setup and calculation functions
@@ -80,14 +79,14 @@ class GridBlocBoard(w,h):
   def __init__(self):		
 		self.w = w
 		self.h = h
-		self.row_len = row_len_calc(w)
-		self.run_tiles_master_dict = run_tiles_master() # keyed by rownum
-		self.ct = 41 ### TODO WOOP WOOP WOOP! pick actually from self.run_tiles_master
-		self.n = floor( ct / self.row_len )
+		self.row_len = _row_len_calc(self)
+		self.run_tiles_master_dict = _run_tiles_master(self) # keyed by rownum
+		self.ct = _pickrandomfrom(run_tiles_master_dict)
+		self.n = _row_num_from_ct(self)
 		self.run_row_starter = _run_row_starter(n)
 		
 		
-  def row_len_calc(self):
+  def _row_len_calc(self):
   '''
   for every tile, there is a left side, then one more right side at the end
   (or, of course you can think of this as rights with one left)
@@ -95,7 +94,7 @@ class GridBlocBoard(w,h):
   row_len = 2 * self.w + 1
   return row_len
   
-  def run_tiles_master(self):
+  def _run_tiles_master(self):
     '''
     build the ORIGINAL MASTER array / list of running tiles, as dict keyed by row_num.
     there will be 2 subsets: tiles_validnextmove and tiles_scored
@@ -119,14 +118,18 @@ class GridBlocBoard(w,h):
     run_row_starter = (row_num * self.w) + ( (row_num - 1) + (2* self.w + 1) ) + 1
     return run_row_starter
     
+  
+  def _pickrandomfrom(dictoflists):
+    '''
+    placeholder to pick a starting tile. will pick by input or by policy, but for now...
+    '''
+    randompick = random.choice(list(dictoflists))
+    return randompick
     
-
-
-
-class GridBlocState(ct):
-   
-  def __init__(self):
-    self.row_num = math.floor(ct / run_row_length)
+      
+        
+  def _row_num_from_ct(self):
+    self.row_num = math.floor(self.ct / run_row_length)
 
 
 
