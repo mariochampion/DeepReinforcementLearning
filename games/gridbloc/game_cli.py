@@ -111,6 +111,7 @@ class GridBlocBoard(w,h):
     
   def _run_row_starter(self, row_num):
     '''
+    returns an integer of the gridsq number of the left edge tile of that row (whih actually starts with teh edge wall, so there is a + 1 to that)
     run_row_starter = (nw) + ( (n-1) + (2* w +1) ) + 1
     '''
     run_row_starter = (row_num * self.w) + ( (row_num - 1) + (2* self.w + 1) ) + 1
