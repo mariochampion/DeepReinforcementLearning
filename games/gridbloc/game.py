@@ -17,7 +17,7 @@ PARAMETERS
 
 NOTE: blocking tiles (hor and vert, inclduing edge walls etc) will be calculated calculated from w & h 
  * "n" is the row number (n=3 is the 3rd row, etc)
- * "ct" is the NUMBER of the CurrentTile, which is NOT a A7 or F2 chess style notation, but a simple integer calculated from row width, according to the formulas which account for interposing blocking tiles.
+ * "ct" is the NUMBER of the current_tile, which is NOT a A7 or F2 chess style notation, but a simple integer calculated from row width, according to the formulas which account for interposing blocking tiles.
 
 SOME FORMULAS
 # NOTE: need to calculate "ct" when starting, from the available runner options. then track as runner moves, using the formulas.
@@ -56,6 +56,13 @@ DEV STEPS OF THIS FILE:
 5. determine exact role of Game.gameState Game.actionSpace, GameState.winners (especially this last one as winner is simple the greater of p1.runscore and p2.runscore (or whatever that exact equivalent might be)
 6. currentBoard = state.board and currentAV = actionValues #investigate
 
+MVP CLI phases
+1. input w and h and it calcs gamestate and tile options arrays
+2. input ct param and it calcs the legal moves arrays for runner and blocker
+3. input ct and calcs GOOD moves not just legal moves for runner and blocker
+
+then a versions
+
 '''
 
 
@@ -83,18 +90,18 @@ def row_blocking_len(w):
   return w
   
 
-def tile_up(w, current_tile):
+def tile_up(w, ct):
   '''
   a running or blocking tile is 3*w+1 from the current_tile
   '''  
-  uptile = current_tile - (3*w) + 1
+  uptile = ct - (3*w) + 1
   return uptile
   
-def tile_down(w, current_tile):
+def tile_down(w, ct):
   '''
   a running or blocking tile is 3*w+1 from the current_tile
   '''  
-  downtile = current_tile + (3*w) + 1
+  downtile = ct + (3*w) + 1
   return downtile  
 
 ### ---------------------------------------
@@ -127,7 +134,7 @@ def build_mastergrid(w,h):
   
 
 
-def tiles_valid(current_tile):
+def tiles_valid(ct):
   '''
   return a LIST of valid tiles, NOT SORTED BY BEST. just legal tiles.
   another func will sort them by best. 
