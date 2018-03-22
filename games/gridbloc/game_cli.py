@@ -75,89 +75,64 @@ import math
 ### util funcs to move at some point  
 ### ---------------------------------------
 
-def row_running_len(w):
+class GridBlocBoard(w,h):
+  
+  def __init__(self):		
+		self.w = w
+		self.h = h
+		self.row_len = row_len_calc(w)
+		self.run_tiles_master_dict = run_tiles_master() # keyed by rownum
+		self.ct = 41 ### TODO WOOP WOOP WOOP! pick actually from self.run_tiles_master
+		self.n = floor( ct / self.row_len )
+		self.run_row_starter = _run_row_starter(n)
+		
+		
+  def row_len_calc(self):
   '''
   for every tile, there is a left side, then one more right side at the end
-  (and of course you can think of this as rights with one left)
+  (or, of course you can think of this as rights with one left)
   '''
-  lenrow = 2 * w + 1
-  return lenrow
+  row_len = 2 * self.w + 1
+  return row_len
   
-  
-def row_blocking_len(w):
-  '''
-  a row of top or bottom edges, (between runnable tiles) is simply as long as w
-  '''
-  return w
-  
-
-def tile_up(w, ct):
-  '''
-  a running or blocking tile is 3*w+1 from the current_tile
-  '''  
-  uptile = ct - (3*w) + 1
-  return uptile
-  
-def tile_down(w, ct):
-  '''
-  a running or blocking tile is 3*w+1 from the current_tile
-  '''  
-  downtile = ct + (3*w) + 1
-  return downtile  
-
-### ---------------------------------------
-
-
-
-
-def build_gameboard(w,h):
-  '''
-  do a series of functions:
-  1. build mastergrid
-  2. build wall masterlist
-    (sublists: edges, used, nextmoveoptions, best)
-  3. build tile masterlist
-    (sublists: rowcaps, used, nextmoveoptions, best)
-  '''
-def build_mastergrid(w,h):
-  '''
-  w = width
-  h = height
-  formula involves adding walls and edges, so not just w * h
-  return list of tiles in one long array as well as arrays for tiles, walls
-  '''
-  
-  
-  return mastergrid
-  
-  
-  
-  
+  def run_tiles_master(self):
+    '''
+    build the ORIGINAL MASTER array / list of running tiles. there will be 2 subsets:
+      tiles_validnextmove and tiles_scored
+    run_row_tilerange = range(run_row_starter, ( run_row_starter + (2w-2) ), 2) #step = 2
+    '''
+    run_tiles_master_dict = {}
+    for rownum in range(1, self.h):
+      print "rownum:" + rownum 
+      run_row_starter = self._run_row_starter(self, row_num)
+      run_tiles_master_dict["rownum"] = [t in range(run_row_starter, ( run_row_starter + (2w-2) ), 2)) ] #step by two
+      
+    return run_tiles_master_dict
+      
+      
+ 
+    
+  def _run_row_starter(self, row_num):
+    '''
+    run_row_starter = (nw) + ( (n-1) + (2* w +1) ) + 1
+    '''
+    run_row_starter = (row_num * self.w) + ( (row_num - 1) + (2* self.w + 1) ) + 1
+    return run_row_starter
+    
+    
 
 
-def tiles_valid(ct):
-  '''
-  return a LIST of valid tiles, NOT SORTED BY BEST. just legal tiles.
-  another func will sort them by best. 
-  '''
-  
-  tiles_valid = [1,2,3]
-  
-  return tiles_valid
-  
+
+class GridBlocState(ct):
+   
+  def __init__(self):
+    self.row_num = math.floor(ct / run_row_length)
 
 
-  
-def blocks_valid():
-  '''
-  returns LIST of valid blocks, NOT SORTED BY BEST blocks
-  another func will sort them by best.
-  (will this not be ALL walls/blocks MINUS already walls?)
-  i guess then: call the get_blocks_blocked
-  '''  
-  
-  blocks_valid = [1,2,3,4,5,6]
-  return blocks_valid
+
+
+
+
   
 
 
@@ -395,7 +370,7 @@ class GameState():
 
 def main(args):
   print "in main"
-  print
+  print "args ",args
   for arg in args:
     print arg
   
