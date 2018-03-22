@@ -13,12 +13,16 @@ IMPORTANT CONDITIONS
 
 PARAMETERS 
  * "h" = height of grid (number of rows)
- * "w" =  Width of a row or RUNNING tiles. NOTE: the blocking tiles are calculated from "w"
- * "n" = the row number (n=3 is the 3rd row, etc)
- * "ct" = the NUMBER of the CurrentTile, which is NOT a A7 or F2 chess style notation, but a simple integer calculated from row width, according to the formulas which account for interposing blocking tiles.
+ * "w" =  width of a row in RUNNING tiles. 
+
+NOTE: blocking tiles (hor and vert, inclduing edge walls etc) will be calculated calculated from w & h 
+ * "n" is the row number (n=3 is the 3rd row, etc)
+ * "ct" is the NUMBER of the CurrentTile, which is NOT a A7 or F2 chess style notation, but a simple integer calculated from row width, according to the formulas which account for interposing blocking tiles.
 
 SOME FORMULAS
-# NOTE: need to calculate "n" when starting, then track as runner moves, as a shortcut for total calcs... altho maybe not.
+# NOTE: need to calculate "ct" when starting, from the available runner options. then track as runner moves, using the formulas.
+# NOTE: "n" is calculated from ct and w, then track as runner moves, using the formulas.
+
  * run_row_length = 2w+1
  * n = floor( ct / run_row_length )
  * run_row_starter = nw + ( (n-1) + (2w+1) ) + 1
@@ -34,11 +38,15 @@ SOME FORMULAS
  * block_row_vert_ender = block_row_vert_starter + 2w
  * block_row_vert_range = range(block_row_vert_starter: block_row_vert_ender, 2) #w/step = 2
  
+ * ct_available_start = []
+ * ct_available_legal = []
+ 
  # close_edges() is the function to identify all the edge tiles to prevent PACMAN style movement. (for now!)
 
 NOTE: the upper left RUNNING tile is NEITHER 1 nor 0 (zero). the upper left column top tile is actually 1. a blocking tile ATOP each row uses numbers 1 to w. so then, w+1 is the left border wall for the first row, and the first running tile is w+2.
 
 '''
+import math
 import numpy as np
 
 
