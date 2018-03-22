@@ -72,8 +72,8 @@ import logging
 import math
 
 
-### util funcs to move at some point  
-### ---------------------------------------
+### add some gridbloc setup and calculation functions
+### --------------------------------------------------
 
 class GridBlocBoard(w,h):
   
@@ -97,8 +97,8 @@ class GridBlocBoard(w,h):
   
   def run_tiles_master(self):
     '''
-    build the ORIGINAL MASTER array / list of running tiles. there will be 2 subsets:
-      tiles_validnextmove and tiles_scored
+    build the ORIGINAL MASTER array / list of running tiles, as dict keyed by row_num.
+    there will be 2 subsets: tiles_validnextmove and tiles_scored
     run_row_tilerange = range(run_row_starter, ( run_row_starter + (2w-2) ), 2) #step = 2
     '''
     run_tiles_master_dict = {}
