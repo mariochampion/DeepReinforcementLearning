@@ -71,9 +71,9 @@ import sys, random, logging, math
 import numpy as np
 
 
-
+#################################
 ### add some gridbloc setup and calculation functions
-### --------------------------------------------------
+#################################
 
 class GridBlocBoard(w,h):
   
@@ -94,7 +94,9 @@ class GridBlocBoard(w,h):
   '''
   row_len = 2 * self.w + 1
   return row_len
-  
+
+
+#################################
   def _run_tiles_master(self):
     '''
     build the ORIGINAL MASTER array / list of running tiles, as dict keyed by row_num.
@@ -108,7 +110,8 @@ class GridBlocBoard(w,h):
       run_tiles_master_dict["rownum"] = [t in range(run_row_starter, ( run_row_starter + (2w-2) ), 2)) ] #step by two
     return run_tiles_master_dict
       
-    
+
+#################################    
   def _run_row_starter(self, row_num):
     '''
     returns an integer of the gridsquare number of the left edge tile of that row (whih actually starts with teh edge wall, so there is a + 1 to that)
@@ -117,7 +120,8 @@ class GridBlocBoard(w,h):
     run_row_starter = (row_num * self.w) + ( (row_num - 1) + (2* self.w + 1) ) + 1
     return run_row_starter
     
-  
+    
+#################################  
   def _pickrandomfrom(self, dictoflists):
     '''
     placeholder to pick a starting tile. will pick by input or by policy, but for now...
@@ -125,12 +129,14 @@ class GridBlocBoard(w,h):
     randompick = random.choice(list(dictoflists))
     return randompick
     
-        
+
+#################################        
   def _row_num_from_ct(self):
     row_num = math.floor(self.ct / self.row_len)
     return row_num
  
-  
+
+#################################  
   def _tile_up_from_ct(self):
     '''
     vert_tile = 3w+1 ## to current tile, add this value for below tile, and subtract for above tile.
@@ -139,6 +145,7 @@ class GridBlocBoard(w,h):
     return tile_up
 
 
+#################################
   def _tile_down_from_ct(self):
     '''
     vert_tile = 3w+1 ## to current tile, add this value for below tile, and subtract for above tile.
