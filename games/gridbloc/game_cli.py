@@ -82,7 +82,7 @@ class GridBlocBoard(w,h):
 		self.h = h
 		self.row_len = _row_len_calc(self)
 		self.run_tiles_master_dict = _run_tiles_master(self) # keyed by rownum
-		self.ct = _pickrandomfrom(run_tiles_master_dict)
+		self.ct = _tilepick(run_tiles_master_dict)
 		self.n = _row_num_from_ct(self)
 		self.run_row_starter = _run_row_starter(n)
 		
@@ -122,12 +122,18 @@ class GridBlocBoard(w,h):
     
     
 #################################  
-  def _pickrandomfrom(self, dictoflists):
+  def _tilepick(self, dictoflists, p = "random"):
     '''
-    placeholder to pick a starting tile. will pick by input or by policy, but for now...
+    placeholder to pick a tile -- starting tile and in-game as well. 
+    will pick by input or by policy, but for now... random is default but other styles mat be passable
     '''
-    randompick = random.choice(list(dictoflists))
-    return randompick
+    # make more complete switch/case for other pick styles
+    if p == "random":
+      tilepick = random.choice(list(dictoflists))
+    else:
+      tilepick = random.choice(list(dictoflists))
+    
+    return tilepick
     
 
 #################################        
