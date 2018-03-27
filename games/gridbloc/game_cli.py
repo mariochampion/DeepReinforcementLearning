@@ -86,7 +86,7 @@ class GridBlocBoard(w,h):
 		self.n = _row_num_from_ct(self)
 		self.run_row_starter = _run_row_starter(n)
 		
-		
+  # also called run_row_length()
   def _row_len_calc(self):
   '''
   for every tile, there is a left side, then one more right side at the end
@@ -118,7 +118,7 @@ class GridBlocBoard(w,h):
     return run_row_starter
     
   
-  def _pickrandomfrom(dictoflists):
+  def _pickrandomfrom(self, dictoflists):
     '''
     placeholder to pick a starting tile. will pick by input or by policy, but for now...
     '''
@@ -127,7 +127,7 @@ class GridBlocBoard(w,h):
     
         
   def _row_num_from_ct(self):
-    row_num = math.floor(self.ct / run_row_length)
+    row_num = math.floor(self.ct / self.row_len)
     return row_num
  
   
