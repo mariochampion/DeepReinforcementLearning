@@ -190,7 +190,7 @@ class GridBlocBoard(w,h):
     '''
     _block_row_hor_starter = ((n-1)(2w+1)) + ((n-1)(w)) + 1
     '''
-    if n_is_h is False:
+    if n_is_h == False:
       n = self.row_num
     else:
       n = self.h
