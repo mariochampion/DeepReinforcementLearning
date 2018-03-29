@@ -27,10 +27,6 @@ MVP CLI phases
 3. input ct and calcs GOOD moves not just legal moves for runner and blocker
 
 
-
-
-
-
 PARAMETERS 
  * "h" = height of grid (number of rows)
  * "w" =  width of a row in RUNNING tiles. 
@@ -83,8 +79,18 @@ class GridBlocBoard(w,h):
 		self.row_len = _row_len_calc(self)
 		self.run_tiles_master_dict = _run_tiles_master(self) # keyed by rownum
 		self.ct = _tilepick(run_tiles_master_dict)
-		self.n = _row_num_from_ct(self)
-		self.run_row_starter = _run_row_starter(n)
+		self.row_num = _row_num_from_ct(self)
+		self.run_row_starter = _run_row_starter(self, row_num)
+		
+		## blocker tile params / value calcs
+		# block_row_hor_starter = ( (n-1)(2w+1) ) + ( (n-1)(w)+1 )
+		# block_row_hor_range = b+1 in range(1,w) # NOT COMPLETE
+		# block_row_vert_starter = run_row_starter -1
+		# block_row_vert_ender = block_row_vert_starter + 2w
+		# block_row_vert_range = range(block_row_vert_starter: block_row_vert_ender, 2) #w/step = 2
+
+		
+		
 		
   # also called run_row_length()
   def _row_len_calc(self):
