@@ -50,16 +50,19 @@ SOME FORMULAS
    ** vert_above = ct - vert_tile
    ** vert_below = ct + vert_tile
 
- * block_row_hor_starter = ( (n-1)(2w+1) ) + ( (n-1)(w)+1 )
- * block_row_hor_range = b+1 in range(1,w) # NOT COMPLETE
- * block_row_vert_starter = run_row_starter -1
- * block_row_vert_ender = block_row_vert_starter + 2w
- * block_row_vert_range = range(block_row_vert_starter: block_row_vert_ender, 2) #w/step = 2
+ # _block_row_hor_starter = ( (n-1)(2w+1) ) + ( (n-1)(w)+1 )
+ # _block_row_hor_ender = _block_row_hor_starter + b_row_len -1
+ # _block_row_hor_list = range(self.b_row_h_start, (self.b_row_len - 1 )
+ # _block_row_vert_starter = run_row_starter -1
+ # _block_row_vert_ender = block_row_vert_starter + 2w
+ # _block_row_vert_list = range(block_row_vert_starter, block_row_vert_ender, 2) #w/step = 2
+
  
- * ct_available_start = []
- * ct_available_legal = []
+ * close_edges() # function to identify all edge tiles to prevent edge-wrap/pacman movement. (for now!)
  
- # close_edges() is the function to identify all the edge tiles to prevent PACMAN style movement. (for now!)
+ * run_ct_available_all = []
+ * run_ct_available_nextmove = []
+
 '''
 
 
@@ -91,16 +94,6 @@ class GridBlocBoard(w,h):
 		self.b_row_ = _block_row_vert_ender(self)
 		self.b_row_ = _block_row_vert_list(self)
 
-
-    # _block_row_hor_starter = ( (n-1)(2w+1) ) + ( (n-1)(w)+1 )
-		# _block_row_hor_ender = _block_row_hor_starter + b_row_len -1
-		# _block_row_hor_list = range(self.b_row_h_start, (self.b_row_len - 1 )
-		# _block_row_vert_starter = run_row_starter -1
-		# _block_row_vert_ender = block_row_vert_starter + 2w
-		# _block_row_vert_list = range(block_row_vert_starter, block_row_vert_ender, 2) #w/step = 2
-
-
-		
 		
 		
   # also called run_row_length()
