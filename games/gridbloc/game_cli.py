@@ -84,7 +84,15 @@ class GridBlocBoard(w,h):
 		
 		## blocker tile params / value calcs
 		self.b_row_len = self.w
-		# _block_row_hor_starter = ( (n-1)(2w+1) ) + ( (n-1)(w)+1 )
+		self.b_row_ = _block_row_hor_starter(self)
+		self.b_row_ = _block_row_hor_ender(self)
+		self.b_row_ = _block_row_hor_list(self)
+		self.b_row_ = _block_row_vert_starter(self)
+		self.b_row_ = _block_row_vert_ender(self)
+		self.b_row_ = _block_row_vert_list(self)
+
+
+    # _block_row_hor_starter = ( (n-1)(2w+1) ) + ( (n-1)(w)+1 )
 		# _block_row_hor_ender = _block_row_hor_starter + b_row_len -1
 		# _block_row_hor_list = range(self.b_row_h_start, (self.b_row_len - 1 )
 		# _block_row_vert_starter = run_row_starter -1
@@ -188,6 +196,14 @@ class GridBlocBoard(w,h):
     return b_row_h_end
     
   
+#################################    
+  def _block_row_hor_list(self):
+    '''
+    _block_row_hor_list = range(self.b_row_h_start, (self.b_row_len - 1 )
+    '''
+    b_row_h_list = range(self.b_row_h_start, (self.b_row_len - 1 )
+    return b_row_h_list
+
 
 #################################    
   def _block_row_vert_starter(self):
@@ -205,17 +221,6 @@ class GridBlocBoard(w,h):
     '''
     b_row_v_end = self.block_row_vert_starter + 2 * self.b_row_len
     return b_row_v_end
-
-
-#################################    
-  def _block_row_hor_list(self):
-    '''
-    _block_row_hor_list = range(self.b_row_h_start, (self.b_row_len - 1 )
-    '''
-    b_row_h_list = range(self.b_row_h_start, (self.b_row_len - 1 )
-    return b_row_h_list
-
-
 
 
 #################################    
