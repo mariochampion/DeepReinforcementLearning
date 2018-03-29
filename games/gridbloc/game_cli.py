@@ -42,7 +42,7 @@ SOME FORMULAS
 # NOTE: "n" is calculated from ct and w, then track as runner moves, using the formulas.
 
  * run_row_length = 2w+1
- * n = floor( ct / run_row_length )
+ * n = floor( ct / run_row_length ) # now "row_num"
  * run_row_starter = nw + ( (n-1) + (2w+1) ) + 1
  * run_row_tilerange = range(run_row_starter, ( run_row_starter + (2w-2) ), 2) #step = 2
 
@@ -79,10 +79,11 @@ class GridBlocBoard(w,h):
 		self.row_len = _row_len_calc(self)
 		self.run_tiles_master_dict = _run_tiles_master(self) # keyed by rownum
 		self.ct = _tilepick(run_tiles_master_dict)
-		self.row_num = _row_num_from_ct(self)
+		self.row_num = _row_num_from_ct(self) #formerly "n"
 		self.run_row_starter = _run_row_starter(self, row_num)
 		
 		## blocker tile params / value calcs
+		self.b_row_len = self.w
 		# _block_row_hor_starter = ( (n-1)(2w+1) ) + ( (n-1)(w)+1 )
 		# _block_row_hor_range = b+1 in range(1,w) # NOT COMPLETE
 		# _block_row_vert_starter = run_row_starter -1
@@ -169,9 +170,40 @@ class GridBlocBoard(w,h):
 #################################    
   def _block_row_hor_starter(self):
     '''
-    _block_row_hor_starter = ( (n-1)(2w+1) ) + ( (n-1)(w)+1 )txt
+    _block_row_hor_starter = ( (n-1)(2w+1) ) + ( (n-1)(w)+1 )
     '''
-    pass 
+    n = self.row_num
+    b_row_h_start = ( (n-1)(2*self.w+1) ) + ( (n-1)(self.w)+1 )
+    return b_row_h_start
+
+
+#################################    
+  def _block_row_hor_ender(self):
+    '''
+    txt of formula
+    '''
+    b_row_h_end = self.b_row_h_start + self.b_row_len -1
+    return b_row_h_end
+    
+  
+
+#################################    
+  def _block_row_vert_starter(self):
+    '''
+    _block_row_vert_starter = run_row_starter -1
+    '''
+    b_row_v_start = self.run_row_starter -1
+    return b_row_v_start
+     
+
+#################################    
+  def _block_row_vert_ender(self):
+    '''
+    _block_row_vert_ender = block_row_vert_starter + 2w
+    '''
+    block_row_vert_ender = self.block_row_vert_starter + 2 * self.w
+    return block_row_vert_ender
+
 
 #################################    
   def _block_row_hor_range(self):
@@ -181,20 +213,6 @@ class GridBlocBoard(w,h):
     pass 
 
 
-#################################    
-  def _block_row_vert_starter(self):
-    '''
-    _block_row_vert_starter = run_row_starter -1
-    '''
-    pass 
-
-
-#################################    
-  def _block_row_vert_ender(self):
-    '''
-    _block_row_vert_ender = block_row_vert_starter + 2w
-    '''
-    pass 
 
 
 #################################    
