@@ -165,11 +165,15 @@ class GridBlocBoard(w,h):
 
 
 #################################
-  def _tile_down_from_ct(self):
+  def _tile_down_from_ct(self, this_tile = False):
     '''
     vert_tile = 3w+1 ## to current tile, add this value for below tile, and subtract for above tile.
     '''
-    tile_dn = self.ct + (3 * self.w + 1)
+    if this_tile == False:
+      tile_dn = self.ct + (3 * self.w + 1)
+    else:
+      tile_dn = this_tile + (3 * self.w + 1)
+    
     return tile_dn
     
 #################################
@@ -254,7 +258,15 @@ def close_edges(self):
   steps: 1. HOR edges, top and bottom 2. vert edges, left and right
   useful params: w, h, row_num,b_row h and v starts and ends 
   '''
-  
+  edge_top = range(self.w, w)
+  edge_bottom_last = _b_row_h_highest(self)
+  edge_bottom = list(reversed(range(edge_bottom_last,(edge_bottom_last - self.w),-1)))
+  b_row_v_first = self.w + 1
+  b_row_v_last = b_row_v_first + (2 * self.w)
+  edge_left = [_tile_down_from_ct(self, b_row_v_first) for v in self.b_row_v_nums  ]
+  edge_right = [_tile_down_from_ct(self, b_row_v_last) for v in self.b_row_v_nums  ] 
+
+  edge_walls = edge_top + edge_bottom + edge_left + edge_right
 
 
 
