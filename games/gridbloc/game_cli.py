@@ -251,7 +251,7 @@ class GridBlocBoard(w,h):
 
 
 #################################    
-def close_edges(self):
+def get_edges_list(self):
   '''
   this function pre-selects the edge tiles (blocker tiles) to close the map 
   and prevent edge-wrap / pacman style moves (altho these may come in later)
@@ -267,6 +267,32 @@ def close_edges(self):
   edge_right = [_tile_down_from_ct(self, b_row_v_last) for v in self.b_row_v_nums  ] 
 
   edge_walls = edge_top + edge_bottom + edge_left + edge_right
+
+
+#################################    
+def click_tile_or_wall(thistile):
+  '''
+  do the things that click a tile or wall, like check for validity, probably, then add to the right array / list / dict
+  '''
+  pass
+
+
+
+
+
+#################################    
+def close_edges(self):
+  '''
+  desc
+  '''
+  edge_walls_list = get_edges_list(self)
+  # hmm, some function click each edge_wall in list
+  for edge in edge_walls_list:
+    click_tile_or_wall(edge)
+	
+
+
+
 
 
 
