@@ -85,10 +85,12 @@ class GridBlocBoard(w,h):
 		## blocker tile params / value calcs
 		self.b_row_len = self.w
 		# _block_row_hor_starter = ( (n-1)(2w+1) ) + ( (n-1)(w)+1 )
-		# _block_row_hor_range = b+1 in range(1,w) # NOT COMPLETE
+		# _block_row_hor_ender = _block_row_hor_starter + b_row_len -1
+		# _block_row_hor_list = range(self.b_row_h_start, (self.b_row_len - 1 )
 		# _block_row_vert_starter = run_row_starter -1
 		# _block_row_vert_ender = block_row_vert_starter + 2w
-		# _block_row_vert_range = range(block_row_vert_starter: block_row_vert_ender, 2) #w/step = 2
+		# _block_row_vert_list = range(block_row_vert_starter, block_row_vert_ender, 2) #w/step = 2
+
 
 		
 		
@@ -173,14 +175,14 @@ class GridBlocBoard(w,h):
     _block_row_hor_starter = ( (n-1)(2w+1) ) + ( (n-1)(w)+1 )
     '''
     n = self.row_num
-    b_row_h_start = ( (n-1)(2*self.w+1) ) + ( (n-1)(self.w)+1 )
+    b_row_h_start = ( (n-1)(2 * self.w + 1) ) + ( (n-1)(self.w)+1 )
     return b_row_h_start
 
 
 #################################    
   def _block_row_hor_ender(self):
     '''
-    txt of formula
+    _block_row_hor_ender = b_row_h_start + b_row_len -1
     '''
     b_row_h_end = self.b_row_h_start + self.b_row_len -1
     return b_row_h_end
@@ -201,26 +203,28 @@ class GridBlocBoard(w,h):
     '''
     _block_row_vert_ender = block_row_vert_starter + 2w
     '''
-    block_row_vert_ender = self.block_row_vert_starter + 2 * self.w
-    return block_row_vert_ender
+    b_row_v_end = self.block_row_vert_starter + 2 * self.b_row_len
+    return b_row_v_end
 
 
 #################################    
-  def _block_row_hor_range(self):
+  def _block_row_hor_list(self):
     '''
-    _block_row_hor_range = b+1 in range(1,w) # NOT COMPLETE
+    _block_row_hor_list = range(self.b_row_h_start, (self.b_row_len - 1 )
     '''
-    pass 
+    b_row_h_list = range(self.b_row_h_start, (self.b_row_len - 1 )
+    return b_row_h_list
 
 
 
 
 #################################    
-  def _block_row_vert_range(self):
+  def _block_row_vert_list(self):
     '''
-    _block_row_vert_range = range(block_row_vert_starter: block_row_vert_ender, 2) #w/step = 2
+    _block_row_vert_list = range(block_row_vert_starter, block_row_vert_ender, 2) #w/step = 2
     '''
-    pass 
+    b_row_v_list = range(b_row_v_start, b_row_v_end, 2) 
+    return b_row_v_list
 
 
 
