@@ -68,34 +68,65 @@ SOME FORMULAS
 
 import sys, random, logging, math
 import numpy as np
+import gridbloc_utilities as gbutil
 
 
 #################################
 ### add some gridbloc setup and calculation functions
 #################################
 
-class GridBlocBoard(w,h):
+class GridBlocBoard():
+  gbutil.whereami(sys._getframe().f_code.co_name)
   
-  def __init__(self):		
+  def __init__(self,w,h):		
 		self.w = w
+		print "GBB self.w = ", w
+		
 		self.h = h
-		self.row_len = _row_len_calc(self)
-		self.run_tiles_master_dict = _run_tiles_master(self) # keyed by rownum
-		self.ct = _tilepick(run_tiles_master_dict)
-		self.row_num = _row_num_from_ct(self) #formerly "n"
-		self.run_row_starter = _run_row_starter(self, row_num)
+		print "GBB self.h = ", h
+		
+		self.row_len = self._row_len_calc()
+		print "GBB self.row_len = ", self.row_len
+		
+		self.run_tiles_master_dict = self._run_tiles_master() # keyed by rownum
+		print "GBB self.run_tiles_master_dict = ", self.run_tiles_master_dict
+		
+		self.ct = self._tilepick(run_tiles_master_dict)
+		print "GBB self.ct = ", self.ct
+		
+		self.row_num = self._row_num_from_ct(self) #formerly "n"
+		print "GBB self.row_num = ", self.row_num
+		
+		self.run_row_starter = self._run_row_starter(self, row_num)
+		print "GBB self.run_row_starter = ", self.run_row_starter
 		
 		## blocker tile params / value calcs
 		self.b_row_h_len = self.w
-		self.b_row_ = _block_row_hor_starter(self)
-		self.b_row_ = _block_row_hor_ender(self)
-		self.b_row_ = _block_row_hor_list(self)
-		self.b_row_ = _block_row_vert_starter(self)
-		self.b_row_ = _block_row_vert_ender(self)
-		self.b_row_ = _block_row_vert_list(self)
+		print "GBB self.b_row_h_len = ", self.b_row_h_len
+		
+		self.b_row_h_start = self._block_row_hor_starter(self)
+		print "GBB self.b_row_h_start = ", self.b_row_h_start
+		
+		self.b_row_h_end = self._block_row_hor_ender(self)
+		print "GBB self.b_row_h_end = ", self.b_row_h_end
+		
+		self.b_row_h_list = self._block_row_hor_list(self)
+		print "GBB self.b_row_h_list = ", self.b_row_h_list
+		
+		self.b_row_v_start = self._block_row_vert_starter(self)
+		print "GBB selfb_row_v_startrow_len = ", self.b_row_v_start
+		
+		self.b_row_v_end = self._block_row_vert_ender(self)
+		print "GBB self.b_row_v_end = ", self.b_row_v_end
+		
+		self.b_row_v_list = self._block_row_vert_list(self)
+		print "GBB self.b_row_v_list = ", self.b_row_v_list
 		
 		self.b_row_h_nums = self.w +1
+		print "GBB self.b_row_h_nums = ", self.b_row_h_nums
+		
 		self.b_row_v_nums = self.w +1
+		print "GBB self.b_row_v_nums = ", self.b_row_v_nums
 
 		
 		
@@ -530,10 +561,15 @@ class GameState():
 
 
 def main(args):
-  print "in main"
-  print "args ",args
-  for arg in args:
-    print arg
+  print "in main -- args=", args
+  w = int(args[0])
+  h = int(args[1])
+  print "w = ", w, " h = ", h
+  
+  #setup a new game board
+  print "ready from new GridBlocBoard(w,h)"
+  gb_board = GridBlocBoard(w,h)
+  
   
   
 
@@ -545,10 +581,20 @@ if __name__ == '__main__':
   
   print "GRIDBLOC SETUP CLI VERSION"
   print
-  
+  args = sys.argv[1:]
   try:
-    args
+    if len(args)==2:
+      print "TRY args", args 
+    else:
+      print "need width AND height as parameters. setting to defaults (5)"
+      args = [5,5]
   except:
-    args = sys.argv[1:]
+    print "something wrong in __name__ \ngoodbye"
+    sys.exit(1)
   
   main(args)
+  
+  
+  
+  
+  
