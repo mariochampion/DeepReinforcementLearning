@@ -96,7 +96,7 @@ class GridBlocBoard():
 		self.ct = self._tilepick()
 		print "GBB self.ct = ", self.ct
 		
-		self.row_num = self._row_num_from_ct(self) #formerly "n"
+		self.row_num = self._row_num_from_ct() #formerly "n"
 		print "GBB self.row_num = ", self.row_num
 		
 		self.run_row_starter = self._run_row_starter(self, row_num)
@@ -199,7 +199,7 @@ class GridBlocBoard():
     
 
 #################################        
-  def _row_num_from_ct():
+  def _row_num_from_ct(self):
 	gbutil.whereami(sys._getframe().f_code.co_name)
 	
 	row_num = math.floor(self.ct / self.row_len)
