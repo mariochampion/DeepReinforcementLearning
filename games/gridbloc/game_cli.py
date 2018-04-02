@@ -1,3 +1,4 @@
+
 #!/usr/bin/env python
 '''
 PURPOSE
@@ -132,32 +133,41 @@ class GridBlocBoard():
 		
   # also called run_row_length()
   def _row_len_calc(self):
+    gbutil.whereami(sys._getframe().f_code.co_name)
+    
     '''
     for every tile, there is a left side, then one more right side at the end
     (or, of course you can think of this as rights with one left)
     '''
+    
     row_len = 2 * self.w + 1
     return row_len
 
 
 #################################
   def _run_tiles_master(self):
+    gbutil.whereami(sys._getframe().f_code.co_name)
+    
     '''
     build the ORIGINAL MASTER array / list of running tiles, as dict keyed by row_num.
     there will be 2 subsets: tiles_validnextmove and tiles_scored
     run_row_tilerange = range(run_row_starter, ( run_row_starter + (2w-2) ), 2) #step = 2
     '''
+    
+    
     run_tiles_master_dict = {}
-    for rownum in range(1, self.h):
-      print "rownum:" + rownum 
-      run_row_starter = self._run_row_starter(self, row_num)
+    for row_num in range(1, self.h):
+      print "row_num:", int(row_num) 
+      run_row_starter = self._run_row_starter(row_num)
       #step by two in the range
-      run_tiles_master_dict["rownum"] = [t in range(run_row_starter, ( run_row_starter + (2 * self.w - 2) ), 2) ]
+      run_tiles_master_dict["row_num"] = [t in range(run_row_starter, ( run_row_starter + (2 * self.w - 2) ), 2) ]
     return run_tiles_master_dict
       
 
 #################################    
   def _run_row_starter(self, row_num):
+    gbutil.whereami(sys._getframe().f_code.co_name)
+    
     '''
     returns an integer of the gridsquare number of the left edge tile of that row (whih actually starts with teh edge wall, so there is a + 1 to that)
     run_row_starter = (nw) + ( (n-1) + (2* w +1) ) + 1
@@ -168,6 +178,7 @@ class GridBlocBoard():
     
 #################################  
   def _tilepick(self, dictoflists, p = "random"):
+    gbutil.whereami(sys._getframe().f_code.co_name)
     '''
     placeholder to pick a tile -- starting tile and in-game as well. 
     will pick by input or by policy, but for now... random is default but other styles mat be passable
@@ -183,12 +194,16 @@ class GridBlocBoard():
 
 #################################        
   def _row_num_from_ct(self):
-    row_num = math.floor(self.ct / self.row_len)
-    return row_num
+	gbutil.whereami(sys._getframe().f_code.co_name)
+	
+	row_num = math.floor(self.ct / self.row_len)
+	return row_num
 
 
 #################################  
   def _tile_up_from_ct(self):
+    gbutil.whereami(sys._getframe().f_code.co_name)
+    
     '''
     vert_tile = 3w+1 ## to current tile, add this value for below tile, and subtract for above tile.
     '''
@@ -198,6 +213,8 @@ class GridBlocBoard():
 
 #################################
   def _tile_down_from_ct(self, this_tile = False):
+    gbutil.whereami(sys._getframe().f_code.co_name)
+    
     '''
     vert_tile = 3w+1 ## to current tile, add this value for below tile, and subtract for above tile.
     '''
@@ -210,6 +227,8 @@ class GridBlocBoard():
     
 #################################
   def _b_row_h_highest(self):
+    gbutil.whereami(sys._getframe().f_code.co_name)
+    
     '''
     _b_row_h_highest = b_row_h_start of last row + 3w
     '''
@@ -223,6 +242,8 @@ class GridBlocBoard():
 
 #################################    
   def _block_row_hor_starter(self, n_is_h=False):
+    gbutil.whereami(sys._getframe().f_code.co_name)
+    
     '''
     _block_row_hor_starter = ((n-1)(2w+1)) + ((n-1)(w)) + 1
     '''
@@ -239,6 +260,8 @@ class GridBlocBoard():
 
 #################################    
   def _block_row_hor_ender(self):
+    gbutil.whereami(sys._getframe().f_code.co_name)
+    
     '''
     _block_row_hor_ender = b_row_h_start + b_row_h_len -1
     '''
@@ -248,6 +271,8 @@ class GridBlocBoard():
   
 #################################    
   def _block_row_hor_list(self):
+    gbutil.whereami(sys._getframe().f_code.co_name)
+    
     '''
     _block_row_hor_list = range(self.b_row_h_start, (self.b_row_h_len - 1 )
     '''
@@ -257,6 +282,8 @@ class GridBlocBoard():
 
 #################################    
   def _block_row_vert_starter(self):
+    gbutil.whereami(sys._getframe().f_code.co_name)
+    
     '''
     _block_row_vert_starter = run_row_starter -1
     '''
@@ -266,6 +293,8 @@ class GridBlocBoard():
 
 #################################    
   def _block_row_vert_ender(self):
+    gbutil.whereami(sys._getframe().f_code.co_name)
+    
     '''
     _block_row_vert_ender = block_row_vert_starter + 2w
     '''
@@ -275,6 +304,8 @@ class GridBlocBoard():
 
 #################################    
   def _block_row_vert_list(self):
+    gbutil.whereami(sys._getframe().f_code.co_name)
+    
     '''
     _block_row_vert_list = range(block_row_vert_starter, block_row_vert_ender, 2) #w/step = 2
     '''
@@ -284,6 +315,8 @@ class GridBlocBoard():
 
 #################################    
 def get_edges_list(self):
+  gbutil.whereami(sys._getframe().f_code.co_name)
+  
   '''
   this function pre-selects the edge tiles (blocker tiles) to close the map 
   and prevent edge-wrap / pacman style moves (altho these may come in later)
@@ -303,6 +336,8 @@ def get_edges_list(self):
 
 #################################    
 def click_tile_or_wall(thistile):
+  gbutil.whereami(sys._getframe().f_code.co_name)
+  
   '''
   do the things that click a tile or wall, like check for validity, probably, then add to the right array / list / dict
   '''
@@ -314,6 +349,8 @@ def click_tile_or_wall(thistile):
 
 #################################    
 def close_edges(self):
+  gbutil.whereami(sys._getframe().f_code.co_name)
+  
   '''
   desc
   '''
@@ -561,6 +598,8 @@ class GameState():
 
 
 def main(args):
+  gbutil.whereami(sys._getframe().f_code.co_name)
+  
   print "in main -- args=", args
   w = int(args[0])
   h = int(args[1])
