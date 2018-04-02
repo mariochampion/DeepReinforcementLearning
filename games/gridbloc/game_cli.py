@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 '''
 PURPOSE
 the goal here is to mathematically describe the DUAL + OVERLAPPING grids of gridbloc game, which required both running tiles and blocking tiles, so that arrays of valid choices can be calculated as needed. (the grid could, alternately, be said to have non-equal row-lengths (ie, diff num of columns), if you like.) the grid for running tiles is pretty classic, just cap all 4 edges (in an rectangular grid version) of each running tile with a tile to block and you see the dual/overlapping/interposed grid system of gridbloc.
@@ -62,7 +63,6 @@ SOME FORMULAS
  
  * run_ct_available_all = []
  * run_ct_available_nextmove = []
-
 '''
 
 
@@ -101,12 +101,12 @@ class GridBlocBoard(w,h):
 		
   # also called run_row_length()
   def _row_len_calc(self):
-  '''
-  for every tile, there is a left side, then one more right side at the end
-  (or, of course you can think of this as rights with one left)
-  '''
-  row_len = 2 * self.w + 1
-  return row_len
+    '''
+    for every tile, there is a left side, then one more right side at the end
+    (or, of course you can think of this as rights with one left)
+    '''
+    row_len = 2 * self.w + 1
+    return row_len
 
 
 #################################
@@ -120,7 +120,8 @@ class GridBlocBoard(w,h):
     for rownum in range(1, self.h):
       print "rownum:" + rownum 
       run_row_starter = self._run_row_starter(self, row_num)
-      run_tiles_master_dict["rownum"] = [t in range(run_row_starter, ( run_row_starter + (2w-2) ), 2)) ] #step by two
+      #step by two in the range
+      run_tiles_master_dict["rownum"] = [t in range(run_row_starter, ( run_row_starter + (2 * self.w - 2) ), 2) ]
     return run_tiles_master_dict
       
 
@@ -219,7 +220,7 @@ class GridBlocBoard(w,h):
     '''
     _block_row_hor_list = range(self.b_row_h_start, (self.b_row_h_len - 1 )
     '''
-    b_row_h_list = range(self.b_row_h_start, (self.b_row_h_len - 1 )
+    b_row_h_list = range(self.b_row_h_start, (self.b_row_h_len - 1 ))
     return b_row_h_list
 
 
@@ -228,7 +229,7 @@ class GridBlocBoard(w,h):
     '''
     _block_row_vert_starter = run_row_starter -1
     '''
-    b_row_v_start = self.run_row_starter -1
+    b_row_v_start = (self.run_row_starter - 1)
     return b_row_v_start
      
 
