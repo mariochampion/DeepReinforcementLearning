@@ -92,7 +92,8 @@ class GridBlocBoard():
 		self.run_tiles_master_dict = self._run_tiles_master() # keyed by rownum
 		print "GBB self.run_tiles_master_dict = ", self.run_tiles_master_dict
 		
-		self.ct = self._tilepick(run_tiles_master_dict)
+		self.pickstyle = "random"
+		self.ct = self._tilepick()
 		print "GBB self.ct = ", self.ct
 		
 		self.row_num = self._row_num_from_ct(self) #formerly "n"
@@ -150,17 +151,18 @@ class GridBlocBoard():
     
     '''
     build the ORIGINAL MASTER array / list of running tiles, as dict keyed by row_num.
-    there will be 2 subsets: tiles_validnextmove and tiles_scored
+    there will also be 2 subsets: tiles_validnextmove and tiles_scored
     run_row_tilerange = range(run_row_starter, ( run_row_starter + (2w-2) ), 2) #step = 2
     '''
     
     
     run_tiles_master_dict = {}
     for row_num in range(1, self.h):
-      print "row_num:", int(row_num) 
+      print "row_num:", str(row_num) 
       run_row_starter = self._run_row_starter(row_num)
-      #step by two in the range
-      run_tiles_master_dict["row_num"] = [t in range(run_row_starter, ( run_row_starter + (2 * self.w - 2) ), 2) ]
+      print "run_row_starter", str(run_row_starter)
+      #step by two in the range to SKIP OVER vertical blocker tiles
+      run_tiles_master_dict[row_num] = [t for t in range(run_row_starter, ( run_row_starter + (2 * self.w - 2) ), 2) ]
     return run_tiles_master_dict
       
 
@@ -169,31 +171,35 @@ class GridBlocBoard():
     gbutil.whereami(sys._getframe().f_code.co_name)
     
     '''
-    returns an integer of the gridsquare number of the left edge tile of that row (whih actually starts with teh edge wall, so there is a + 1 to that)
+    returns an integer of the gridsquare number of the left edge tile of that row (which actually starts with the left-edge wall, so there is a + 1 to that)
     run_row_starter = (nw) + ( (n-1) + (2* w +1) ) + 1
     '''
-    run_row_starter = (row_num * self.w) + ( (row_num - 1) + (2* self.w + 1) ) + 1
+    run_row_starter = (row_num * self.w) + ( (row_num - 1) + ( (2 * self.w) + 1) ) + 1
     return run_row_starter
     
     
 #################################  
-  def _tilepick(self, dictoflists, p = "random"):
+  def _tilepick(self):
     gbutil.whereami(sys._getframe().f_code.co_name)
     '''
     placeholder to pick a tile -- starting tile and in-game as well. 
     will pick by input or by policy, but for now... random is default but other styles mat be passable
     '''
     # make more complete switch/case for other pick styles
-    if p == "random":
-      tilepick = random.choice(list(dictoflists))
+    print "self.pickstyle=", self.pickstyle
+    if self.pickstyle == "random":
+      list_tilepick = random.choice(list(self.run_tiles_master_dict))
+      print "list_tilepick", str(list_tilepick)
+      tilepick = random.choice( list(self.run_tiles_master_dict[list_tilepick]) )
     else:
-      tilepick = random.choice(list(dictoflists))
-    
+      list_tilepick = random.choice(list(self.run_tiles_master_dict))
+      tilepick = random.choice( list(self.run_tiles_master_dict[list_tilepick]) )
+          
     return tilepick
     
 
 #################################        
-  def _row_num_from_ct(self):
+  def _row_num_from_ct():
 	gbutil.whereami(sys._getframe().f_code.co_name)
 	
 	row_num = math.floor(self.ct / self.row_len)
