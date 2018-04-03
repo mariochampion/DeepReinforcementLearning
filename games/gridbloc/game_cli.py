@@ -45,8 +45,8 @@ SOME FORMULAS
 
  * run_row_length = 2w+1
  * n = floor( ct / run_row_length ) # now "row_num"
- * run_row_starter = nw + ( (n-1) + (2w+1) ) + 1
- * run_row_tilerange = range(run_row_starter, ( run_row_starter + (2w-2) ), 2) #step = 2
+ * run_row_leftedge = nw + ( (n-1) + (2w+1) ) + 1
+ * run_row_tilerange = range(run_row_leftedge, ( run_row_leftedge + (2w-2) ), 2) #step = 2
 
  * vert_tile = 3w+1 ## to current tile, add this value for below tile, and subtract for above tile.
    ** vert_above = ct - vert_tile
@@ -55,7 +55,7 @@ SOME FORMULAS
  # _block_row_hor_starter = ( (n-1)(2w+1) ) + ( (n-1)(w)+1 )
  # _block_row_hor_ender = _block_row_hor_starter + b_row_len -1
  # _block_row_hor_list = range(self.b_row_h_start, (self.b_row_h_len - 1 )
- # _block_row_vert_starter = run_row_starter -1
+ # _block_row_vert_starter = run_row_leftedge -1
  # _block_row_vert_ender = block_row_vert_starter + 2w
  # _block_row_vert_list = range(block_row_vert_starter, block_row_vert_ender, 2) #w/step = 2
 
@@ -99,8 +99,8 @@ class GridBlocBoard():
 		self.row_num = self._row_num_from_ct() #formerly "n"
 		print "GBB self.row_num = ", self.row_num
 		
-		self.run_row_starter = self._run_row_starter(self.row_num)
-		print "GBB self.run_row_starter = ", self.run_row_starter
+		self.run_row_leftedge = self._run_row_left_edge(self.row_num)
+		print "GBB self.run_row_leftedge = ", self.run_row_leftedge
 		
 		## blocker tile params / value calcs
 		self.b_row_h_len = self.w
@@ -152,30 +152,35 @@ class GridBlocBoard():
     '''
     build the ORIGINAL MASTER array / list of running tiles, as dict keyed by row_num.
     there will also be 2 subsets: tiles_validnextmove and tiles_scored
-    run_row_tilerange = range(run_row_starter, ( run_row_starter + (2w-2) ), 2) #step = 2
+    run_row_tilerange = range(run_row_leftedge, ( run_row_leftedge + (2w-2) ), 2) #step = 2
     '''
     
     
     run_tiles_master_dict = {}
-    for row_num in range(1, self.h):
+    for row_num in range(1, self.h+1):
       print "row_num:", str(row_num) 
-      run_row_starter = self._run_row_starter(row_num)
-      print "run_row_starter", str(run_row_starter)
+      run_row_leftedge = self._run_row_left_edge(row_num)
+      print "run_row_leftedge", str(run_row_leftedge)
       #step by two in the range to SKIP OVER vertical blocker tiles
-      run_tiles_master_dict[row_num] = [t for t in range(run_row_starter, ( run_row_starter + (2 * self.w - 2) ), 2) ]
+      a = run_row_leftedge + 1
+      b = run_row_leftedge + self.row_len
+      run_tiles_master_dict[row_num] = [ t for t in range(a, b ,2) ]
     return run_tiles_master_dict
       
 
 #################################    
-  def _run_row_starter(self, row_num):
+  def _run_row_left_edge(self, row_num):
     gbutil.whereami(sys._getframe().f_code.co_name)
     
     '''
     returns an integer of the gridsquare number of the left edge tile of that row (which actually starts with the left-edge wall, so there is a + 1 to that)
-    run_row_starter = (nw) + ( (n-1) + (2* w +1) ) + 1
+    run_row_leftedge = (nw) + ( (n-1) + (2* w +1) ) + 1 ## should be run row LEFT EDGE
     '''
-    run_row_starter = (row_num * self.w) + ( (row_num - 1) + ( (2 * self.w) + 1) ) + 1
-    return run_row_starter
+    print "ROW_NUM PASSSED:",str(row_num)
+    
+    
+    run_row_leftedge = (row_num * self.w) + ( (row_num - 1) * ( (2 * self.w) + 1) ) + 1
+    return run_row_leftedge
     
     
 #################################  
@@ -292,9 +297,9 @@ class GridBlocBoard():
     gbutil.whereami(sys._getframe().f_code.co_name)
     
     '''
-    _block_row_vert_starter = run_row_starter -1
+    _block_row_vert_starter = run_row_leftedge -1
     '''
-    b_row_v_start = (self.run_row_starter - 1)
+    b_row_v_start = (self.run_row_leftedge - 1)
     return b_row_v_start
      
 
