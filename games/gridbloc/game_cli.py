@@ -93,7 +93,7 @@ class GridBlocBoard():
 		print "GBB self.run_tiles_master_dict = ", self.run_tiles_master_dict
 		
 		self.pickstyle = "random"
-		self.ct = self._tilepick()
+		self.ct = self._tilepick_run()
 		print "GBB self.ct = ", self.ct
 		
 		self.row_num = self._row_num_from_ct() #formerly "n"
@@ -191,7 +191,7 @@ class GridBlocBoard():
     
     
 #################################  
-  def _tilepick(self):
+  def _tilepick_run(self):
     gbutil.whereami(sys._getframe().f_code.co_name)
     '''
     placeholder to pick a tile -- starting tile and in-game as well. 
@@ -214,18 +214,24 @@ class GridBlocBoard():
   def _row_num_from_ct(self):
 	gbutil.whereami(sys._getframe().f_code.co_name)
 	
-	row_num = math.floor(self.ct / self.row_len)
+	row_num = math.floor(self.ct / self.row_len) # TODO--- this not right. run tile just look in masterdict?
 	return row_num
 
 
 #################################  
-  def _tile_up_from_ct(self):
+  def _tile_up_from_ct(self, this_tile = False):
     gbutil.whereami(sys._getframe().f_code.co_name)
     
     '''
     vert_tile = 3w+1 ## to current tile, add this value for below tile, and subtract for above tile.
+    this_tile allows for NOT The current tile, but some arbitrary tile to be passed
     '''
-    tile_up = self.ct - (3 * self.w + 1)
+    
+    if this_tile == False:
+      tile_up = self.ct - (3 * self.w + 1)
+    else:
+      tile_up = this_tile - (3 * self.w + 1)
+    
     return tile_up
 
 
@@ -235,6 +241,7 @@ class GridBlocBoard():
     
     '''
     vert_tile = 3w+1 ## to current tile, add this value for below tile, and subtract for above tile.
+    this_tile allows for NOT The current tile, but some arbitrary tile to be passed
     '''
     if this_tile == False:
       tile_dn = self.ct + (3 * self.w + 1)
@@ -250,8 +257,7 @@ class GridBlocBoard():
     '''
     _b_row_h_highest = b_row_h_start of last row + 3w
     '''
-    n_is_h = False #meaning n IS h, that is, this is the last row
-    last_row_h_starter = _block_row_hor_starter(self, n_is_h)
+    last_row_h_starter = _block_row_hor_starter( self.h + 1 )
     _b_row_h_highest = last_row_h_starter + (3 * self.w)
     return _b_row_h_highest
 
@@ -259,19 +265,15 @@ class GridBlocBoard():
 
 
 #################################    
-  def _block_row_hor_starter(self, n_is_h=False):
+  def _block_row_hor_starter(self):
     gbutil.whereami(sys._getframe().f_code.co_name)
     
     '''
     _block_row_hor_starter = ((n-1)(2w+1)) + ((n-1)(w)) + 1
+    n = self.row_num
     '''
-    if n_is_h == False:
-      n = self.row_num
-    else:
-      n = self.h + 1
-    
-    print "_block_row_hor_starter N= ", n
-    b_row_h_start = ( (n-1)*(2 * self.w + 1) ) + ( (n-1)*(self.w) ) + 1
+    print "_block_row_hor_starter self.row_num= ", self.row_num
+    b_row_h_start = ( (self.row_num-1)*(2 * self.w + 1) ) + ( (self.row_num-1)*(self.w) ) + 1
     return b_row_h_start
 
 
