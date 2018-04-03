@@ -236,29 +236,35 @@ class GridBlocBoard():
     return tile_dn
     
 #################################
-  def _b_row_h_highest(self):
+  def _b_row_h_bottomedge(self):
     gbutil.whereami(sys._getframe().f_code.co_name)
     
     '''
-    _b_row_h_highest = b_row_h_start of last row + 3w
+    _b_row_h_bottomedge = b_row_h_start of last row + 3w
     '''
-    last_row_h_starter = self._block_row_hor_starter( self.h + 1 )
-    _b_row_h_highest = last_row_h_starter + (3 * self.w)
-    return _b_row_h_highest
+    thisrow = self.h + 1 # the value of the bottom
+    last_row_h_starter = self._block_row_hor_starter(thisrow)
+    _b_row_h_bottomedge = last_row_h_starter + (3 * self.w)
+    return _b_row_h_bottomedge
 
 
 
 
 #################################    
-  def _block_row_hor_starter(self):
+  def _block_row_hor_starter(self, thisrow=False):
     gbutil.whereami(sys._getframe().f_code.co_name)
     
     '''
     _block_row_hor_starter = ((n-1)(2w+1)) + ((n-1)(w)) + 1
     n = self.row_num
     '''
-    print "_block_row_hor_STARTER self.row_num= ", self.row_num
-    b_row_h_start = ( (self.row_num-1)*(2 * self.w + 1) ) + ( (self.row_num-1)*(self.w) ) + 1
+    if thisrow == False:
+      thisrow = self.row_num
+    else:
+      thisrow = thisrow #not needed but just to be clear to humans you can pass a tile num
+    
+    print "_block_row_hor_STARTER self.row_num= ", thisrow   
+    b_row_h_start = ( (thisrow-1)*(2 * self.w + 1) ) + ( (thisrow-1)*(self.w) ) + 1
     return b_row_h_start
 
 
@@ -332,28 +338,35 @@ def _get_edges_list(self):
   steps: 1. HOR edges, top and bottom 2. vert edges, left and right
   useful params: w, h, row_num,b_row h and v starts and ends 
   '''
-  edge_top = range(self.w, self.w)
+  edge_top = range(1, self.w+1)
   print "edge_top", edge_top
-  edge_bottom_last = self._b_row_h_highest()
+  
+  edge_bottom_last = self._b_row_h_bottomedge()
   print "edge_bottom_last", edge_bottom_last
+  
   edge_bottom = list( reversed( range(edge_bottom_last,(edge_bottom_last - self.w),-1) ) )
   print "edge_bottom", edge_bottom
+  
   b_row_v_first = self.b_row_h_len + 1
   print "b_row_v_first", b_row_v_first
+  
   b_row_v_last = b_row_v_first + (2 * self.w)
   print "b_row_v_last", b_row_v_last
-  edge_left = []
+  
+  edge_left = [22,22,22]
   print "edge_left", edge_left
-  edge_right = [] 
+  
+  edge_right = [33,33,33] 
   print "edge_right", edge_right
 
-  edge_walls = edge_top + edge_bottom + edge_left + edge_right
+  edge_walls_list = edge_top + edge_left + edge_right + edge_bottom
+  print "edge_walls_list", edge_walls_list
   
   return edge_walls_list
 
 
 #################################    
-def click_tile_or_wall(thistile):
+def click_tile_or_wall(clickthistile):
   gbutil.whereami(sys._getframe().f_code.co_name)
   
   '''
