@@ -93,8 +93,8 @@ class GridBlocBoard():
 		print "GBB self.run_tiles_master_dict = ", self.run_tiles_master_dict
 		
 		self.pickstyle = "random"
-		self.ct = self._tilepick_run()
-		print "GBB self.ct = ", self.ct
+		self.ct_run = self._tilepick_run()
+		print "GBB self.ct_run = ", self.ct_run
 		
 		self.row_num = self._row_num_from_ct() #formerly "n"
 		print "GBB self.row_num = ", self.row_num
@@ -106,22 +106,22 @@ class GridBlocBoard():
 		self.b_row_h_len = self.w
 		print "GBB self.b_row_h_len = ", self.b_row_h_len
 		
-		self.b_row_h_start = self._block_row_hor_starter(self)
+		self.b_row_h_start = self._block_row_hor_starter()
 		print "GBB self.b_row_h_start = ", self.b_row_h_start
 		
-		self.b_row_h_end = self._block_row_hor_ender(self)
+		self.b_row_h_end = self._block_row_hor_ender()
 		print "GBB self.b_row_h_end = ", self.b_row_h_end
 		
-		self.b_row_h_list = self._block_row_hor_list(self)
+		self.b_row_h_list = self._block_row_hor_list()
 		print "GBB self.b_row_h_list = ", self.b_row_h_list
 		
-		self.b_row_v_start = self._block_row_vert_starter(self)
+		self.b_row_v_start = self._block_row_vert_starter()
 		print "GBB selfb_row_v_startrow_len = ", self.b_row_v_start
 		
-		self.b_row_v_end = self._block_row_vert_ender(self)
+		self.b_row_v_end = self._block_row_vert_ender()
 		print "GBB self.b_row_v_end = ", self.b_row_v_end
 		
-		self.b_row_v_list = self._block_row_vert_list(self)
+		self.b_row_v_list = self._block_row_vert_list()
 		print "GBB self.b_row_v_list = ", self.b_row_v_list
 		
 		self.b_row_h_nums = self.w +1
@@ -199,6 +199,7 @@ class GridBlocBoard():
     '''
     # make more complete switch/case for other pick styles
     print "self.pickstyle=", self.pickstyle
+    
     if self.pickstyle == "random":
       list_tilepick = random.choice(list(self.run_tiles_master_dict))
       print "list_tilepick", str(list_tilepick)
@@ -214,7 +215,7 @@ class GridBlocBoard():
   def _row_num_from_ct(self):
 	gbutil.whereami(sys._getframe().f_code.co_name)
 	
-	row_num = math.floor(self.ct / self.row_len) # TODO--- this not right. run tile just look in masterdict?
+	row_num = math.floor(self.ct_run / self.row_len) # TODO--- this not right. run tile just look in masterdict?
 	return row_num
 
 
@@ -228,7 +229,7 @@ class GridBlocBoard():
     '''
     
     if this_tile == False:
-      tile_up = self.ct - (3 * self.w + 1)
+      tile_up = self.ct_run - (3 * self.w + 1)
     else:
       tile_up = this_tile - (3 * self.w + 1)
     
@@ -244,7 +245,7 @@ class GridBlocBoard():
     this_tile allows for NOT The current tile, but some arbitrary tile to be passed
     '''
     if this_tile == False:
-      tile_dn = self.ct + (3 * self.w + 1)
+      tile_dn = self.ct_run + (3 * self.w + 1)
     else:
       tile_dn = this_tile + (3 * self.w + 1)
     
@@ -272,7 +273,7 @@ class GridBlocBoard():
     _block_row_hor_starter = ((n-1)(2w+1)) + ((n-1)(w)) + 1
     n = self.row_num
     '''
-    print "_block_row_hor_starter self.row_num= ", self.row_num
+    print "_block_row_hor_STARTER self.row_num= ", self.row_num
     b_row_h_start = ( (self.row_num-1)*(2 * self.w + 1) ) + ( (self.row_num-1)*(self.w) ) + 1
     return b_row_h_start
 
@@ -286,6 +287,7 @@ class GridBlocBoard():
     '''
     _block_row_hor_ender = b_row_h_start + b_row_h_len -1
     '''
+    print "_block_row_hor_ENDER self.row_num= ", self.row_num
     b_row_h_end = self.b_row_h_start + self.b_row_h_len -1
     return b_row_h_end
     
