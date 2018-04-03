@@ -43,27 +43,11 @@ SOME FORMULAS
 # NOTE: need to calculate "ct" when starting, from the available runner options. then track as runner moves, using the formulas.
 # NOTE: "n" is calculated from ct and w, then track as runner moves, using the formulas.
 
- * run_row_length = 2w+1
- * n = floor( ct / run_row_length ) # now "row_num"
- * run_row_leftedge = nw + ( (n-1) + (2w+1) ) + 1
- * run_row_tilerange = range(run_row_leftedge, ( run_row_leftedge + (2w-2) ), 2) #step = 2
-
- * vert_tile = 3w+1 ## to current tile, add this value for below tile, and subtract for above tile.
-   ** vert_above = ct - vert_tile
-   ** vert_below = ct + vert_tile
-
- # _block_row_hor_starter = ( (n-1)(2w+1) ) + ( (n-1)(w)+1 )
- # _block_row_hor_ender = _block_row_hor_starter + b_row_len -1
- # _block_row_hor_list = range(self.b_row_h_start, (self.b_row_h_len - 1 )
- # _block_row_vert_starter = run_row_leftedge -1
- # _block_row_vert_ender = block_row_vert_starter + 2w
- # _block_row_vert_list = range(block_row_vert_starter, block_row_vert_ender, 2) #w/step = 2
-
  
  * close_edges() # function to identify all edge tiles to prevent edge-wrap/pacman movement. (for now!)
  
- * run_ct_available_all = []
- * run_ct_available_nextmove = []
+ * ct_run_available_all = []
+ * ct_run_available_nextmove = []
 '''
 
 
@@ -323,7 +307,7 @@ class GridBlocBoard():
     '''
     _block_row_vert_ender = block_row_vert_starter + 2w
     '''
-    b_row_v_end = self.block_row_vert_starter + (2 * self.w)
+    b_row_v_end = self.b_row_v_start + (2 * self.w)
     return b_row_v_end
 
 
@@ -334,7 +318,7 @@ class GridBlocBoard():
     '''
     _block_row_vert_list = range(block_row_vert_starter, block_row_vert_ender, 2) #w/step = 2
     '''
-    b_row_v_list = range(b_row_v_start, b_row_v_end, 2) 
+    b_row_v_list = range(int(self.b_row_v_start), int(self.b_row_v_end), 2) 
     return b_row_v_list
 
 
@@ -348,7 +332,7 @@ def get_edges_list(self):
   steps: 1. HOR edges, top and bottom 2. vert edges, left and right
   useful params: w, h, row_num,b_row h and v starts and ends 
   '''
-  edge_top = range(self.w, w)
+  edge_top = range(self.w, self.w)
   edge_bottom_last = _b_row_h_highest(self)
   edge_bottom = list( reversed( range(edge_bottom_last,(edge_bottom_last - self.w),-1) ) )
   b_row_v_first = self.w + 1
