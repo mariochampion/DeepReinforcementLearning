@@ -114,7 +114,7 @@ class GridBlocBoard():
 		self.b_row_v_nums = self.w +1
 		print "GBB self.b_row_v_nums = ", self.b_row_v_nums
 		
-		self.edge_walls_list = get_edges_list(self)
+		self.edge_walls_list = _get_edges_list(self)
 		print "GBB self.edge_walls_list = ", self.edge_walls_list
 		
 		close_edges = True #todo -- move this to config by input or static
@@ -242,7 +242,7 @@ class GridBlocBoard():
     '''
     _b_row_h_highest = b_row_h_start of last row + 3w
     '''
-    last_row_h_starter = _block_row_hor_starter( self.h + 1 )
+    last_row_h_starter = self._block_row_hor_starter( self.h + 1 )
     _b_row_h_highest = last_row_h_starter + (3 * self.w)
     return _b_row_h_highest
 
@@ -323,7 +323,7 @@ class GridBlocBoard():
 
 
 #################################    
-def get_edges_list(self):
+def _get_edges_list(self):
   gbutil.whereami(sys._getframe().f_code.co_name)
   
   '''
@@ -333,12 +333,19 @@ def get_edges_list(self):
   useful params: w, h, row_num,b_row h and v starts and ends 
   '''
   edge_top = range(self.w, self.w)
-  edge_bottom_last = _b_row_h_highest(self)
+  print "edge_top", edge_top
+  edge_bottom_last = self._b_row_h_highest()
+  print "edge_bottom_last", edge_bottom_last
   edge_bottom = list( reversed( range(edge_bottom_last,(edge_bottom_last - self.w),-1) ) )
-  b_row_v_first = self.w + 1
+  print "edge_bottom", edge_bottom
+  b_row_v_first = self.b_row_h_len + 1
+  print "b_row_v_first", b_row_v_first
   b_row_v_last = b_row_v_first + (2 * self.w)
-  edge_left = [_tile_down_from_ct(self, b_row_v_first) for v in self.b_row_v_nums  ]
-  edge_right = [_tile_down_from_ct(self, b_row_v_last) for v in self.b_row_v_nums  ] 
+  print "b_row_v_last", b_row_v_last
+  edge_left = []
+  print "edge_left", edge_left
+  edge_right = [] 
+  print "edge_right", edge_right
 
   edge_walls = edge_top + edge_bottom + edge_left + edge_right
   
