@@ -129,6 +129,13 @@ class GridBlocBoard():
 		
 		self.b_row_v_nums = self.w +1
 		print "GBB self.b_row_v_nums = ", self.b_row_v_nums
+		
+		self.edge_walls_list = get_edges_list(self)
+		print "GBB self.edge_walls_list = ", self.edge_walls_list
+		
+		close_edges = True #todo -- move this to config by input or static
+		if close_edges == True: 
+		  close_edges()
 
 		
 		
@@ -337,13 +344,15 @@ def get_edges_list(self):
   '''
   edge_top = range(self.w, w)
   edge_bottom_last = _b_row_h_highest(self)
-  edge_bottom = list(reversed(range(edge_bottom_last,(edge_bottom_last - self.w),-1)))
+  edge_bottom = list( reversed( range(edge_bottom_last,(edge_bottom_last - self.w),-1) ) )
   b_row_v_first = self.w + 1
   b_row_v_last = b_row_v_first + (2 * self.w)
   edge_left = [_tile_down_from_ct(self, b_row_v_first) for v in self.b_row_v_nums  ]
   edge_right = [_tile_down_from_ct(self, b_row_v_last) for v in self.b_row_v_nums  ] 
 
   edge_walls = edge_top + edge_bottom + edge_left + edge_right
+  
+  return edge_walls_list
 
 
 #################################    
@@ -364,9 +373,9 @@ def close_edges(self):
   gbutil.whereami(sys._getframe().f_code.co_name)
   
   '''
-  desc
+  use list of all for edges to target them for closure
   '''
-  edge_walls_list = get_edges_list(self)
+  
   # hmm, some function click each edge_wall in list
   for edge in edge_walls_list:
     click_tile_or_wall(edge)
