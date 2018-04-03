@@ -99,7 +99,7 @@ class GridBlocBoard():
 		self.row_num = self._row_num_from_ct() #formerly "n"
 		print "GBB self.row_num = ", self.row_num
 		
-		self.run_row_starter = self._run_row_starter(self, row_num)
+		self.run_row_starter = self._run_row_starter(self.row_num)
 		print "GBB self.run_row_starter = ", self.run_row_starter
 		
 		## blocker tile params / value calcs
@@ -256,8 +256,9 @@ class GridBlocBoard():
     if n_is_h == False:
       n = self.row_num
     else:
-      n = self.h
+      n = self.h + 1
     
+    print "_block_row_hor_starter N= ", n
     b_row_h_start = ( (n-1)*(2 * self.w + 1) ) + ( (n-1)*(self.w) ) + 1
     return b_row_h_start
 
