@@ -299,7 +299,9 @@ class GridBlocBoard():
     '''
     _block_row_hor_list = range(self.b_row_h_start, (self.b_row_h_len - 1 )
     '''
-    b_row_h_list = range(self.b_row_h_start, (self.b_row_h_len - 1 ))
+    print "self.b_row_h_start,", int(self.b_row_h_start)
+    print "self.b_row_h_len", self.b_row_h_len
+    b_row_h_list = range( int(self.b_row_h_start), int(self.b_row_h_start) + self.b_row_h_len )
     return b_row_h_list
 
 
