@@ -373,6 +373,8 @@ def click_tile_or_wall(clickthistile):
   do the things that click a tile or wall, like check for validity, probably, then add to the right array / list / dict
   '''
   pass
+  
+  #return status code if successful
 
 
 
