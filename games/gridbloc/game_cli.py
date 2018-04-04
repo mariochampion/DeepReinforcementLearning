@@ -97,8 +97,14 @@ class GridBlocBoard():
 		print "GBB self.b_row_v_left_first = ", self.b_row_v_left_first
 		
 		self.b_row_v_left_last = self.b_row_v_left_first + ( (self.h - 1)  * self.vert_tile_distance)
-    print "b_row_v_left_last", self.b_row_v_left_last
-  
+		print "GBB b_row_v_left_last", self.b_row_v_left_last
+		
+		self.b_row_v_right_first = (3 * self.b_row_h_len) + 1
+		print "GBB b_row_v_right_first = ", self.b_row_v_right_first
+		
+		self.b_row_v_right_last = self.b_row_v_right_first + ( (self.h - 1)  * self.vert_tile_distance)
+		print "GBB b_row_v_right_last = ", self.b_row_v_right_last
+		
 		self.b_row_h_start = self._block_row_hor_starter()
 		print "GBB self.b_row_h_start = ", self.b_row_h_start
 		
@@ -371,7 +377,7 @@ def _get_edges_list(self):
   edge_left = range(self.b_row_v_left_first, self.b_row_v_left_last+1, self.vert_tile_distance)
   print "edge_left", edge_left
   
-  edge_right = [33,33,33] #todo  -- calculate
+  edge_right = range(self.b_row_v_right_first, self.b_row_v_right_last+1, self.vert_tile_distance)
   print "edge_right", edge_right
 
   edge_walls_list = edge_top + edge_left + edge_right + edge_bottom
