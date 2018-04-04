@@ -84,7 +84,7 @@ class GridBlocBoard():
 		
 		self.row_num = self._row_num_from_ct_run() #formerly "n"
 		print "GBB self.row_num = ", self.row_num
-		
+
 		self.run_row_leftedge = self._run_row_left_edge(self.row_num)
 		print "GBB self.run_row_leftedge = ", self.run_row_leftedge
 		
@@ -239,7 +239,7 @@ class GridBlocBoard():
   def _row_num_from_ct_run(self):
 	gbutil.whereami(sys._getframe().f_code.co_name)
 	
-	row_num = math.floor(self.ct_run / self.row_len) # TODO--- this not right. run tile just look in masterdict?
+	row_num = math.ceil( float(self.ct_run) / float((3 * self.w) + 1) )
 	return row_num
 
 
