@@ -105,7 +105,7 @@ class GridBlocBoard():
 		self.b_row_v_right_last = self.b_row_v_right_first + ( (self.h - 1)  * self.vert_tile_distance)
 		print "GBB b_row_v_right_last = ", self.b_row_v_right_last
 		
-		# this needs a TOP and bottom variation, as BLOCKROWs are NOT runrows. R1 != B1, for example
+		# there needs a TOP and bottom variation, as BLOCKROWs are NOT runrows. R1 != B1, for example
 		self.b_row_h_start = self._block_row_hor_starter() # TODO - wrong
 		print "GBB self.b_row_h_start = ", self.b_row_h_start
 		
@@ -135,7 +135,7 @@ class GridBlocBoard():
 		self.edge_top_list = range(1, self.w+1)
 		print "GBB edge_top_list", self.edge_top_list
 		
-		self.edge_bottom_last = self._b_row_h_bottomedge()
+		self.edge_bottom_last = self._block_row_h_bottomedge()
 		print "GBB edge_bottom_last", self.edge_bottom_last
 		
 		self.edge_bottom_list = list( reversed( range(self.edge_bottom_last,(self.edge_bottom_last - self.w),-1) ) )
@@ -277,11 +277,11 @@ class GridBlocBoard():
     return tile_dn
     
 #################################
-  def _b_row_h_bottomedge(self):
+  def _block_row_h_bottomedge(self):
     gbutil.whereami(sys._getframe().f_code.co_name)
     
     '''
-    _b_row_h_bottomedge = b_row_h_start of last row + 3w
+    _block_row_h_bottomedge = b_row_h_start of last row + 3w
     '''
     thisrow = self.h + 1 # the value of the bottom
     print "thisrow", thisrow
@@ -308,12 +308,35 @@ class GridBlocBoard():
       print "_block_row_hor_starter -- TRUE"
       thisrow = thisrow #not needed but just to be clear to humans you can pass a tile num
     
-    print "_block_row_hor_STARTER self.row_num= ", thisrow 
+    print "_block_row_hor_STARTER thisrow= ", thisrow 
     
     b_row_h_start = (thisrow * ((3 * self.w) + 1)) + self.w + 1 ## TODO -- yes EXCEPT for last row
     print "b_row_h_start ---", b_row_h_start
-    sys.exit(1)
+
     return b_row_h_start
+
+
+
+#################################    
+  def _block_row_leftedge_below(self, thisrow=False):
+    gbutil.whereami(sys._getframe().f_code.co_name)
+    '''
+    needs check for when rownum is last row, so no BELOW in that case, its the same row.
+    '''
+    
+    if thisrow == False: thisrow = self.row_num
+    else: thisrow = thisrow #not needed but just to be clear to humans you can pass a tile num
+    
+    ## accomodate last RUN_row, with  this one little trick
+    if thisrow == self.h: thisrow = thisrow-1
+    
+    print "_block_row_leftedge_below thisrow= ", thisrow 
+    
+    b_row_left_below = (thisrow * ((3 * self.w) + 1)) + self.w + 1 
+    print "b_row_left_below ---", b_row_left_below
+
+    return b_row_left_below
+
 
 
 
