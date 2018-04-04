@@ -186,7 +186,6 @@ class GridBlocBoard():
     run_row_tilerange = range(run_row_leftedge, ( run_row_leftedge + (2w-2) ), 2) #step = 2
     '''
     
-    
     run_tiles_master_dict = {}
     for row_num in range(1, self.h+1):
       print "row_num:", str(row_num) 
@@ -205,13 +204,12 @@ class GridBlocBoard():
     gbutil.whereami(sys._getframe().f_code.co_name)
     
     '''
-    returns an integer of the gridsquare number of the left edge tile of that row (which actually starts with the left-edge wall, so there is a + 1 to that)
-    run_row_leftedge = (nw) + ( (n-1) + (2* w +1) ) + 1 ## should be run row LEFT EDGE
+    returns an integer of the left edge vertical tile of that row 
+    run_row_leftedge = (nw) + ( (n-1) + (2* w +1) ) + 1 ## should be runrow LEFT EDGE
     '''
     print "ROW_NUM PASSSED:",str(row_num)
-    
-    
-    run_row_leftedge = (row_num * self.w) + ( (row_num - 1) * ( (2 * self.w) + 1) ) + 1
+
+    run_row_leftedge = (row_num * self.w) + ( (row_num - 1) * ( (2 * self.w) + 1) ) + 1    
     return run_row_leftedge
     
     
@@ -314,30 +312,6 @@ class GridBlocBoard():
     print "b_row_h_start ---", b_row_h_start
 
     return b_row_h_start
-
-
-
-#################################    
-  def _block_row_leftedge_below(self, thisrow=False):
-    gbutil.whereami(sys._getframe().f_code.co_name)
-    '''
-    needs check for when rownum is last row, so no BELOW in that case, its the same row.
-    '''
-    
-    if thisrow == False: thisrow = self.row_num
-    else: thisrow = thisrow #not needed but just to be clear to humans you can pass a tile num
-    
-    ## accomodate last RUN_row, with  this one little trick
-    if thisrow == self.h: thisrow = thisrow-1
-    
-    print "_block_row_leftedge_below thisrow= ", thisrow 
-    
-    b_row_left_below = (thisrow * ((3 * self.w) + 1)) + self.w + 1 
-    print "b_row_left_below ---", b_row_left_below
-
-    return b_row_left_below
-
-
 
 
 
