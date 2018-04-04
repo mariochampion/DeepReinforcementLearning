@@ -365,22 +365,22 @@ def _get_edges_list(self):
   steps: 1. HOR edges, top and bottom 2. vert edges, left and right
   useful params: w, h, row_num,b_row h and v starts and ends 
   '''
-  edge_top = range(1, self.w+1)
-  print "edge_top", edge_top
+  edge_top_list = range(1, self.w+1)
+  print "edge_top_list", edge_top_list
   
   edge_bottom_last = self._b_row_h_bottomedge()
   print "edge_bottom_last", edge_bottom_last
   
-  edge_bottom = list( reversed( range(edge_bottom_last,(edge_bottom_last - self.w),-1) ) )
-  print "edge_bottom", edge_bottom
+  edge_bottom_list = list( reversed( range(edge_bottom_last,(edge_bottom_last - self.w),-1) ) )
+  print "edge_bottom_list", edge_bottom_list
   
-  edge_left = range(self.b_row_v_left_first, self.b_row_v_left_last+1, self.vert_tile_distance)
-  print "edge_left", edge_left
+  edge_left_list = range(self.b_row_v_left_first, self.b_row_v_left_last+1, self.vert_tile_distance)
+  print "edge_left_list", edge_left_list
   
-  edge_right = range(self.b_row_v_right_first, self.b_row_v_right_last+1, self.vert_tile_distance)
-  print "edge_right", edge_right
+  edge_right_list = range(self.b_row_v_right_first, self.b_row_v_right_last+1, self.vert_tile_distance)
+  print "edge_right_list", edge_right_list
 
-  edge_walls_list = edge_top + edge_left + edge_right + edge_bottom
+  edge_walls_list = edge_top_list + edge_left_list + edge_right_list + edge_bottom_list
   print "edge_walls_list", edge_walls_list
   
   return edge_walls_list
