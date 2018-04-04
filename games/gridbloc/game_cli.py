@@ -82,7 +82,7 @@ class GridBlocBoard():
 		self.ct_run = self._tilepick_run()
 		print "GBB self.ct_run = ", self.ct_run
 		
-		self.row_num = self._row_num_from_ct() #formerly "n"
+		self.row_num = self._row_num_from_ct_run() #formerly "n"
 		print "GBB self.row_num = ", self.row_num
 		
 		self.run_row_leftedge = self._run_row_left_edge(self.row_num)
@@ -111,13 +111,13 @@ class GridBlocBoard():
 		self.b_row_h_end = self._block_row_hor_ender()
 		print "GBB self.b_row_h_end = ", self.b_row_h_end
 		
-		self.b_row_h_list = self._block_row_hor_list()
+		self.b_row_h_list = self._block_row_hor_list() ## TODO -- wrong
 		print "GBB self.b_row_h_list = ", self.b_row_h_list
 		
-		self.b_row_v_start = self._block_row_vert_starter()
-		print "GBB selfb_row_v_startrow_len = ", self.b_row_v_start
+		self.b_row_v_start = self._block_row_vert_starter()  ## TODO -- wrong
+		print "GBB self.b_row_v_startrow_len = ", self.b_row_v_start
 		
-		self.b_row_v_end = self._block_row_vert_ender()
+		self.b_row_v_end = self._block_row_vert_ender()  ## TODO -- wrong
 		print "GBB self.b_row_v_end = ", self.b_row_v_end
 		
 		self.b_row_v_list = self._block_row_vert_list()
@@ -191,6 +191,7 @@ class GridBlocBoard():
       print "row_num:", str(row_num) 
       run_row_leftedge = self._run_row_left_edge(row_num)
       print "run_row_leftedge", str(run_row_leftedge)
+      print
       #step by two in the range to SKIP OVER vertical blocker tiles
       a = run_row_leftedge + 1
       b = run_row_leftedge + self.row_len
@@ -235,7 +236,7 @@ class GridBlocBoard():
     
 
 #################################        
-  def _row_num_from_ct(self):
+  def _row_num_from_ct_run(self):
 	gbutil.whereami(sys._getframe().f_code.co_name)
 	
 	row_num = math.floor(self.ct_run / self.row_len) # TODO--- this not right. run tile just look in masterdict?
