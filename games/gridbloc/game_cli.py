@@ -117,6 +117,7 @@ class GridBlocBoard():
 		self.edge_walls_list = _get_edges_list(self)
 		print "GBB self.edge_walls_list = ", self.edge_walls_list
 		
+		
 		close_edges = True #todo -- move this to config by input or static
 		if close_edges == True: 
 		  close_edges()
@@ -242,7 +243,8 @@ class GridBlocBoard():
     '''
     _b_row_h_bottomedge = b_row_h_start of last row + 3w
     '''
-    thisrow = self.h + 1 # the value of the bottom
+    thisrow = self.h + 1 # the value of the bottom ### TODO this is not correct, just fpo, but wrong fpo
+    print "thisrow", thisrow
     last_row_h_starter = self._block_row_hor_starter(thisrow)
     _b_row_h_bottomedge = last_row_h_starter + (3 * self.w)
     return _b_row_h_bottomedge
@@ -353,10 +355,10 @@ def _get_edges_list(self):
   b_row_v_last = b_row_v_first + (2 * self.w)
   print "b_row_v_last", b_row_v_last
   
-  edge_left = [22,22,22]
+  edge_left = [22,22,22] #todo  -- calculate
   print "edge_left", edge_left
   
-  edge_right = [33,33,33] 
+  edge_right = [33,33,33] #todo  -- calculate
   print "edge_right", edge_right
 
   edge_walls_list = edge_top + edge_left + edge_right + edge_bottom
