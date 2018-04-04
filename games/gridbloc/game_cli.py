@@ -105,7 +105,8 @@ class GridBlocBoard():
 		self.b_row_v_right_last = self.b_row_v_right_first + ( (self.h - 1)  * self.vert_tile_distance)
 		print "GBB b_row_v_right_last = ", self.b_row_v_right_last
 		
-		self.b_row_h_start = self._block_row_hor_starter()
+		# this needs a TOP and bottom variation, as BLOCKROWs are NOT runrows. R1 != B1, for example
+		self.b_row_h_start = self._block_row_hor_starter() # TODO - wrong
 		print "GBB self.b_row_h_start = ", self.b_row_h_start
 		
 		self.b_row_h_end = self._block_row_hor_ender()
@@ -309,8 +310,9 @@ class GridBlocBoard():
     
     print "_block_row_hor_STARTER self.row_num= ", thisrow 
     
-    b_row_h_start = ( (thisrow-1)*(2 * self.w + 1) ) + ( (thisrow-1)*(self.w) ) + 1
+    b_row_h_start = (thisrow * ((3 * self.w) + 1)) + self.w + 1 ## TODO -- yes EXCEPT for last row
     print "b_row_h_start ---", b_row_h_start
+    sys.exit(1)
     return b_row_h_start
 
 
