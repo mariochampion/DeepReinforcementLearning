@@ -35,13 +35,13 @@ PARAMETERS
 
 NOTE: blocking tiles (hor and vert, inclduing edge walls etc) will be calculated calculated from w & h 
  * "n" is the row number (n=3 is the 3rd row, etc)
- * "ct" is the NUMBER of the current_tile, which is NOT a A7 or F2 chess style notation, but a simple integer calculated from row width, according to the formulas which account for interposing blocking tiles.
+ * "ct_run" is the NUMBER of the current_tile, which is NOT a A7 or F2 chess style notation, but a simple integer calculated from row width, according to the formulas which account for interposing blocking tiles.
  * the upper left RUNNING tile is NEITHER 1 nor 0 (zero). the upper left column top tile is actually 1, as a blocking tile ATOP each row uses numbers 1 to w. so then, w+1 is the left border wall for the first row, and the first running tile is w+2.
 
 
 SOME FORMULAS
-# NOTE: need to calculate "ct" when starting, from the available runner options. then track as runner moves, using the formulas.
-# NOTE: "n" is calculated from ct and w, then track as runner moves, using the formulas.
+# NOTE: need to calculate "ct_run" when starting, from the available runner options. then track as runner moves, using the formulas.
+# NOTE: "n" is calculated from ct_run and w, then track as runner moves, using the formulas.
 
  
  * close_edges() # function to identify all edge tiles to prevent edge-wrap/pacman movement. (for now!)
@@ -69,6 +69,8 @@ class GridBlocBoard():
 		
 		self.h = h
 		print "GBB self.h = ", h
+		
+		self.vert_tile_distance = 3 * self.w + 1
 		
 		self.row_len = self._row_len_calc()
 		print "GBB self.row_len = ", self.row_len
@@ -359,13 +361,13 @@ def _get_edges_list(self):
   edge_bottom = list( reversed( range(edge_bottom_last,(edge_bottom_last - self.w),-1) ) )
   print "edge_bottom", edge_bottom
   
-  b_row_v_first = self.b_row_h_len + 1
-  print "b_row_v_first", b_row_v_first
+  b_row_v_left_first = self.b_row_h_len + 1
+  print "b_row_v_left_first", b_row_v_left_first
   
-  b_row_v_last = b_row_v_first + (2 * self.w)
+  b_row_v_last = b_row_v_left_first + ( (self.h - 1)  * self.vert_tile_distance)
   print "b_row_v_last", b_row_v_last
   
-  edge_left = [22,22,22] #todo  -- calculate
+  edge_left = range(b_row_v_left_first, b_row_v_last+1, self.vert_tile_distance)
   print "edge_left", edge_left
   
   edge_right = [33,33,33] #todo  -- calculate
