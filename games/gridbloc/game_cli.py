@@ -117,13 +117,18 @@ class GridBlocBoard():
 		self.edge_walls_list = _get_edges_list(self)
 		print "GBB self.edge_walls_list = ", self.edge_walls_list
 		
-		
+		'''
 		close_edges = True #todo -- move this to config by input or static
 		if close_edges == True: 
 		  close_edges()
+		'''
 
-		
-		
+
+
+
+#################################
+### start some FUNcs()
+#################################		
   # also called run_row_length()
   def _row_len_calc(self):
     gbutil.whereami(sys._getframe().f_code.co_name)
@@ -243,11 +248,12 @@ class GridBlocBoard():
     '''
     _b_row_h_bottomedge = b_row_h_start of last row + 3w
     '''
-    thisrow = self.h + 1 # the value of the bottom ### TODO this is not correct, just fpo, but wrong fpo
+    thisrow = self.h + 1 # the value of the bottom
     print "thisrow", thisrow
     last_row_h_starter = self._block_row_hor_starter(thisrow)
-    _b_row_h_bottomedge = last_row_h_starter + (3 * self.w)
-    return _b_row_h_bottomedge
+    print "last_row_h_starter", last_row_h_starter
+    b_row_h_bottomedge = last_row_h_starter + self.b_row_h_len -1
+    return b_row_h_bottomedge
 
 
 
@@ -260,13 +266,17 @@ class GridBlocBoard():
     _block_row_hor_starter = ((n-1)(2w+1)) + ((n-1)(w)) + 1
     n = self.row_num
     '''
-    if thisrow == False:
+    if thisrow == False:  
+      print "_block_row_hor_starter -- FALSE"
       thisrow = self.row_num
     else:
+      print "_block_row_hor_starter -- TRUE"
       thisrow = thisrow #not needed but just to be clear to humans you can pass a tile num
     
-    print "_block_row_hor_STARTER self.row_num= ", thisrow   
+    print "_block_row_hor_STARTER self.row_num= ", thisrow 
+    
     b_row_h_start = ( (thisrow-1)*(2 * self.w + 1) ) + ( (thisrow-1)*(self.w) ) + 1
+    print "b_row_h_start ---", b_row_h_start
     return b_row_h_start
 
 
