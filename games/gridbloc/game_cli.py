@@ -79,8 +79,12 @@ class GridBlocBoard():
 		self.row_len = self._row_len_calc()
 		print "GBB self.row_len = ", self.row_len
 		
-		self.run_tiles_master_dict = self._run_tiles_master() # keyed by rownum
-		print "GBB self.run_tiles_master_dict = ", self.run_tiles_master_dict
+		self.run_tiles_byrow_dict = self._run_tiles_dict_maker() # keyed by rownum
+		print "GBB self.run_tiles_byrow_dict = ", self.run_tiles_byrow_dict
+		
+		
+		self.r_tiles_list = self._run_tiles_list_maker()
+		print "GBB self.r_tiles_list = ", self.r_tiles_list
 		
 		self.run_style = "random"
 		self.ct_run = self._tilepick_run()
@@ -97,8 +101,8 @@ class GridBlocBoard():
 		self.b_row_h_len = self.w
 		print "GBB self.b_row_h_len = ", self.b_row_h_len
 		
-		self.block_tiles_master_dict = self._block_tiles_master() #todo -build
-		print "GBB self.block_tiles_master_dict = ", self.block_tiles_master_dict
+		self.b_tiles_list = self._block_tiles_list_maker() #todo -build
+		print "GBB self.b_tiles_list = ", self.b_tiles_list
 		
 		self.block_style = "random"
 		self.ct_block = self._tilepick_block()
@@ -106,7 +110,6 @@ class GridBlocBoard():
 		
 		self.b_row_num = self._b_row_num_from_ct_block()
 		print "GBB self.b_row_num = ", self.b_row_num
-		
 		
 		self.b_row_v_left_first = self.b_row_h_len + 1
 		print "GBB self.b_row_v_left_first = ", self.b_row_v_left_first
@@ -192,7 +195,7 @@ class GridBlocBoard():
 
 
 #################################
-  def _run_tiles_master(self):
+  def _run_tiles_dict_maker(self):
     gbutil.whereami(sys._getframe().f_code.co_name)
     
     '''
@@ -201,7 +204,7 @@ class GridBlocBoard():
     run_row_tilerange = range(run_row_leftedge, ( run_row_leftedge + (2w-2) ), 2) #step = 2
     '''
     
-    run_tiles_master_dict = {}
+    run_tiles_byrow_dict = {}
     for row_num in range(1, self.h+1):
       print "row_num:", str(row_num) 
       run_row_leftedge = self._run_row_left_edge(row_num)
@@ -210,9 +213,25 @@ class GridBlocBoard():
       #step by two in the range to SKIP OVER vertical blocker tiles
       a = run_row_leftedge + 1
       b = run_row_leftedge + self.row_len
-      run_tiles_master_dict[row_num] = [ t for t in range(a, b ,2) ]
-    return run_tiles_master_dict
+      run_tiles_byrow_dict[row_num] = [ t for t in range(a, b ,2) ]
+    return run_tiles_byrow_dict
       
+
+
+#################################
+  def _run_tiles_list_maker(self):
+    gbutil.whereami(sys._getframe().f_code.co_name)
+    ''' just convert the KEYED run tiles dict to a list for when thats easier'''
+
+    # break out the values from run tiles
+    r_tiles_list = []
+    for k,vs in self.run_tiles_byrow_dict.items():
+      for v in vs: 
+        r_tiles_list.append(v)
+    print "r_tiles_list", r_tiles_list
+    
+    return r_tiles_list
+
 
 #################################    
   def _run_row_left_edge(self, row_num):
@@ -239,12 +258,12 @@ class GridBlocBoard():
     print "self.run_style=", self.run_style
     
     if self.run_style == "random":
-      list_tilepick = random.choice(list(self.run_tiles_master_dict))
+      list_tilepick = random.choice(list(self.run_tiles_byrow_dict))
       print "list_tilepick", str(list_tilepick)
-      ct_run = random.choice( list(self.run_tiles_master_dict[list_tilepick]) )
+      ct_run = random.choice( list(self.run_tiles_byrow_dict[list_tilepick]) )
     else:
-      list_tilepick = random.choice(list(self.run_tiles_master_dict))
-      ct_run = random.choice( list(self.run_tiles_master_dict[list_tilepick]) )
+      list_tilepick = random.choice(list(self.run_tiles_byrow_dict))
+      ct_run = random.choice( list(self.run_tiles_byrow_dict[list_tilepick]) )
           
     return ct_run
     
@@ -259,9 +278,9 @@ class GridBlocBoard():
     print "self.block_style=", self.block_style
     
     if self.block_style == "random":
-      list_blocktiles = random.choice(list(self.block_tiles_master_dict)) #todo add block_tiles_master_dict to __init__
+      ct_block_rows_list = random.choice(list(self.block_tiles_master_dict)) #todo add block_tiles_master_dict to __init__
       print "list_blocktiles", str(list_blocktiles)
-      ct_block = random.choice( list(self.block_tiles_master_dict[list_blocktiles]) )
+      ct_block = random.choice( list(self.block_tiles_master_dict[ct_block_rows_list]) )
       
     return ct_block
 	  
@@ -313,20 +332,20 @@ class GridBlocBoard():
 
 
 #################################    
-  def _block_tiles_master(self):
+  def _block_tiles_list_maker(self):
     gbutil.whereami(sys._getframe().f_code.co_name)
     
     '''
     build MASTER array / list of BLOCKING tiles, as dict keyed by b_row_num.
     '''
     print "self.all_the_tiles", self.all_the_tiles
-    print "run_master_list", self.run_tiles_master_dict
-    # break out the values from run tiles
-    # all the rest go into block tiles, BUT should they be keyed as well?
+    print "self.run_tiles_byrow_dict", self.run_tiles_byrow_dict
+
+    b_tiles_list = list( set(self.all_the_tiles) - set(self.r_tiles_list) )
+    print "b_tiles_list", b_tiles_list
     
-    
-    sys.exit(1)
-    
+    return b_tiles_list
+        
     
 
 
