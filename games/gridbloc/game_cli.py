@@ -82,10 +82,10 @@ class GridBlocBoard():
 		self.ct_run = self._tilepick_run()
 		print "GBB self.ct_run = ", self.ct_run
 		
-		self.row_num = self._row_num_from_ct_run() #formerly "n"
-		print "GBB self.row_num = ", self.row_num
+		self.run_row_num = self._row_num_from_ct_run() #formerly "n"
+		print "GBB self.run_row_num = ", self.run_row_num
 
-		self.run_row_leftedge = self._run_row_left_edge(self.row_num)
+		self.run_row_leftedge = self._run_row_left_edge(self.run_row_num)
 		print "GBB self.run_row_leftedge = ", self.run_row_leftedge
 		
 
@@ -203,7 +203,7 @@ class GridBlocBoard():
       #step by two in the range to SKIP OVER vertical blocker tiles
       a = run_row_leftedge + 1
       b = run_row_leftedge + self.row_len
-      run_tiles_master_dict[row_num] = [ t for t in range(a, b, 2) ]
+      run_tiles_master_dict[row_num] = [ t for t in range(a, b ,2) ]
     return run_tiles_master_dict
       
 
@@ -234,7 +234,7 @@ class GridBlocBoard():
     if self.run_style == "random":
       list_tilepick = random.choice(list(self.run_tiles_master_dict))
       print "list_tilepick", str(list_tilepick)
-      tilepick = random.choice( list(self.run_tiles_master_dict[list_tilepick]) )
+      ct_run = random.choice( list(self.run_tiles_master_dict[list_tilepick]) )
     else:
       list_tilepick = random.choice(list(self.run_tiles_master_dict))
       ct_run = random.choice( list(self.run_tiles_master_dict[list_tilepick]) )
@@ -333,7 +333,7 @@ class GridBlocBoard():
     '''
     _block_row_hor_ender = b_row_h_start + b_row_h_len -1
     '''
-    print "_block_row_hor_ENDER self.row_num= ", self.row_num
+    print "_block_row_hor_ENDER self.run_row_num= ", self.run_row_num
     b_row_h_end = self.b_row_h_start + self.b_row_h_len -1
     return b_row_h_end
     
