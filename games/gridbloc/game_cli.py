@@ -278,14 +278,12 @@ class GridBlocBoard():
     print "self.block_style=", self.block_style
     
     if self.block_style == "random":
-      ct_block_rows_list = random.choice(list(self.block_tiles_master_dict)) #todo add block_tiles_master_dict to __init__
-      print "list_blocktiles", str(list_blocktiles)
-      ct_block = random.choice( list(self.block_tiles_master_dict[ct_block_rows_list]) )
+      b_tiles_row_keys = random.choice(list(self.block_tiles_master_dict)) #todo add block_tiles_master_dict to __init__
+      print "b_tiles_row_keys", str(b_tiles_row_keys)
+      ct_block = random.choice( list(self.block_tiles_master_dict[b_tiles_row_keys]) )
       
     return ct_block
 	  
-  
-
 
 #################################        
   def _row_num_from_ct_run(self):
@@ -328,9 +326,6 @@ class GridBlocBoard():
     return tile_dn
     
 
-
-
-
 #################################    
   def _block_tiles_list_maker(self):
     gbutil.whereami(sys._getframe().f_code.co_name)
@@ -338,15 +333,9 @@ class GridBlocBoard():
     '''
     build MASTER array / list of BLOCKING tiles, as dict keyed by b_row_num.
     '''
-    print "self.all_the_tiles", self.all_the_tiles
-    print "self.run_tiles_byrow_dict", self.run_tiles_byrow_dict
-
     b_tiles_list = list( set(self.all_the_tiles) - set(self.r_tiles_list) )
-    print "b_tiles_list", b_tiles_list
-    
+
     return b_tiles_list
-        
-    
 
 
 #################################    
