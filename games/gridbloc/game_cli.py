@@ -319,7 +319,10 @@ class GridBlocBoard():
     '''
     build MASTER array / list of BLOCKING tiles, as dict keyed by b_row_num.
     '''
+    print "self.all_the_tiles", self.all_the_tiles
     print "run_master_list", self.run_tiles_master_dict
+    # break out the values from run tiles
+    # all the rest go into block tiles, BUT should they be keyed as well?
     
     
     sys.exit(1)
