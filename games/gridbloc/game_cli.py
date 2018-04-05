@@ -78,7 +78,7 @@ class GridBlocBoard():
 		self.run_tiles_master_dict = self._run_tiles_master() # keyed by rownum
 		print "GBB self.run_tiles_master_dict = ", self.run_tiles_master_dict
 		
-		self.pickstyle = "random"
+		self.run_style = "random"
 		self.ct_run = self._tilepick_run()
 		print "GBB self.ct_run = ", self.ct_run
 		
@@ -92,6 +92,14 @@ class GridBlocBoard():
 		###### blocker tile params / value calcs
 		self.b_row_h_len = self.w
 		print "GBB self.b_row_h_len = ", self.b_row_h_len
+		
+		self.block_style = "random"
+		self.ct_block = self._tilepick_block()
+		print "GBB self.ct_block = ", self.ct_block
+		
+		self.b_row_num = self._b_row_num_from_ct_block()
+		print "GBB self.b_row_num = ", self.b_row_num
+		
 		
 		self.b_row_v_left_first = self.b_row_h_len + 1
 		print "GBB self.b_row_v_left_first = ", self.b_row_v_left_first
@@ -195,7 +203,7 @@ class GridBlocBoard():
       #step by two in the range to SKIP OVER vertical blocker tiles
       a = run_row_leftedge + 1
       b = run_row_leftedge + self.row_len
-      run_tiles_master_dict[row_num] = [ t for t in range(a, b ,2) ]
+      run_tiles_master_dict[row_num] = [ t for t in range(a, b, 2) ]
     return run_tiles_master_dict
       
 
@@ -218,21 +226,40 @@ class GridBlocBoard():
     gbutil.whereami(sys._getframe().f_code.co_name)
     '''
     placeholder to pick a tile -- starting tile and in-game as well. 
-    will pick by input or by policy, but for now... random is default but other styles mat be passable
+    will pick by input or by policy, but for now... random is default but other styles may be passable
     '''
     # make more complete switch/case for other pick styles
-    print "self.pickstyle=", self.pickstyle
+    print "self.run_style=", self.run_style
     
-    if self.pickstyle == "random":
+    if self.run_style == "random":
       list_tilepick = random.choice(list(self.run_tiles_master_dict))
       print "list_tilepick", str(list_tilepick)
       tilepick = random.choice( list(self.run_tiles_master_dict[list_tilepick]) )
     else:
       list_tilepick = random.choice(list(self.run_tiles_master_dict))
-      tilepick = random.choice( list(self.run_tiles_master_dict[list_tilepick]) )
+      ct_run = random.choice( list(self.run_tiles_master_dict[list_tilepick]) )
           
-    return tilepick
+    return ct_run
     
+
+#################################  
+  def _tilepick_block(self):
+    gbutil.whereami(sys._getframe().f_code.co_name)
+    '''
+    placeholder to pick a tile -- starting tile and in-game as well. 
+    will pick by input or by policy, but for now... random is default but other styles mat be passable
+    '''
+    print "self.block_style=", self.block_style
+    
+    if self.block_style == "random":
+      list_blocktiles = random.choice(list(self.block_tiles_master_dict)) #todo add block_tiles_master_dict to __init__
+      print "list_blocktiles", str(list_blocktiles)
+      ct_block = random.choice( list(self.block_tiles_master_dict[list_blocktiles]) )
+      
+    return ct_block
+	  
+  
+
 
 #################################        
   def _row_num_from_ct_run(self):
@@ -281,7 +308,7 @@ class GridBlocBoard():
     
     '''
     _block_row_hor_starter = ((n-1)(2w+1)) + ((n-1)(w)) + 1
-    n = self.row_num
+    n = self.b_row_num
     '''
     if this_b_row == False:  
       print "_block_row_hor_starter -- FALSE"
