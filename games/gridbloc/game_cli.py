@@ -105,7 +105,7 @@ class GridBlocBoard():
 		self.b_row_v_right_last = self.b_row_v_right_first + ( (self.h - 1)  * self.vert_tile_distance)
 		print "GBB b_row_v_right_last = ", self.b_row_v_right_last
 		
-		# there needs a TOP and bottom variation, as BLOCKROWs are NOT runrows. R1 != B1, for example
+		# actually just need to clarify which BLOCK row... not runrowtop & runrowbottom
 		self.b_row_h_start = self._block_row_hor_starter() # TODO - wrong
 		print "GBB self.b_row_h_start = ", self.b_row_h_start
 		
@@ -135,7 +135,7 @@ class GridBlocBoard():
 		self.edge_top_list = range(1, self.w+1)
 		print "GBB edge_top_list", self.edge_top_list
 		
-		self.edge_bottom_last = self._block_row_h_bottomedge()
+		self.edge_bottom_last = self._block_row_hor_starter(self.h+1)
 		print "GBB edge_bottom_last", self.edge_bottom_last
 		
 		self.edge_bottom_list = list( reversed( range(self.edge_bottom_last,(self.edge_bottom_last - self.w),-1) ) )
@@ -274,41 +274,25 @@ class GridBlocBoard():
     
     return tile_dn
     
-#################################
-  def _block_row_h_bottomedge(self):
-    gbutil.whereami(sys._getframe().f_code.co_name)
-    
-    '''
-    _block_row_h_bottomedge = b_row_h_start of last row + 3w
-    '''
-    thisrow = self.h + 1 # the value of the bottom
-    print "thisrow", thisrow
-    last_row_h_starter = self._block_row_hor_starter(thisrow)
-    print "last_row_h_starter", last_row_h_starter
-    b_row_h_bottomedge = last_row_h_starter + self.b_row_h_len -1
-    return b_row_h_bottomedge
-
-
-
 
 #################################    
-  def _block_row_hor_starter(self, thisrow=False):
+  def _block_row_hor_starter(self, this_b_row=False):
     gbutil.whereami(sys._getframe().f_code.co_name)
     
     '''
     _block_row_hor_starter = ((n-1)(2w+1)) + ((n-1)(w)) + 1
     n = self.row_num
     '''
-    if thisrow == False:  
+    if this_b_row == False:  
       print "_block_row_hor_starter -- FALSE"
-      thisrow = self.row_num
+      this_b_row = self.b_row_num #todo add to __init__
     else:
       print "_block_row_hor_starter -- TRUE"
-      thisrow = thisrow #not needed but just to be clear to humans you can pass a tile num
+      this_b_row = this_b_row #not needed but just to be clear to humans you can pass a tile num
     
-    print "_block_row_hor_STARTER thisrow= ", thisrow 
+    print "_block_row_hor_STARTER thisrow= ", this_b_row 
     
-    b_row_h_start = (thisrow * ((3 * self.w) + 1)) + self.w + 1 ## TODO -- yes EXCEPT for last row
+    b_row_h_start = (this_b_row * ((3 * self.w) + 1)) + self.w + 1 ## TODO -- yes EXCEPT for last row
     print "b_row_h_start ---", b_row_h_start
 
     return b_row_h_start
