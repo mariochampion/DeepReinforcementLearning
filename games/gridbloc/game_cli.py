@@ -93,6 +93,11 @@ class GridBlocBoard():
 		self.b_row_h_len = self.w
 		print "GBB self.b_row_h_len = ", self.b_row_h_len
 		
+		self.block_tiles_master_dict = self._block_tiles_master()
+		print "GBB self.block_tiles_master_dict = ", self.block_tiles_master_dict
+		
+		
+		
 		self.block_style = "random"
 		self.ct_block = self._tilepick_block()
 		print "GBB self.ct_block = ", self.ct_block
@@ -301,6 +306,21 @@ class GridBlocBoard():
     
     return tile_dn
     
+
+
+
+
+#################################    
+  def _block_tiles_master(self):
+    gbutil.whereami(sys._getframe().f_code.co_name)
+    
+    '''
+    build MASTER array / list of BLOCKING tiles, as dict keyed by b_row_num.
+    '''
+    pass
+    
+    
+
 
 #################################    
   def _block_row_hor_starter(self, this_b_row=False):
