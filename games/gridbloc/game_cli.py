@@ -70,7 +70,11 @@ class GridBlocBoard():
 		self.h = h
 		print "GBB self.h = ", h
 		
+		self.all_the_tiles = range(1, self._block_row_hor_starter(self.h))
+		print "GBB self.all_the_tiles = ", self.all_the_tiles
+		
 		self.vert_tile_distance = 3 * self.w + 1
+		print "GBB self.vert_tile_distance = ",self.vert_tile_distance
 		
 		self.row_len = self._row_len_calc()
 		print "GBB self.row_len = ", self.row_len
@@ -93,10 +97,8 @@ class GridBlocBoard():
 		self.b_row_h_len = self.w
 		print "GBB self.b_row_h_len = ", self.b_row_h_len
 		
-		self.block_tiles_master_dict = self._block_tiles_master()
+		self.block_tiles_master_dict = self._block_tiles_master() #todo -build
 		print "GBB self.block_tiles_master_dict = ", self.block_tiles_master_dict
-		
-		
 		
 		self.block_style = "random"
 		self.ct_block = self._tilepick_block()
@@ -148,7 +150,7 @@ class GridBlocBoard():
 		self.edge_top_list = range(1, self.w+1)
 		print "GBB edge_top_list", self.edge_top_list
 		
-		self.edge_bottom_last = self._block_row_hor_starter(self.h+1)
+		self.edge_bottom_last = self._block_row_hor_starter(self.h)-1
 		print "GBB edge_bottom_last", self.edge_bottom_last
 		
 		self.edge_bottom_list = list( reversed( range(self.edge_bottom_last,(self.edge_bottom_last - self.w),-1) ) )
@@ -317,7 +319,10 @@ class GridBlocBoard():
     '''
     build MASTER array / list of BLOCKING tiles, as dict keyed by b_row_num.
     '''
-    pass
+    print "run_master_list", self.run_tiles_master_dict
+    
+    
+    sys.exit(1)
     
     
 
@@ -409,7 +414,7 @@ def _build_edges_list(self):
   gbutil.whereami(sys._getframe().f_code.co_name)
   
   '''
-  just add up to one aster egdge wall list from the top bottom left right edge lists 
+  build edge wall list from the top bottom left right edge lists 
   '''
   
   edge_walls_list = self.edge_top_list + self.edge_left_list + self.edge_right_list + self.edge_bottom_list
