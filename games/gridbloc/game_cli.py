@@ -101,8 +101,11 @@ class GridBlocBoard():
 		self.b_row_h_len = self.w
 		print "GBB self.b_row_h_len = ", self.b_row_h_len
 		
-		self.b_tiles_list = self._block_tiles_list_maker() #todo -build
+		self.b_tiles_list = self._block_tiles_list_maker()
 		print "GBB self.b_tiles_list = ", self.b_tiles_list
+		
+		self.block_tiles_master_dict = self.b_tiles_list # todo -- make sep b-row keyed dict
+		print "GBB self.block_tiles_master_dict = ", self.block_tiles_master_dict
 		
 		self.block_style = "random"
 		self.ct_block = self._tilepick_block()
@@ -278,10 +281,15 @@ class GridBlocBoard():
     print "self.block_style=", self.block_style
     
     if self.block_style == "random":
-      b_tiles_row_keys = random.choice(list(self.block_tiles_master_dict)) #todo add block_tiles_master_dict to __init__
-      print "b_tiles_row_keys", str(b_tiles_row_keys)
-      ct_block = random.choice( list(self.block_tiles_master_dict[b_tiles_row_keys]) )
-      
+      ''' pick from the list as its all tiles '''
+      ct_block = random.choice(self.b_tiles_list)
+    elif self.block_style == "close":
+      ''' pick from dict based on run row UP or DOWN  '''
+      ct_block = random.choice(self.block_tiles_master_dict) #todo - pick from b-row keyed dict
+    else:
+      ''' FOR NOW pick same as random'''
+      ct_block = random.choice(self.b_tiles_list)
+    
     return ct_block
 	  
 
