@@ -311,17 +311,17 @@ class GridBlocBoard():
 	  else:
 	    this_btile = this_btile
 	  
-	  threedublength = float((3 * self.w) + 1)
+	  threedubone = float((3 * self.w) + 1)
 	  
 	  print "self.run_row_num", self.run_row_num
 	  print "this_btile", this_btile
-	  print "threedublength", threedublength
-	  ratio_float = float(this_btile) / threedublength
+	  print "threedubone", threedubone
+	  ratio_float = float(this_btile) / threedubone
 	  ratio_nofloat = this_btile / ((3 * self.w) + 1)
 	  print "ratio_float - ratio_nofloat", ratio_float, "-", ratio_nofloat
 	  ratio_decimal = ratio_float - ratio_nofloat
 	  print "ratio_decimal", ratio_decimal
-	  if ratio_decimal <= float(self.w) / threedublength:
+	  if ratio_decimal <= float(self.w) / threedubone:
 	    b_row_num = ratio_nofloat + 1
 	  else:
 	    b_row_num = 999999 # todo - dev scheme form run row vert blocker tiles
