@@ -331,8 +331,6 @@ class GridBlocBoard():
 	  return b_row_num
 
 
-
-
 #################################  
   def _tile_up_from_ct(self, this_tile = False):
     gbutil.whereami(sys._getframe().f_code.co_name)
