@@ -301,6 +301,38 @@ class GridBlocBoard():
 	return row_num
 
 
+#################################        
+  def _b_row_num_from_ct_block(self, this_btile = False):
+	  gbutil.whereami(sys._getframe().f_code.co_name)
+	  ''' find diff for b-row vs run-row-vert-tiles...''' #TODO
+	
+	  if this_btile == False:
+	    this_btile = self.ct_block
+	  else:
+	    this_btile = this_btile
+	  
+	  threedublength = float((3 * self.w) + 1)
+	  
+	  print "self.run_row_num", self.run_row_num
+	  print "this_btile", this_btile
+	  print "threedublength", threedublength
+	  ratio_float = float(this_btile) / threedublength
+	  ratio_nofloat = this_btile / ((3 * self.w) + 1)
+	  print "ratio_float - ratio_nofloat", ratio_float, "-", ratio_nofloat
+	  ratio_decimal = ratio_float - ratio_nofloat
+	  print "ratio_decimal", ratio_decimal
+	  if ratio_decimal <= float(self.w) / threedublength:
+	    b_row_num = ratio_nofloat + 1
+	  else:
+	    b_row_num = 999999 # todo - dev scheme form run row vert blocker tiles
+	    
+	  print "b_row_num", b_row_num
+	  sys.exit(1)
+	  return b_row_num
+
+
+
+
 #################################  
   def _tile_up_from_ct(self, this_tile = False):
     gbutil.whereami(sys._getframe().f_code.co_name)
