@@ -107,6 +107,8 @@ class GridBlocBoard():
 		self.block_tiles_master_dict = self.b_tiles_list # todo -- make sep b-row keyed dict
 		print "GBB self.block_tiles_master_dict = ", self.block_tiles_master_dict
 		
+		#todo -- make block row vert and hor tiles lists
+		
 		self.block_style = "random"
 		self.ct_block = self._tilepick_block()
 		print "GBB self.ct_block = ", self.ct_block
