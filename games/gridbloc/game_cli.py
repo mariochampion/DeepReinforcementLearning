@@ -104,16 +104,13 @@ class GridBlocBoard():
 		self.b_tiles_list = self._block_tiles_list_maker()
 		print "GBB self.b_tiles_list = ", self.b_tiles_list
 		
-		#todo -- make block row vert and hor tiles lists
 		self.block_tiles_master_dict = self._block_tiles_dict_maker()
 		self.b_hortiles_dict = self.block_tiles_master_dict[0]
 		self.b_vertiles_dict = self.block_tiles_master_dict[1]
+		print "self.block_tiles_master_dict = ", self.block_tiles_master_dict
 		print "GBB self.b_hortiles_dict = ", self.b_hortiles_dict
 		print "GBB self.b_vertiles_dict = ", self.b_vertiles_dict
-		
-		
 		sys.exit(1)
-		
 		
 		self.block_style = "random"
 		self.ct_block = self._tilepick_block()
@@ -121,6 +118,7 @@ class GridBlocBoard():
 		
 		self.b_row_num = self._b_row_num_from_ct_block()
 		print "GBB self.b_row_num = ", self.b_row_num
+		sys.exit(1)
 		
 		self.b_row_v_left_first = self.b_row_h_len + 1
 		print "GBB self.b_row_v_left_first = ", self.b_row_v_left_first
@@ -433,7 +431,7 @@ class GridBlocBoard():
     else: firstver = (self.w + 1) + (2 * (v-1))
     print "self h = ", self.h
     print "firstver = ", firstver
-    vtile_list = range( firstver, (self.vert_tile_distance * (self.h + 1)), self.vert_tile_distance)
+    vtile_list = range( firstver, firstver + (self.vert_tile_distance * (self.h)), self.vert_tile_distance)
     return vtile_list
     
         
