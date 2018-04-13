@@ -394,13 +394,13 @@ class GridBlocBoard():
     
     '''
     build block_tiles_master_dict, by runrow-verticals and separator hor tiles,
-    vert b's = w+1, hor b's = h+1
-    parsing thru b_tiles_list
+    vert b's = w+1, hor b's = h+1 (by parsing thru b_tiles_list??)
     '''
     b_hortiles_dict = {}
     b_vertiles_dict = {}
-    for v in range(1, self.w+1):
+    for v in range(1, self.h + 2):
       b_hortiles_dict[v] = self._b_hortiles_dict_maker(v)
+    for v in range(1, self.w + 2):  
       b_vertiles_dict[v] = self._b_vertiles_dict_maker(v)
     
     return (b_hortiles_dict, b_vertiles_dict)
@@ -413,8 +413,11 @@ class GridBlocBoard():
     '''
     calculate the horizontal blocker tiles, range with self.w, self.vert_tile_distance, "v"
     '''
-    
-    htile_list = [self.w, self.vert_tile_distance, v]
+    if v == 1: firsthor = 1
+    else: firsthor = 1 + (self.vert_tile_distance * (v-1))
+    print "self w = ", self.w
+    print "firsthor = ", firsthor
+    htile_list = range( firsthor, firsthor+(self.w) )
     return htile_list
     
     
@@ -426,7 +429,11 @@ class GridBlocBoard():
     calculate the horizontal blocker tiles, range with self.w, self.vert_tile_distance, "v"
     '''
     
-    vtile_list = [self.w, self.vert_tile_distance, v]
+    if v == 1: firstver = self.w + 1
+    else: firstver = (self.w + 1) + (2 * (v-1))
+    print "self h = ", self.h
+    print "firstver = ", firstver
+    vtile_list = range( firstver, (self.vert_tile_distance * (self.h + 1)), self.vert_tile_distance)
     return vtile_list
     
         
