@@ -117,11 +117,13 @@ class GridBlocBoard():
 		print "GBB self.ct_block = ", self.ct_block
 		
 		self.b_tile_type = self.ct_block[0]
-		self.b_tile_row = [1] # TODO  -- remove dupe naming schemes
+		self.b_tile_row = self.ct_block[1] # TODO  -- remove dupe naming schemes
 		self.b_row_num = self.b_tile_row # TODO  -- remove dupe naming schemes
 		self.b_tile_num = self.ct_block[2]
-		print "GBB self.b_row_type = ", self.b_row_type
+		print "GBB self.b_tile_type = ", self.b_tile_type
+		print "GBB self.b_tile_row = ", self.b_tile_row
 		print "GBB self.b_row_num = ", self.b_row_num
+		print "GBB self.b_tile_num = ", self.b_tile_num
 		sys.exit(1)
 		
 		self.b_row_v_left_first = self.b_row_h_len + 1
@@ -304,8 +306,6 @@ class GridBlocBoard():
       ct_block = (b_tile_type, b_tile_row, b_tile_num)
       print "ct block = ", ct_block
       
-      sys.exit(1)
-    
     elif self.block_style == "close":
       ''' pick from dict based on run row UP or DOWN  '''
       ct_block = random.choice(self.block_tiles_master_dict) #todo - pick from b-row keyed dict
