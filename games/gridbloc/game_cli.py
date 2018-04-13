@@ -400,12 +400,36 @@ class GridBlocBoard():
     b_hortiles_dict = {}
     b_vertiles_dict = {}
     for v in range(1, self.w+1):
-      b_hortiles_dict[v] = [1,2] # todo - formulas or sub funcs here
-      b_vertiles_dict[v] = [3,4] # todo - formulas or sub funcs here
+      b_hortiles_dict[v] = self._b_hortiles_dict_maker(v)
+      b_vertiles_dict[v] = self._b_vertiles_dict_maker(v)
     
     return (b_hortiles_dict, b_vertiles_dict)
+
+
+#################################    
+  def _b_hortiles_dict_maker(self, v):
+    gbutil.whereami(sys._getframe().f_code.co_name)
+    
+    '''
+    calculate the horizontal blocker tiles, range with self.w, self.vert_tile_distance, "v"
+    '''
+    
+    htile_list = [self.w, self.vert_tile_distance, v]
+    return htile_list
     
     
+#################################    
+  def _b_vertiles_dict_maker(self, v):
+    gbutil.whereami(sys._getframe().f_code.co_name)
+    
+    '''
+    calculate the horizontal blocker tiles, range with self.w, self.vert_tile_distance, "v"
+    '''
+    
+    vtile_list = [self.w, self.vert_tile_distance, v]
+    return vtile_list
+    
+        
 #################################    
   def _block_row_hor_starter(self, this_b_row=False):
     gbutil.whereami(sys._getframe().f_code.co_name)
