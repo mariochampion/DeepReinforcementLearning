@@ -104,10 +104,16 @@ class GridBlocBoard():
 		self.b_tiles_list = self._block_tiles_list_maker()
 		print "GBB self.b_tiles_list = ", self.b_tiles_list
 		
-		self.block_tiles_master_dict = self._block_tiles_dict_maker() # todo -- make sep b-row keyed dict
-		print "GBB self.block_tiles_master_dict = ", self.block_tiles_master_dict
-		
 		#todo -- make block row vert and hor tiles lists
+		self.block_tiles_master_dict = self._block_tiles_dict_maker()
+		self.b_hortiles_dict = self.block_tiles_master_dict[0]
+		self.b_vertiles_dict = self.block_tiles_master_dict[1]
+		print "GBB self.b_hortiles_dict = ", self.b_hortiles_dict
+		print "GBB self.b_vertiles_dict = ", self.b_vertiles_dict
+		
+		
+		sys.exit(1)
+		
 		
 		self.block_style = "random"
 		self.ct_block = self._tilepick_block()
@@ -333,9 +339,7 @@ class GridBlocBoard():
 	    
 	    b_row_num = "99999"
 	    
-	    
 	  print "b_row_num", b_row_num
-	  sys.exit(1)
 	  return b_row_num
 
 
@@ -389,18 +393,19 @@ class GridBlocBoard():
     gbutil.whereami(sys._getframe().f_code.co_name)
     
     '''
-    build block_tiles_master_dict, by runrow-verticals and separator hor tiles
+    build block_tiles_master_dict, by runrow-verticals and separator hor tiles,
+    vert b's = w+1, hor b's = h+1
     parsing thru b_tiles_list
     '''
-    b_tiles_master_dict = {}
+    b_hortiles_dict = {}
+    b_vertiles_dict = {}
+    for v in range(1, self.w+1):
+      b_hortiles_dict[v] = [1,2] # todo - formulas or sub funcs here
+      b_vertiles_dict[v] = [3,4] # todo - formulas or sub funcs here
+    
+    return (b_hortiles_dict, b_vertiles_dict)
     
     
-    return b_tiles_master_dict
-    
-    
-
-
-
 #################################    
   def _block_row_hor_starter(self, this_b_row=False):
     gbutil.whereami(sys._getframe().f_code.co_name)
