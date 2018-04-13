@@ -104,12 +104,13 @@ class GridBlocBoard():
 		self.b_tiles_list = self._block_tiles_list_maker()
 		print "GBB self.b_tiles_list = ", self.b_tiles_list
 		
+		self.b_hortiles_dict = self._b_hortiles_dict_maker()
+		self.b_vertiles_dict = self._b_vertiles_dict_maker()
 		self.block_tiles_master_dict = self._block_tiles_dict_maker()
-		self.b_hortiles_dict = self.block_tiles_master_dict[0]
-		self.b_vertiles_dict = self.block_tiles_master_dict[1]
-		print "self.block_tiles_master_dict = ", self.block_tiles_master_dict
+
 		print "GBB self.b_hortiles_dict = ", self.b_hortiles_dict
 		print "GBB self.b_vertiles_dict = ", self.b_vertiles_dict
+		print "GBB self.block_tiles_master_dict = ", self.block_tiles_master_dict
 		sys.exit(1)
 		
 		self.block_style = "random"
@@ -387,6 +388,42 @@ class GridBlocBoard():
 
 
 #################################    
+  def _b_hortiles_dict_maker(self):
+    gbutil.whereami(sys._getframe().f_code.co_name)
+    
+    '''
+    calculate the horizontal blocker tiles, range with self.w, self.vert_tile_distance, "v"
+    '''
+    b_hortiles_dict = {}
+    for v in range(1, self.h + 2):
+      if v == 1: firsthor = 1
+      else: firsthor = 1 + (self.vert_tile_distance * (v-1))
+      print "self w = ", self.w
+      print "firsthor = ", firsthor
+      b_hortiles_dict[v] = range( firsthor, firsthor+(self.w) )
+    
+    return b_hortiles_dict
+    
+    
+#################################    
+  def _b_vertiles_dict_maker(self):
+    gbutil.whereami(sys._getframe().f_code.co_name)
+    
+    '''
+    calculate the horizontal blocker tiles, range with self.w, self.vert_tile_distance, "v"
+    '''
+    b_vertiles_dict = {}
+    for v in range(1, self.w + 2):
+      if v == 1: firstver = self.w + 1
+      else: firstver = (self.w + 1) + (2 * (v-1))
+      print "self h = ", self.h
+      print "firstver = ", firstver
+      b_vertiles_dict[v] = range( firstver, firstver + (self.vert_tile_distance * (self.h)), self.vert_tile_distance)
+    
+    return b_vertiles_dict
+    
+        
+#################################    
   def _block_tiles_dict_maker(self):
     gbutil.whereami(sys._getframe().f_code.co_name)
     
@@ -394,47 +431,14 @@ class GridBlocBoard():
     build block_tiles_master_dict, by runrow-verticals and separator hor tiles,
     vert b's = w+1, hor b's = h+1 (by parsing thru b_tiles_list??)
     '''
-    b_hortiles_dict = {}
-    b_vertiles_dict = {}
-    for v in range(1, self.h + 2):
-      b_hortiles_dict[v] = self._b_hortiles_dict_maker(v)
-    for v in range(1, self.w + 2):  
-      b_vertiles_dict[v] = self._b_vertiles_dict_maker(v)
+    b_tiles_master_dict = {}
+    b_tiles_master_dict['h'] = self.b_hortiles_dict
+    b_tiles_master_dict['v'] = self.b_vertiles_dict
     
-    return (b_hortiles_dict, b_vertiles_dict)
+    return b_tiles_master_dict
 
 
-#################################    
-  def _b_hortiles_dict_maker(self, v):
-    gbutil.whereami(sys._getframe().f_code.co_name)
-    
-    '''
-    calculate the horizontal blocker tiles, range with self.w, self.vert_tile_distance, "v"
-    '''
-    if v == 1: firsthor = 1
-    else: firsthor = 1 + (self.vert_tile_distance * (v-1))
-    print "self w = ", self.w
-    print "firsthor = ", firsthor
-    htile_list = range( firsthor, firsthor+(self.w) )
-    return htile_list
-    
-    
-#################################    
-  def _b_vertiles_dict_maker(self, v):
-    gbutil.whereami(sys._getframe().f_code.co_name)
-    
-    '''
-    calculate the horizontal blocker tiles, range with self.w, self.vert_tile_distance, "v"
-    '''
-    
-    if v == 1: firstver = self.w + 1
-    else: firstver = (self.w + 1) + (2 * (v-1))
-    print "self h = ", self.h
-    print "firstver = ", firstver
-    vtile_list = range( firstver, firstver + (self.vert_tile_distance * (self.h)), self.vert_tile_distance)
-    return vtile_list
-    
-        
+
 #################################    
   def _block_row_hor_starter(self, this_b_row=False):
     gbutil.whereami(sys._getframe().f_code.co_name)
