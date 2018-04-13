@@ -195,8 +195,8 @@ class GridBlocBoard():
     (or, of course you can think of this as rights with one left)
     '''
     
-    row_len = 2 * self.w + 1
-    return row_len
+    run_row_len = 2 * self.w + 1
+    return run_row_len
 
 
 #################################
