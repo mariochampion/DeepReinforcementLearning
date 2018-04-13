@@ -311,9 +311,9 @@ class GridBlocBoard():
 	  if this_btile == False:
 	    this_btile = self.ct_block
 	  else:
-	    this_btile = this_btile
+	    this_btile = this_btile #used passed value if exists
 	  
-	  threedubone = float((3 * self.w) + 1)
+	  threedubone = float((3 * self.w) + 1) # make a float of hor-tileblock + run_row_length
 	  
 	  print "self.run_row_num", self.run_row_num
 	  print "this_btile", this_btile
@@ -326,7 +326,13 @@ class GridBlocBoard():
 	  if ratio_decimal <= float(self.w) / threedubone:
 	    b_row_num = ratio_nofloat + 1
 	  else:
-	    b_row_num = 999999 # todo - dev scheme form run row vert blocker tiles
+	    # its a vertical blocker within a run_row, so find it from b_row_verts tiles
+	    # get the key of the runrow-btiles dict that contains this number, thats the vert row
+	    # but what is that row called? rb1, rb2, rb3 ?
+	    
+	    
+	    b_row_num = "99999"
+	    
 	    
 	  print "b_row_num", b_row_num
 	  sys.exit(1)
