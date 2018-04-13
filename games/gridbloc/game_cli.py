@@ -76,8 +76,8 @@ class GridBlocBoard():
 		self.vert_tile_distance = 3 * self.w + 1
 		print "GBB self.vert_tile_distance = ",self.vert_tile_distance
 		
-		self.row_len = self._row_len_calc()
-		print "GBB self.row_len = ", self.row_len
+		self.run_row_len = self._row_len_calc()
+		print "GBB self.run_row_len = ", self.run_row_len
 		
 		self.run_tiles_byrow_dict = self._run_tiles_dict_maker() # keyed by rownum
 		print "GBB self.run_tiles_byrow_dict = ", self.run_tiles_byrow_dict
@@ -217,7 +217,7 @@ class GridBlocBoard():
       print
       #step by two in the range to SKIP OVER vertical blocker tiles
       a = run_row_leftedge + 1
-      b = run_row_leftedge + self.row_len
+      b = run_row_leftedge + self.run_row_len
       run_tiles_byrow_dict[row_num] = [ t for t in range(a, b ,2) ]
     return run_tiles_byrow_dict
       
