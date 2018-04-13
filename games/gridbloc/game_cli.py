@@ -111,7 +111,6 @@ class GridBlocBoard():
 		print "GBB self.b_hortiles_dict = ", self.b_hortiles_dict
 		print "GBB self.b_vertiles_dict = ", self.b_vertiles_dict
 		print "GBB self.block_tiles_master_dict = ", self.block_tiles_master_dict
-		sys.exit(1)
 		
 		self.block_style = "random"
 		self.ct_block = self._tilepick_block()
@@ -329,14 +328,19 @@ class GridBlocBoard():
 	  ratio_decimal = ratio_float - ratio_nofloat
 	  print "ratio_decimal", ratio_decimal
 	  if ratio_decimal <= float(self.w) / threedubone:
+	    # its a horizontal blocker tile, which has an integer value (why DONT vert tiles have integer value?)
 	    b_row_num = ratio_nofloat + 1
 	  else:
 	    # its a vertical blocker within a run_row, so find it from b_row_verts tiles
 	    # get the key of the runrow-btiles dict that contains this number, thats the vert row
-	    # but what is that row called? rb1, rb2, rb3 ?
-	    
+	    # use the H or V dicts from _block_tiles_dict_maker
+	    # buthow is this diff between H and V tiles represented? v = integer, h = ?? (start with 999??)
 	    
 	    b_row_num = "99999"
+	    
+	    
+	    
+	    
 	    
 	  print "b_row_num", b_row_num
 	  return b_row_num
