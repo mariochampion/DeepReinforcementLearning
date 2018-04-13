@@ -113,10 +113,14 @@ class GridBlocBoard():
 		print "GBB self.block_tiles_master_dict = ", self.block_tiles_master_dict
 		
 		self.block_style = "random"
-		self.ct_block = self._tilepick_block()
+		self.ct_block = self._tilepick_block() # ct_block = (b_tile_type, b_tile_row, b_tile_num)
 		print "GBB self.ct_block = ", self.ct_block
 		
-		self.b_row_num = self._b_row_num_from_ct_block()
+		self.b_tile_type = self.ct_block[0]
+		self.b_tile_row = [1] # TODO  -- remove dupe naming schemes
+		self.b_row_num = self.b_tile_row # TODO  -- remove dupe naming schemes
+		self.b_tile_num = self.ct_block[2]
+		print "GBB self.b_row_type = ", self.b_row_type
 		print "GBB self.b_row_num = ", self.b_row_num
 		sys.exit(1)
 		
@@ -281,17 +285,31 @@ class GridBlocBoard():
   def _tilepick_block(self):
     gbutil.whereami(sys._getframe().f_code.co_name)
     '''
-    placeholder to pick a tile -- starting tile and in-game as well. 
-    will pick by input or by policy, but for now... random is default but other styles mat be passable
+    pick a starting block or in-game block as well. 
+    will pick by input or by policy, but for now... random is default but other styles may be passable
     '''
     print "self.block_style=", self.block_style
     
     if self.block_style == "random":
-      ''' pick from the list as its all tiles '''
-      ct_block = random.choice(self.b_tiles_list)
+      ''' actually, pick 1 or 2 for h or v, then from rownums, then a tile from self.block_tiles_master_dict '''
+      b_tile_type = random.randint(1,2) # random h or v tile (1 or 2)
+      print "b_tile_type", b_tile_type,"::", self.block_tiles_master_dict[b_tile_type]
+      
+      b_tile_row = random.choice( self.block_tiles_master_dict[b_tile_type].keys() ) # from keys in dict[1|2]
+      print "b_tile_row", b_tile_row
+      
+      b_tile_num = random.choice(self.block_tiles_master_dict[b_tile_type][b_tile_row]) # from values in list
+      print "b_tile_num", b_tile_num
+      
+      ct_block = (b_tile_type, b_tile_row, b_tile_num)
+      print "ct block = ", ct_block
+      
+      sys.exit(1)
+    
     elif self.block_style == "close":
       ''' pick from dict based on run row UP or DOWN  '''
       ct_block = random.choice(self.block_tiles_master_dict) #todo - pick from b-row keyed dict
+    
     else:
       ''' FOR NOW pick same as random'''
       ct_block = random.choice(self.b_tiles_list)
@@ -317,33 +335,25 @@ class GridBlocBoard():
 	  else:
 	    this_btile = this_btile #used passed value if exists
 	  
-	  threedubone = float((3 * self.w) + 1) # make a float of hor-tileblock + run_row_length
-	  
-	  print "self.run_row_num", self.run_row_num
-	  print "this_btile", this_btile
-	  print "threedubone", threedubone
-	  ratio_float = float(this_btile) / threedubone
-	  ratio_nofloat = this_btile / ((3 * self.w) + 1)
-	  print "ratio_float - ratio_nofloat", ratio_float, "-", ratio_nofloat
-	  ratio_decimal = ratio_float - ratio_nofloat
-	  print "ratio_decimal", ratio_decimal
-	  if ratio_decimal <= float(self.w) / threedubone:
-	    # its a horizontal blocker tile, which has an integer value (why DONT vert tiles have integer value?)
-	    b_row_num = ratio_nofloat + 1
-	  else:
-	    # its a vertical blocker within a run_row, so find it from b_row_verts tiles
-	    # get the key of the runrow-btiles dict that contains this number, thats the vert row
-	    # use the H or V dicts from _block_tiles_dict_maker
-	    # buthow is this diff between H and V tiles represented? v = integer, h = ?? (start with 999??)
+	  # ok now just look up value in self.block_tiles_master_dict and return ([1|2], rownum, tilenum)
+	  # if thisvalue in [x for v in thisdict.values() for x in v]
+	  btmd = self.block_tiles_master_dict
+	  for b_row_type,rownums in btmd.items():
+	    print "btmd = b_row_type,rownums"
+	    print b_row_type, " to ", rownums
 	    
-	    b_row_num = "99999"
-	    
-	    
-	    
-	    
-	    
-	  print "b_row_num", b_row_num
-	  return b_row_num
+	    sys.exit(1)
+	    '''
+	    for this_row_list in these_rows:
+	      print "this_row_list ", this_row_list
+	      if this_btile in [x for y in this_row_list.values() for x in y]:
+	        print "b_row_type", b_row_type
+	        print "b_row_num", b_row_num
+	        return (b_row_type, b_row_num)
+	      else:
+	        print "SOMETHING BAD with _b_row_num_from_ct_block()...stopping"
+	        sys.exit(1)
+	    '''
 
 
 #################################  
@@ -396,15 +406,16 @@ class GridBlocBoard():
     gbutil.whereami(sys._getframe().f_code.co_name)
     
     '''
+    this is the dict for parts 2 and 3 of currenttile ("ct") tuple of type, row, tilenum
     calculate the horizontal blocker tiles, range with self.w, self.vert_tile_distance, "v"
     '''
     b_hortiles_dict = {}
-    for v in range(1, self.h + 2):
-      if v == 1: firsthor = 1
-      else: firsthor = 1 + (self.vert_tile_distance * (v-1))
+    for row in range(1, self.h + 2):
+      if row == 1: firsthor = 1
+      else: firsthor = 1 + (self.vert_tile_distance * (row-1))
       print "self w = ", self.w
       print "firsthor = ", firsthor
-      b_hortiles_dict[v] = range( firsthor, firsthor+(self.w) )
+      b_hortiles_dict[row] = range( firsthor, firsthor+(self.w) )
     
     return b_hortiles_dict
     
@@ -414,15 +425,16 @@ class GridBlocBoard():
     gbutil.whereami(sys._getframe().f_code.co_name)
     
     '''
+    this is the dict for parts 2 and 3 of currenttile ("ct") tuple of type, row, tilenum
     calculate the horizontal blocker tiles, range with self.w, self.vert_tile_distance, "v"
     '''
     b_vertiles_dict = {}
-    for v in range(1, self.w + 2):
-      if v == 1: firstver = self.w + 1
-      else: firstver = (self.w + 1) + (2 * (v-1))
+    for row in range(1, self.w + 2):
+      if row == 1: firstver = self.w + 1
+      else: firstver = (self.w + 1) + (2 * (row-1))
       print "self h = ", self.h
       print "firstver = ", firstver
-      b_vertiles_dict[v] = range( firstver, firstver + (self.vert_tile_distance * (self.h)), self.vert_tile_distance)
+      b_vertiles_dict[row] = range( firstver, firstver + (self.vert_tile_distance * (self.h)), self.vert_tile_distance)
     
     return b_vertiles_dict
     
@@ -432,12 +444,11 @@ class GridBlocBoard():
     gbutil.whereami(sys._getframe().f_code.co_name)
     
     '''
-    build block_tiles_master_dict, by runrow-verticals and separator hor tiles,
-    vert b's = w+1, hor b's = h+1 (by parsing thru b_tiles_list??)
+    build block_tiles_master_dict, really just combine existing dicts with type key
     '''
-    b_tiles_master_dict = {}
-    b_tiles_master_dict['h'] = self.b_hortiles_dict
-    b_tiles_master_dict['v'] = self.b_vertiles_dict
+    b_tiles_master_dict = {} # ct = currenttile = tuple of (type, rownum, tilenum) ???
+    b_tiles_master_dict[1] = self.b_hortiles_dict # converted to int 1 for horizontals
+    b_tiles_master_dict[2] = self.b_vertiles_dict # converted to int 2 for verticals
     
     return b_tiles_master_dict
 
