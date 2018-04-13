@@ -83,8 +83,8 @@ class GridBlocBoard():
 		print "GBB self.run_tiles_byrow_dict = ", self.run_tiles_byrow_dict
 		
 		
-		self.r_tiles_list = self._run_tiles_list_maker()
-		print "GBB self.r_tiles_list = ", self.r_tiles_list
+		self.run_tiles_list = self._run_tiles_list_maker()
+		print "GBB self.run_tiles_list = ", self.run_tiles_list
 		
 		self.run_style = "random"
 		self.ct_run = self._tilepick_run()
@@ -235,13 +235,13 @@ class GridBlocBoard():
     ''' just convert the KEYED run tiles dict to a list for when thats easier'''
 
     # break out the values from run tiles
-    r_tiles_list = []
+    run_tiles_list = []
     for k,vs in self.run_tiles_byrow_dict.items():
       for v in vs: 
-        r_tiles_list.append(v)
-    print "r_tiles_list", r_tiles_list
+        run_tiles_list.append(v)
+    print "run_tiles_list", run_tiles_list
     
-    return r_tiles_list
+    return run_tiles_list
 
 
 #################################    
@@ -383,7 +383,7 @@ class GridBlocBoard():
     '''
     build MASTER array / list of BLOCKING tiles, as dict keyed by b_row_num.
     '''
-    b_tiles_list = list( set(self.all_the_tiles) - set(self.r_tiles_list) )
+    b_tiles_list = list( set(self.all_the_tiles) - set(self.run_tiles_list) )
 
     return b_tiles_list
 
