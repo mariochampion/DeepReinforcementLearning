@@ -104,7 +104,7 @@ class GridBlocBoard():
 		self.b_tiles_list = self._block_tiles_list_maker()
 		print "GBB self.b_tiles_list = ", self.b_tiles_list
 		
-		self.block_tiles_master_dict = self.b_tiles_list # todo -- make sep b-row keyed dict
+		self.block_tiles_master_dict = self._block_tiles_dict_maker() # todo -- make sep b-row keyed dict
 		print "GBB self.block_tiles_master_dict = ", self.block_tiles_master_dict
 		
 		#todo -- make block row vert and hor tiles lists
@@ -382,6 +382,23 @@ class GridBlocBoard():
     b_tiles_list = list( set(self.all_the_tiles) - set(self.r_tiles_list) )
 
     return b_tiles_list
+
+
+#################################    
+  def _block_tiles_dict_maker(self):
+    gbutil.whereami(sys._getframe().f_code.co_name)
+    
+    '''
+    build block_tiles_master_dict, by runrow-verticals and separator hor tiles
+    parsing thru b_tiles_list
+    '''
+    b_tiles_master_dict = {}
+    
+    
+    return b_tiles_master_dict
+    
+    
+
 
 
 #################################    
