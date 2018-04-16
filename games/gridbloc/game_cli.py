@@ -118,7 +118,10 @@ class GridBlocBoard():
 		
 		self.b_tile_type = self.ct_block_coords[0]
 		self.b_tile_row = self.ct_block_coords[1] # TODO  -- remove dupe naming schemes
-		self.b_runrow_num = self.b_tile_row # TODO  -- remove dupe naming schemes
+		if self.b_tile_type == 2:
+		  self.b_runrow_num = self.b_tile_row # TODO  -- remove dupe naming schemes
+		else:
+		  self.b_runrow_num = 99999 # todo -- acct for no runrow or default to below? or above?
 		self.b_tile_num = self.ct_block_coords[2]
 		print "GBB self.b_tile_type = ", self.b_tile_type
 		print "GBB self.b_tile_row = ", self.b_tile_row
