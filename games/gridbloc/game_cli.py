@@ -113,16 +113,16 @@ class GridBlocBoard():
 		print "GBB self.block_tiles_master_dict = ", self.block_tiles_master_dict
 		
 		self.block_style = "random"
-		self.ct_block = self._tilepick_block() # ct_block = (b_tile_type, b_tile_row, b_tile_num)
-		print "GBB self.ct_block = ", self.ct_block
+		self.ct_block_coords = self._pick_ct_block_coords() # ct_block_coords = (b_tile_type, b_tile_row, b_tile_num)
+		print "GBB self.ct_block_coords = ", self.ct_block_coords
 		
-		self.b_tile_type = self.ct_block[0]
-		self.b_tile_row = self.ct_block[1] # TODO  -- remove dupe naming schemes
-		self.b_row_num = self.b_tile_row # TODO  -- remove dupe naming schemes
-		self.b_tile_num = self.ct_block[2]
+		self.b_tile_type = self.ct_block_coords[0]
+		self.b_tile_row = self.ct_block_coords[1] # TODO  -- remove dupe naming schemes
+		self.b_runrow_num = self.b_tile_row # TODO  -- remove dupe naming schemes
+		self.b_tile_num = self.ct_block_coords[2]
 		print "GBB self.b_tile_type = ", self.b_tile_type
 		print "GBB self.b_tile_row = ", self.b_tile_row
-		print "GBB self.b_row_num = ", self.b_row_num
+		print "GBB self.b_runrow_num = ", self.b_runrow_num
 		print "GBB self.b_tile_num = ", self.b_tile_num
 		sys.exit(1)
 		
@@ -284,7 +284,7 @@ class GridBlocBoard():
     
 
 #################################  
-  def _tilepick_block(self):
+  def _pick_ct_block_coords(self):
     gbutil.whereami(sys._getframe().f_code.co_name)
     '''
     pick a starting block or in-game block as well. 
@@ -303,18 +303,18 @@ class GridBlocBoard():
       b_tile_num = random.choice(self.block_tiles_master_dict[b_tile_type][b_tile_row]) # from values in list
       print "b_tile_num", b_tile_num
       
-      ct_block = (b_tile_type, b_tile_row, b_tile_num)
-      print "ct block = ", ct_block
+      ct_block_coords = (b_tile_type, b_tile_row, b_tile_num)
+      print "ct_block_coords = ", ct_block_coords
       
     elif self.block_style == "close":
       ''' pick from dict based on run row UP or DOWN  '''
-      ct_block = random.choice(self.block_tiles_master_dict) #todo - pick from b-row keyed dict
+      pass
     
     else:
-      ''' FOR NOW pick same as random'''
-      ct_block = random.choice(self.b_tiles_list)
+      ''' some other scheme '''
+      pass
     
-    return ct_block
+    return ct_block_coords
 	  
 
 #################################        
@@ -326,34 +326,19 @@ class GridBlocBoard():
 
 
 #################################        
-  def _b_row_num_from_ct_block(self, this_btile = False):
+  def _b_row_num_from_ct_block_coords(self, this_btile = False):
 	  gbutil.whereami(sys._getframe().f_code.co_name)
 	  ''' find diff for b-row vs run-row-vert-tiles...''' #TODO
 	
 	  if this_btile == False:
-	    this_btile = self.ct_block
+	    this_btile = self.ct_block_coords
 	  else:
 	    this_btile = this_btile #used passed value if exists
 	  
 	  # ok now just look up value in self.block_tiles_master_dict and return ([1|2], rownum, tilenum)
 	  # if thisvalue in [x for v in thisdict.values() for x in v]
 	  btmd = self.block_tiles_master_dict
-	  for b_row_type,rownums in btmd.items():
-	    print "btmd = b_row_type,rownums"
-	    print b_row_type, " to ", rownums
-	    
-	    sys.exit(1)
-	    '''
-	    for this_row_list in these_rows:
-	      print "this_row_list ", this_row_list
-	      if this_btile in [x for y in this_row_list.values() for x in y]:
-	        print "b_row_type", b_row_type
-	        print "b_row_num", b_row_num
-	        return (b_row_type, b_row_num)
-	      else:
-	        print "SOMETHING BAD with _b_row_num_from_ct_block()...stopping"
-	        sys.exit(1)
-	    '''
+	  # TODO - FINISH THIS??
 
 
 #################################  
@@ -460,11 +445,11 @@ class GridBlocBoard():
     
     '''
     _block_row_hor_starter = ((n-1)(2w+1)) + ((n-1)(w)) + 1
-    n = self.b_row_num
+    n = self.b_runrow_num
     '''
     if this_b_row == False:  
       print "_block_row_hor_starter -- FALSE"
-      this_b_row = self.b_row_num #todo add to __init__
+      this_b_row = self.b_runrow_num #todo add to __init__
     else:
       print "_block_row_hor_starter -- TRUE"
       this_b_row = this_b_row #not needed but just to be clear to humans you can pass a tile num
