@@ -73,9 +73,6 @@ class GridBlocBoard():
 		self.all_the_tiles = range(1, (self._block_row_hor_ender(self.h)+1))
 		print "GBB self.all_the_tiles = ", self.all_the_tiles
 		
-		#print "gbb-test row 1", self._block_row_hor_ender(1)
-		#print "gbb-test row 2", self._block_row_hor_ender(2)
-		
 		self.vert_tile_distance = 3 * self.w + 1
 		print "GBB self.vert_tile_distance = ",self.vert_tile_distance
 		
@@ -87,10 +84,6 @@ class GridBlocBoard():
 		
 		self.run_tiles_list = self._run_tiles_list_maker()
 		print "GBB self.run_tiles_list = ", self.run_tiles_list
-		
-		
-		sys.exit(1)
-		
 		
 		self.run_style = "random"
 		self.ct_run = self._tilepick_run()
@@ -180,7 +173,7 @@ class GridBlocBoard():
 		self.edge_top_list = range(1, self.w+1)
 		print "GBB edge_top_list", self.edge_top_list
 		
-		self.edge_bottom_last = self._block_row_hor_starter(self.h)-1
+		self.edge_bottom_last = self._block_row_hor_ender(self.h)
 		print "GBB edge_bottom_last", self.edge_bottom_last
 		
 		self.edge_bottom_list = list( reversed( range(self.edge_bottom_last,(self.edge_bottom_last - self.w),-1) ) )
