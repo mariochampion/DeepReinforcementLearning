@@ -451,13 +451,13 @@ class GridBlocBoard():
 
 
 
-#################################  TOD - STILL WRONG, replaced by _ender in some instances  
+#################################  TODO - STILL WRONG, replaced by _ender in some instances  
   def _block_row_hor_starter(self, this_b_row=False):
     gbutil.whereami(sys._getframe().f_code.co_name)
     
     '''
     _block_row_hor_starter = ((n-1)(2w+1)) + ((n-1)(w)) + 1
-    n = self.b_runrow_num
+    n default self.b_runrow_num or param this_b_row
     '''
     print "this_b_row", this_b_row
     if this_b_row == False:  
@@ -481,8 +481,7 @@ class GridBlocBoard():
     gbutil.whereami(sys._getframe().f_code.co_name)
     
     '''
-    _block_row_hor_ender = b_row_h_start + b_row_h_len -1
-    n = self.b_runrow_num
+    b_row_h_end = (this_b_row * ((3 * self.w) + 1)) + self.w 
     '''
     print "this_b_row", this_b_row
     if this_b_row == False:  
@@ -494,7 +493,7 @@ class GridBlocBoard():
     
     print "_block_row_hor_ENDER thisrow= ", this_b_row 
     
-    b_row_h_end = (this_b_row * ((3 * self.w) + 1)) + self.w ## TODO -- yes EXCEPT for last row
+    b_row_h_end = (this_b_row * ((3 * self.w) + 1)) + self.w 
     print "b_row_h_end ---", b_row_h_end
 
     return b_row_h_end
