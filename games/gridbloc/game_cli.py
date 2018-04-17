@@ -117,17 +117,20 @@ class GridBlocBoard():
 		print "GBB self.ct_block_coords = ", self.ct_block_coords
 		
 		self.b_tile_type = self.ct_block_coords[0]
-		self.b_tile_row = self.ct_block_coords[1] # TODO  -- remove dupe naming schemes
-		if self.b_tile_type == 2:
-		  self.b_runrow_num = self.b_tile_row # TODO  -- remove dupe naming schemes
-		else:
+		self.b_tile_row = self.ct_block_coords[1]
+
+		# if clocker tile is in a run row, give it a useful name for later. it s cheap to do so!
+		if self.b_tile_type == 2: 
+		  # TODO - follow thru where self.b_runrow_num is used
 		  self.b_runrow_num = 99999 # todo -- acct for no runrow or default to below? or above?
+		else:
+		  self.b_runrow_num = self.b_tile_row # TODO  -- remove dupe naming schemes
+		  
 		self.b_tile_num = self.ct_block_coords[2]
 		print "GBB self.b_tile_type = ", self.b_tile_type
 		print "GBB self.b_tile_row = ", self.b_tile_row
 		print "GBB self.b_runrow_num = ", self.b_runrow_num
 		print "GBB self.b_tile_num = ", self.b_tile_num
-		sys.exit(1)
 		
 		self.b_row_v_left_first = self.b_row_h_len + 1
 		print "GBB self.b_row_v_left_first = ", self.b_row_v_left_first
