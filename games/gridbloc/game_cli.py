@@ -70,8 +70,11 @@ class GridBlocBoard():
 		self.h = h
 		print "GBB self.h = ", h
 		
-		self.all_the_tiles = range(1, self._block_row_hor_starter(self.h))
+		self.all_the_tiles = range(1, (self._block_row_hor_ender(self.h)+1))
 		print "GBB self.all_the_tiles = ", self.all_the_tiles
+		
+		#print "gbb-test row 1", self._block_row_hor_ender(1)
+		#print "gbb-test row 2", self._block_row_hor_ender(2)
 		
 		self.vert_tile_distance = 3 * self.w + 1
 		print "GBB self.vert_tile_distance = ",self.vert_tile_distance
@@ -82,9 +85,12 @@ class GridBlocBoard():
 		self.run_tiles_byrow_dict = self._run_tiles_dict_maker() # keyed by rownum
 		print "GBB self.run_tiles_byrow_dict = ", self.run_tiles_byrow_dict
 		
-		
 		self.run_tiles_list = self._run_tiles_list_maker()
 		print "GBB self.run_tiles_list = ", self.run_tiles_list
+		
+		
+		sys.exit(1)
+		
 		
 		self.run_style = "random"
 		self.ct_run = self._tilepick_run()
@@ -445,7 +451,7 @@ class GridBlocBoard():
 
 
 
-#################################    
+#################################  TOD - STILL WRONG, replaced by _ender in some instances  
   def _block_row_hor_starter(self, this_b_row=False):
     gbutil.whereami(sys._getframe().f_code.co_name)
     
@@ -453,9 +459,10 @@ class GridBlocBoard():
     _block_row_hor_starter = ((n-1)(2w+1)) + ((n-1)(w)) + 1
     n = self.b_runrow_num
     '''
+    print "this_b_row", this_b_row
     if this_b_row == False:  
       print "_block_row_hor_starter -- FALSE"
-      this_b_row = self.b_runrow_num #todo add to __init__
+      this_b_row = self.b_runrow_num 
     else:
       print "_block_row_hor_starter -- TRUE"
       this_b_row = this_b_row #not needed but just to be clear to humans you can pass a tile num
@@ -470,14 +477,26 @@ class GridBlocBoard():
 
 
 #################################    
-  def _block_row_hor_ender(self):
+  def _block_row_hor_ender(self, this_b_row=False):
     gbutil.whereami(sys._getframe().f_code.co_name)
     
     '''
     _block_row_hor_ender = b_row_h_start + b_row_h_len -1
+    n = self.b_runrow_num
     '''
-    print "_block_row_hor_ENDER self.run_row_num= ", self.run_row_num
-    b_row_h_end = self.b_row_h_start + self.b_row_h_len -1
+    print "this_b_row", this_b_row
+    if this_b_row == False:  
+      print "_block_row_hor_ender -- FALSE"
+      this_b_row = self.b_runrow_num 
+    else:
+      print "_block_row_hor_ender -- TRUE"
+      this_b_row = this_b_row #not needed but just to be clear to humans you can pass a tile num
+    
+    print "_block_row_hor_ENDER thisrow= ", this_b_row 
+    
+    b_row_h_end = (this_b_row * ((3 * self.w) + 1)) + self.w ## TODO -- yes EXCEPT for last row
+    print "b_row_h_end ---", b_row_h_end
+
     return b_row_h_end
     
   
