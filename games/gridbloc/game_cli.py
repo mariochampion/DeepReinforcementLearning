@@ -92,7 +92,8 @@ class GridBlocBoard():
 		self.ct_run = self._tilepick_run()
 		print "GBB self.ct_run = ", self.ct_run
 		
-		self.run_row_num = self._run_row_from_ct_run() #formerly "n"
+		#formerly "n" as in R(subscript n)
+		self.run_row_num = math.ceil( float(self.ct_run) / float((3 * self.w) + 1) )
 		print "GBB self.run_row_num = ", self.run_row_num
 
 		self.run_row_leftedge = self._run_row_left_edge(self.run_row_num)
@@ -275,7 +276,7 @@ class GridBlocBoard():
     
     if self.run_style == "random":
       list_tilepick = random.choice(list(self.run_tiles_byrow_dict))
-      print "list_tilepick", str(list_tilepick)
+      print "list_tilepick = run row = ", str(list_tilepick)
       ct_run = random.choice( list(self.run_tiles_byrow_dict[list_tilepick]) )
     else:
       list_tilepick = random.choice(list(self.run_tiles_byrow_dict))
@@ -317,14 +318,6 @@ class GridBlocBoard():
     
     return ct_block_coords
 	  
-
-#################################        
-  def _run_row_from_ct_run(self):
-	gbutil.whereami(sys._getframe().f_code.co_name)
-	''' should this be formula or dict look up.
-	run_row_num = math.ceil( float(self.ct_run) / float((3 * self.w) + 1) '''
-	run_row_num = math.ceil( float(self.ct_run) / float((3 * self.w) + 1) )
-	return run_row_num
 
 
 #################################        
