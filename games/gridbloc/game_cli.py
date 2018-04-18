@@ -110,7 +110,6 @@ class GridBlocBoard():
 		self.b_hortiles_dict = self._b_hortiles_dict_maker()
 		self.b_vertiles_dict = self._b_vertiles_dict_maker()
 		self.block_tiles_master_dict = self._block_tiles_dict_maker()
-
 		print "GBB self.b_hortiles_dict = ", self.b_hortiles_dict
 		print "GBB self.b_vertiles_dict = ", self.b_vertiles_dict
 		print "GBB self.block_tiles_master_dict = ", self.block_tiles_master_dict
@@ -121,19 +120,21 @@ class GridBlocBoard():
 		
 		self.b_tile_type = self.ct_block_coords[0]
 		self.b_tile_row = self.ct_block_coords[1]
-
-		# if blocker tile is in a run row, give it a useful name for later. it s cheap to do so!
-		if self.b_tile_type == 2: # hor = 1 or vert = 2 tile type
-		  # TODO - follow thru where self.b_runrow_num is used
-		  self.b_runrow_num = False 
-		else:
-		  self.b_runrow_num = self.b_tile_row 
-		  
 		self.b_tile_num = self.ct_block_coords[2]
+		
 		print "GBB self.b_tile_type = ", self.b_tile_type, "   (h=1 or v=2 tile type)"
 		print "GBB self.b_tile_row = ", self.b_tile_row
-		print "GBB self.b_runrow_num = ", self.b_runrow_num
 		print "GBB self.b_tile_num = ", self.b_tile_num
+		print
+		
+		# if blocker tile is in a run row, give it a useful name for later. it s cheap to do so!
+		if self.b_tile_type == 1: # hor = 1 or vert = 2 tile type
+		  # TODO - follow thru where self.b_runrow_num is used
+		  self.b_runrow_num = self.b_tile_row 
+		else:
+		  self.b_runrow_num = False 
+		  
+		print "GBB self.b_runrow_num = ", self.b_runrow_num
 		
 		  		
 		self.b_row_h_nums = self.w +1
@@ -146,13 +147,13 @@ class GridBlocBoard():
 		print "GBB self.b_row_v_left_first = ", self.b_row_v_left_first
 		
 		self.b_row_v_left_last = self.b_row_v_left_first + ( (self.h - 1)  * self.vert_tile_distance)
-		print "GBB b_row_v_left_last", self.b_row_v_left_last
+		print "GBB self.b_row_v_left_last", self.b_row_v_left_last
 		
 		self.b_row_v_right_first = (3 * self.b_row_h_len) + 1
-		print "GBB b_row_v_right_first = ", self.b_row_v_right_first
+		print "GBB self.b_row_v_right_first = ", self.b_row_v_right_first
 		
 		self.b_row_v_right_last = self.b_row_v_right_first + ( (self.h - 1)  * self.vert_tile_distance)
-		print "GBB b_row_v_right_last = ", self.b_row_v_right_last
+		print "GBB self.b_row_v_right_last = ", self.b_row_v_right_last
 
 		# if HORIZONTAL blocker tile
 		self.b_row_h_start = self._block_row_hor_starter() # TODO - need conditional, need to move?
@@ -378,7 +379,7 @@ class GridBlocBoard():
     gbutil.whereami(sys._getframe().f_code.co_name)
     
     '''
-    build MASTER array / list of BLOCKING tiles, as dict keyed by b_row_num.
+    build MASTER array / list of BLOCKING tiles from existing data.
     '''
     b_tiles_list = list( set(self.all_the_tiles) - set(self.run_tiles_list) )
 
@@ -446,6 +447,7 @@ class GridBlocBoard():
     _block_row_hor_starter = ((n-1)(2w+1)) + ((n-1)(w)) + 1
     n  = default self.b_runrow_num or param this_b_row
     '''
+    # TODO -- need nested conditional for thisbrow false diff from tiletype = 1
     print "this_b_row is HORizontal", this_b_row
     if this_b_row == False:  
       print "_block_row_hor_starter -- FALSE"
@@ -468,12 +470,12 @@ class GridBlocBoard():
     '''
     b_row_h_end = (this_b_row * ((3 * self.w) + 1)) + self.w 
     '''
-    
+    # TODO -- need nested conditional for thisbrow false diff from tiletype = 1
     print "this_b_row is HORizontal", this_b_row
     if this_b_row == False:  
       print "_block_row_hor_ender -- FALSE"
       this_b_row = self.b_runrow_num 
-      b_row_h_end = (this_b_row * ((3 * self.w) + 1)) + self.w
+      b_row_h_end = False
     else:
       print "_block_row_hor_ender -- TRUE"
       this_b_row = this_b_row # just to be clear to humans you can pass a tile num
@@ -491,6 +493,7 @@ class GridBlocBoard():
     '''
     _block_row_hor_list = range(self.b_row_h_start, (self.b_row_h_len - 1 )
     '''
+    
     print "self.b_row_h_start,", int(self.b_row_h_start)
     print "self.b_row_h_len", self.b_row_h_len
     b_row_h_list = range( int(self.b_row_h_start), int(self.b_row_h_start) + self.b_row_h_len )
@@ -504,6 +507,7 @@ class GridBlocBoard():
     '''
     _block_row_vert_starter = run_row_leftedge -1
     '''
+    # TODO -- need nested conditional for thisbrow false diff from tiletype = 2
     b_row_v_start = (self.run_row_leftedge - 1)
     return b_row_v_start
      
@@ -515,6 +519,7 @@ class GridBlocBoard():
     '''
     _block_row_vert_ender = block_row_vert_starter + 2w
     '''
+    # TODO -- need nested conditional for thisbrow false diff from tiletype = 2
     b_row_v_end = self.b_row_v_start + (2 * self.w)
     return b_row_v_end
 
