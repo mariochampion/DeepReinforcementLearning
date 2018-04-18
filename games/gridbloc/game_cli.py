@@ -154,25 +154,25 @@ class GridBlocBoard():
 		print "GBB b_row_v_right_last = ", self.b_row_v_right_last
 
 		# if HORIZONTAL blocker tile
-		self.b_row_h_start = self._block_row_hor_starter() # TODO - wrong
+		self.b_row_h_start = self._block_row_hor_starter() # TODO - need conditional, need to move?
 		print "GBB self.b_row_h_start = ", self.b_row_h_start
 		
-		self.b_row_h_end = self._block_row_hor_ender()
+		self.b_row_h_end = self._block_row_hor_ender() # TODO - need conditional, need to move?
 		print "GBB self.b_row_h_end = ", self.b_row_h_end
 
 		
 		# if VERTICAL blocker tile
-		self.b_row_v_start = self._block_row_vert_starter()  ## TODO -- wrong
-		print "GBB self.b_row_v_startrow_len = ", self.b_row_v_start
+		self.b_row_v_start = self._block_row_vert_starter()  # TODO - need conditional, need to move?
+		print "GBB self.b_row_v_start = ", self.b_row_v_start
 		
-		self.b_row_v_end = self._block_row_vert_ender()  ## TODO -- wrong
+		self.b_row_v_end = self._block_row_vert_ender()  # TODO - need conditional, need to move?
 		print "GBB self.b_row_v_end = ", self.b_row_v_end
 
 
-		self.b_row_v_list = self._block_row_vert_list()
+		self.b_row_v_list = self._block_row_vert_list() # TODO - need conditional, need to move?
 		print "GBB self.b_row_v_list = ", self.b_row_v_list
 
-		self.b_row_h_list = self._block_row_hor_list() ## TODO -- wrong
+		self.b_row_h_list = self._block_row_hor_list() # TODO - need conditional, need to move?
 		print "GBB self.b_row_h_list = ", self.b_row_h_list
 		
 		
@@ -453,19 +453,17 @@ class GridBlocBoard():
     _block_row_hor_starter = ((n-1)(2w+1)) + ((n-1)(w)) + 1
     n  = default self.b_runrow_num or param this_b_row
     '''
-    print "this_b_row", this_b_row
+    print "this_b_row is HORizontal", this_b_row
     if this_b_row == False:  
       print "_block_row_hor_starter -- FALSE"
-      this_b_row = self.b_runrow_num 
+      b_row_h_start = False
     else:
       print "_block_row_hor_starter -- TRUE"
       this_b_row = this_b_row # just to be clear to humans you can pass a tile num
+      b_row_h_start = (this_b_row * ((3 * self.w) + 1)) + self.w + 1 
     
-    print "_block_row_hor_STARTER thisrow= ", this_b_row 
+    print "b_row_h_start ---", this_b_row ,"so", b_row_h_start
     
-    b_row_h_start = (this_b_row * ((3 * self.w) + 1)) + self.w + 1 ## TODO --correct after _ender changes?
-    print "b_row_h_start ---", b_row_h_start
-
     return b_row_h_start
 
 
@@ -478,18 +476,17 @@ class GridBlocBoard():
     b_row_h_end = (this_b_row * ((3 * self.w) + 1)) + self.w 
     '''
     
-    print "this_b_row", this_b_row
+    print "this_b_row is HORizontal", this_b_row
     if this_b_row == False:  
       print "_block_row_hor_ender -- FALSE"
       this_b_row = self.b_runrow_num 
+      b_row_h_end = (this_b_row * ((3 * self.w) + 1)) + self.w
     else:
       print "_block_row_hor_ender -- TRUE"
-      this_b_row = this_b_row #not needed but just to be clear to humans you can pass a tile num
+      this_b_row = this_b_row # just to be clear to humans you can pass a tile num
+      b_row_h_end = (this_b_row * ((3 * self.w) + 1)) + self.w
     
-    print "_block_row_hor_ENDER thisrow= ", this_b_row 
-    
-    b_row_h_end = (this_b_row * ((3 * self.w) + 1)) + self.w 
-    print "b_row_h_end ---", b_row_h_end
+    print "b_row_h_end ---", this_b_row ,"so", b_row_h_end 
     
     return b_row_h_end
     
