@@ -170,10 +170,7 @@ class GridBlocBoard():
 		self.edge_top_list = range(1, self.w+1)
 		print "GBB edge_top_list", self.edge_top_list
 		
-		self.edge_bottom_last = self._block_row_hor_ender(self.h)
-		print "GBB edge_bottom_last", self.edge_bottom_last
-		
-		self.edge_bottom_list = list( reversed( range(self.edge_bottom_last,(self.edge_bottom_last - self.w),-1) ) )
+		self.edge_bottom_list = list( reversed( range(self.tile_max,(self.tile_max - self.w),-1) ) )
 		print "GBB edge_bottom_list", self.edge_bottom_list
 		
 		self.edge_left_list = range(self.b_row_v_left_first, self.b_row_v_left_last+1, self.vert_tile_distance)
