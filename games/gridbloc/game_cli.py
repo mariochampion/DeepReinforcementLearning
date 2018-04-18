@@ -155,12 +155,8 @@ class GridBlocBoard():
 		self.b_row_v_right_last = self.b_row_v_right_first + ( (self.h - 1)  * self.vert_tile_distance)
 		print "GBB self.b_row_v_right_last = ", self.b_row_v_right_last
 
-		# if VERTICAL blocker tile
-		self.b_row_v_start = self._block_row_vert_starter(thisrunrow)  
-		# TODO - need conditional, need to move?
-		print "GBB self.b_row_v_start = ", self.b_row_v_start
 		
-		self.b_row_v_end = self._block_row_vert_ender(thisrunrow)  
+		self.b_row_v_end = self._run_row_right_edge(thisrunrow)  
 		# TODO - need conditional, need to move?
 		print "GBB self.b_row_v_end = ", self.b_row_v_end
 
@@ -260,7 +256,20 @@ class GridBlocBoard():
     run_row_leftedge = (row_num * self.w) + ( (row_num - 1) * ( (2 * self.w) + 1) ) + 1    
     return run_row_leftedge
     
+
+#################################    
+  def _run_row_right_edge(self, row_num):
+    gbutil.whereami(sys._getframe().f_code.co_name)
     
+    ''' return int of RIGHT most VERTICAL tile on a runrow '''
+    print "ROW_NUM PASSSED:",str(row_num)
+    leftedge = _run_row_left_edge(row_num)
+    run_row_rightedge = leftedge + (2 * self.w)
+    
+    
+    return run_row_rightedge
+
+
 #################################  
   def _tilepick_run(self):
     gbutil.whereami(sys._getframe().f_code.co_name)
@@ -491,31 +500,12 @@ class GridBlocBoard():
     if this_b_row == False and self.b_tile_type == 1: this_b_row = self.b_tile_row
     
     b_row_h_start = self._block_row_hor_starter(this_b_row)
-    print "b_row_h_start,", b_row_h_start)
+    print "b_row_h_start,", b_row_h_start
     b_row_h_list = range( b_row_h_start, b_row_h_start + self.b_row_h_len )
 
     return b_row_h_list
 
-
-#################################    
-  def _block_row_vert_starter(self, thisrunrow):
-    gbutil.whereami(sys._getframe().f_code.co_name)
-    
-    ''' _block_row_vert_starter = run_row_leftedge -1 '''
-    # TODO -- need nested conditional for this-b-row false diff from tiletype = 2
-    b_row_v_start = (self.run_row_leftedge - 1)
-    return b_row_v_start
      
-
-#################################    
-  def _block_row_vert_ender(self, thisrunrow):
-    gbutil.whereami(sys._getframe().f_code.co_name)
-    
-    ''' _block_row_vert_ender = block_row_vert_starter + 2w '''
-    # TODO -- need nested conditional for thisbrow false diff from tiletype = 2
-    b_row_v_end = self.b_row_v_start + (2 * self.w)
-    return b_row_v_end
-
 
 #################################    
   def _block_row_vert_list(self, thisrunrow):
@@ -523,10 +513,11 @@ class GridBlocBoard():
     
     ''' create list of VERTICAL blocker tiles in this run row '''
     
-    if thisrunrow == False and self.b_tile_type == 2: thisrunrow = self.b_tile_row
-    b_row_v_start = self._block_row_vert_starter(thisrunrow)
+    if thisrunrow == False and self.b_tile_type == 2: thisrunrow = self.run_row_num
+    b_row_v_start = self._run_row_left_edge(thisrunrow)
+    b_row_v_end = self._run_row_right_edge(thisrunrow)
     
-    b_row_v_list = range(int(self.b_row_v_start), int(self.b_row_v_end), 2) 
+    b_row_v_list = range(b_row_v_start, b_row_v_end, 2) 
     return b_row_v_list
 
 
