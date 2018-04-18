@@ -70,15 +70,18 @@ class GridBlocBoard():
 		self.h = h
 		print "GBB self.h = ", h
 		
-		self.all_the_tiles = range(1, (self._block_row_hor_ender(self.h)+1))
+		self.tile_max = (self.h * ( (3 * self.w) + 1) ) + self.w
+		print "GBB self.tile_max = ", self.tile_max
+
+		self.all_the_tiles = range(1, (self.tile_max+1))
 		print "GBB self.all_the_tiles = ", self.all_the_tiles
-		
+
 		self.vert_tile_distance = 3 * self.w + 1
 		print "GBB self.vert_tile_distance = ",self.vert_tile_distance
 		
-		self.run_row_len = self._row_len_calc()
+		self.run_row_len = 2 * self.w + 1
 		print "GBB self.run_row_len = ", self.run_row_len
-		
+
 		self.run_tiles_byrow_dict = self._run_tiles_dict_maker() # keyed by rownum
 		print "GBB self.run_tiles_byrow_dict = ", self.run_tiles_byrow_dict
 		
@@ -205,18 +208,6 @@ class GridBlocBoard():
 #################################
 ### start some FUNcs()
 #################################		
-  # also called run_row_length()
-  def _row_len_calc(self):
-    gbutil.whereami(sys._getframe().f_code.co_name)
-    
-    '''
-    for every tile, there is a left side, then one more right side at the end
-    (or, of course you can think of this as rights with one left)
-    '''
-    
-    run_row_len = 2 * self.w + 1
-    return run_row_len
-
 
 #################################
   def _run_tiles_dict_maker(self):
@@ -485,18 +476,24 @@ class GridBlocBoard():
     '''
     b_row_h_end = (this_b_row * ((3 * self.w) + 1)) + self.w 
     '''
-    print "this_b_row", this_b_row
-    if this_b_row == False:  
-      print "_block_row_hor_ender -- FALSE"
-      this_b_row = self.b_runrow_num 
+    
+    #condition check for self.ct_block_coords[0] (tiletype) is appropriate
+    if self.ct_block_coords[0]==1:
+      print "this_b_row", this_b_row
+      if this_b_row == False:  
+        print "_block_row_hor_ender -- FALSE"
+        this_b_row = self.b_runrow_num 
+      else:
+        print "_block_row_hor_ender -- TRUE"
+        this_b_row = this_b_row #not needed but just to be clear to humans you can pass a tile num
+    
+      print "_block_row_hor_ENDER thisrow= ", this_b_row 
+    
+      b_row_h_end = (this_b_row * ((3 * self.w) + 1)) + self.w 
+      print "b_row_h_end ---", b_row_h_end
     else:
-      print "_block_row_hor_ender -- TRUE"
-      this_b_row = this_b_row #not needed but just to be clear to humans you can pass a tile num
-    
-    print "_block_row_hor_ENDER thisrow= ", this_b_row 
-    
-    b_row_h_end = (this_b_row * ((3 * self.w) + 1)) + self.w 
-    print "b_row_h_end ---", b_row_h_end
+      print "woops, shouldnt be calling _block_row_hor_ender() if VERT blocker tile"
+      b_row_h_end = False
 
     return b_row_h_end
     
