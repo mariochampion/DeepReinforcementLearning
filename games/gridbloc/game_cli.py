@@ -155,13 +155,13 @@ class GridBlocBoard():
 		self.b_row_v_right_last = self.b_row_v_right_first + ( (self.h - 1)  * self.vert_tile_distance)
 		print "GBB self.b_row_v_right_last = ", self.b_row_v_right_last
 
-		self.b_row_v_list = self._block_row_vert_list(thisrunrow = False) 
 		# TODO - wrong calc condition when tiletype == 1
+		self.b_row_v_list = self._block_row_vert_list(thisrunrow = False) 
 		print "GBB self.b_row_v_list = ", self.b_row_v_list
 
-		self.b_row_h_list = self._block_row_hor_list(this_b_row = False) 
-		# TODO - get from self.block_tiles_master_dict
+		# TODO - wrong calc condition when tiletype == 2
 		# TODO - error of [0] in output if b_row_h_start = false
+		self.b_row_h_list = self._block_row_hor_list(this_b_row = False) 
 		print "GBB self.b_row_h_list = ", self.b_row_h_list 
 		
 		
