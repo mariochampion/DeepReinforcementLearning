@@ -486,11 +486,15 @@ class GridBlocBoard():
     gbutil.whereami(sys._getframe().f_code.co_name)
     
     ''' create list of horizontal blocker tiles on THIS B ROW '''
-    if this_b_row == False and self.b_tile_type == 1: this_b_row = self.b_tile_row
-    print "this_b_row", this_b_row
-    b_row_h_start = self._block_row_hor_starter(this_b_row)
-    print "b_row_h_start,", b_row_h_start
-    b_row_h_list = range( b_row_h_start, b_row_h_start + self.b_row_h_len )
+    if this_b_row == False: this_b_row = self.b_tile_row
+    
+    if self.b_tile_type == 1:
+        b_row_h_start = self._block_row_hor_starter(this_b_row)
+        b_row_h_list = range( b_row_h_start, b_row_h_start + self.b_row_h_len )
+    else:
+        b_row_h_list = False
+        
+    print "this_b_row", this_b_row, "for b_row_h_list", b_row_h_list
 
     return b_row_h_list
 
@@ -502,12 +506,17 @@ class GridBlocBoard():
     
     ''' create list of VERTICAL blocker tiles in this run row '''
     
-    if thisrunrow == False and self.b_tile_type == 2: thisrunrow = self.run_row_num
-    print "thisrunrow", thisrunrow
-    b_row_v_start = self._run_row_left_edge(thisrunrow)
-    b_row_v_end = self._run_row_right_edge(thisrunrow)
+    if thisrunrow == False: thisrunrow = self.run_row_num
     
-    b_row_v_list = range(b_row_v_start, b_row_v_end, 2) 
+    if self.b_tile_type == 2:
+        b_row_v_start = self._run_row_left_edge(thisrunrow)
+        b_row_v_end = self._run_row_right_edge(thisrunrow)
+        b_row_v_list = range(b_row_v_start, b_row_v_end, 2) 
+    else:
+        b_row_v_list = False   
+      
+    print "thisrunrow",thisrunrow,"for b_row_v_list", b_row_v_list
+    
     return b_row_v_list
 
 
