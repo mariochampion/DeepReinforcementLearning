@@ -344,6 +344,8 @@ class GridBlocBoard():
 	  # if thisvalue in [x for v in thisdict.values() for x in v]
 	  btmd = self.block_tiles_master_dict
 	  # TODO - FINISH THIS??
+	  
+	  return
 
 
 #################################  
@@ -458,11 +460,11 @@ class GridBlocBoard():
       this_b_row = self.b_runrow_num 
     else:
       print "_block_row_hor_starter -- TRUE"
-      this_b_row = this_b_row #not needed but just to be clear to humans you can pass a tile num
+      this_b_row = this_b_row # just to be clear to humans you can pass a tile num
     
     print "_block_row_hor_STARTER thisrow= ", this_b_row 
     
-    b_row_h_start = (this_b_row * ((3 * self.w) + 1)) + self.w + 1 ## TODO -- yes EXCEPT for last row
+    b_row_h_start = (this_b_row * ((3 * self.w) + 1)) + self.w + 1 ## TODO --correct after _ender changes?
     print "b_row_h_start ---", b_row_h_start
 
     return b_row_h_start
