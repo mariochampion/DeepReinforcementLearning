@@ -118,18 +118,27 @@ class GridBlocBoard():
 		self.b_tile_type = self.ct_block_coords[0]
 		self.b_tile_row = self.ct_block_coords[1]
 
-		# if clocker tile is in a run row, give it a useful name for later. it s cheap to do so!
-		if self.b_tile_type == 2: # h=1 or v=2 tile type
+		# if blocker tile is in a run row, give it a useful name for later. it s cheap to do so!
+		if self.b_tile_type == 2: # hor = 1 or vert = 2 tile type
 		  # TODO - follow thru where self.b_runrow_num is used
 		  self.b_runrow_num = False 
 		else:
-		  self.b_runrow_num = self.b_tile_row # TODO  -- remove dupe naming schemes
+		  self.b_runrow_num = self.b_tile_row 
 		  
 		self.b_tile_num = self.ct_block_coords[2]
 		print "GBB self.b_tile_type = ", self.b_tile_type, "   (h=1 or v=2 tile type)"
 		print "GBB self.b_tile_row = ", self.b_tile_row
 		print "GBB self.b_runrow_num = ", self.b_runrow_num
 		print "GBB self.b_tile_num = ", self.b_tile_num
+		
+		self.b_row_v_list = self._block_row_vert_list()
+		print "GBB self.b_row_v_list = ", self.b_row_v_list
+		
+		self.b_row_h_nums = self.w +1
+		print "GBB self.b_row_h_nums = ", self.b_row_h_nums
+		
+		self.b_row_v_nums = self.w +1
+		print "GBB self.b_row_v_nums = ", self.b_row_v_nums
 		
 		self.b_row_v_left_first = self.b_row_h_len + 1
 		print "GBB self.b_row_v_left_first = ", self.b_row_v_left_first
@@ -143,32 +152,27 @@ class GridBlocBoard():
 		self.b_row_v_right_last = self.b_row_v_right_first + ( (self.h - 1)  * self.vert_tile_distance)
 		print "GBB b_row_v_right_last = ", self.b_row_v_right_last
 		
-		# actually just need to clarify which BLOCK row... not runrowtop & runrowbottom
-		self.b_row_h_start = self._block_row_hor_starter() # TODO - wrong
-		print "GBB self.b_row_h_start = ", self.b_row_h_start
 		
-		self.b_row_h_end = self._block_row_hor_ender()
-		print "GBB self.b_row_h_end = ", self.b_row_h_end
+		# if HORIZONTAL blocker tile
+		if self.b_tile_type == 1:
+		  self.b_row_h_start = self._block_row_hor_starter() # TODO - wrong
+		  print "GBB self.b_row_h_start = ", self.b_row_h_start
 		
-		self.b_row_h_list = self._block_row_hor_list() ## TODO -- wrong
-		print "GBB self.b_row_h_list = ", self.b_row_h_list
+		  self.b_row_h_end = self._block_row_hor_ender()
+		  print "GBB self.b_row_h_end = ", self.b_row_h_end
 		
-		self.b_row_v_start = self._block_row_vert_starter()  ## TODO -- wrong
-		print "GBB self.b_row_v_startrow_len = ", self.b_row_v_start
+		  self.b_row_h_list = self._block_row_hor_list() ## TODO -- wrong
+		  print "GBB self.b_row_h_list = ", self.b_row_h_list
 		
-		self.b_row_v_end = self._block_row_vert_ender()  ## TODO -- wrong
-		print "GBB self.b_row_v_end = ", self.b_row_v_end
+		# if VERTICAL blocker tile
+		if self.b_tile_type == 2:
+		  self.b_row_v_start = self._block_row_vert_starter()  ## TODO -- wrong
+		  print "GBB self.b_row_v_startrow_len = ", self.b_row_v_start
 		
-		self.b_row_v_list = self._block_row_vert_list()
-		print "GBB self.b_row_v_list = ", self.b_row_v_list
+		  self.b_row_v_end = self._block_row_vert_ender()  ## TODO -- wrong
+		  print "GBB self.b_row_v_end = ", self.b_row_v_end
 		
-		self.b_row_h_nums = self.w +1
-		print "GBB self.b_row_h_nums = ", self.b_row_h_nums
 		
-		self.b_row_v_nums = self.w +1
-		print "GBB self.b_row_v_nums = ", self.b_row_v_nums
-		
-
 		######## edges
 		self.edge_top_list = range(1, self.w+1)
 		print "GBB edge_top_list", self.edge_top_list
