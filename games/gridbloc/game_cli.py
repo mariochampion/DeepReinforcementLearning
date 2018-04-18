@@ -163,6 +163,7 @@ class GridBlocBoard():
 		# TODO - error of [0] in output if b_row_h_start = false
 		self.b_row_h_list = self._block_row_hor_list(this_b_row = False) 
 		print "GBB self.b_row_h_list = ", self.b_row_h_list 
+		print
 		
 		
 		
@@ -449,7 +450,8 @@ class GridBlocBoard():
     else:
       print "_block_row_hor_starter -- TRUE"
       this_b_row = this_b_row # just to be clear to humans you can pass a tile num
-      b_row_h_start = ((this_b_row-1) * ((3 * self.w) + 1)) + self.w + 1 
+      ## WRONG - b_row_h_start = ((this_b_row-1) * ((3 * self.w) + 1)) + self.w + 1 
+      b_row_h_start = self.b_hortiles_dict[this_b_row][0]
     
     print "b_row_h_start --- runrow", this_b_row ,"so", b_row_h_start
     
@@ -487,10 +489,10 @@ class GridBlocBoard():
     
     ''' create list of horizontal blocker tiles on THIS B ROW '''
     if this_b_row == False: this_b_row = self.b_tile_row
+    print "H this_b_row", this_b_row
     
     if self.b_tile_type == 1:
-        b_row_h_start = self._block_row_hor_starter(this_b_row)
-        b_row_h_list = range( b_row_h_start, b_row_h_start + self.b_row_h_len )
+        b_row_h_list = self.b_hortiles_dict[this_b_row]
     else:
         b_row_h_list = False
         
@@ -507,11 +509,10 @@ class GridBlocBoard():
     ''' create list of VERTICAL blocker tiles in this run row '''
     
     if thisrunrow == False: thisrunrow = self.run_row_num
+    print "V thisrunrow",thisrunrow
     
     if self.b_tile_type == 2:
-        b_row_v_start = self._run_row_left_edge(thisrunrow)
-        b_row_v_end = self._run_row_right_edge(thisrunrow)
-        b_row_v_list = range(b_row_v_start, b_row_v_end, 2) 
+        b_row_v_list = self.b_vertiles_dict[thisrunrow]
     else:
         b_row_v_list = False   
       
