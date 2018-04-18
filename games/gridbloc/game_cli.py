@@ -155,17 +155,11 @@ class GridBlocBoard():
 		self.b_row_v_right_last = self.b_row_v_right_first + ( (self.h - 1)  * self.vert_tile_distance)
 		print "GBB self.b_row_v_right_last = ", self.b_row_v_right_last
 
-		
-		self.b_row_v_end = self._run_row_right_edge(thisrunrow)  
-		# TODO - need conditional, need to move?
-		print "GBB self.b_row_v_end = ", self.b_row_v_end
-
-
-		self.b_row_v_list = self._block_row_vert_list(thisrunrow) 
+		self.b_row_v_list = self._block_row_vert_list(thisrunrow = False) 
 		# TODO - wrong calc condition when tiletype == 1
 		print "GBB self.b_row_v_list = ", self.b_row_v_list
 
-		self.b_row_h_list = self._block_row_hor_list(this_b_row) 
+		self.b_row_h_list = self._block_row_hor_list(this_b_row = False) 
 		# TODO - get from self.block_tiles_master_dict
 		print "GBB self.b_row_h_list = ", self.b_row_h_list
 		
@@ -263,7 +257,7 @@ class GridBlocBoard():
     
     ''' return int of RIGHT most VERTICAL tile on a runrow '''
     print "ROW_NUM PASSSED:",str(row_num)
-    leftedge = _run_row_left_edge(row_num)
+    leftedge = self._run_row_left_edge(row_num)
     run_row_rightedge = leftedge + (2 * self.w)
     
     
@@ -498,10 +492,10 @@ class GridBlocBoard():
     
     ''' create list of horizontal blocker tiles on THIS B ROW '''
     if this_b_row == False and self.b_tile_type == 1: this_b_row = self.b_tile_row
-    
+    print "this_b_row", this_b_row
     b_row_h_start = self._block_row_hor_starter(this_b_row)
     print "b_row_h_start,", b_row_h_start
-    b_row_h_list = range( b_row_h_start, b_row_h_start + self.b_row_h_len )
+    b_row_h_list = range( int(b_row_h_start), int(b_row_h_start + self.b_row_h_len) )
 
     return b_row_h_list
 
@@ -514,10 +508,11 @@ class GridBlocBoard():
     ''' create list of VERTICAL blocker tiles in this run row '''
     
     if thisrunrow == False and self.b_tile_type == 2: thisrunrow = self.run_row_num
+    print "thisrunrow", thisrunrow
     b_row_v_start = self._run_row_left_edge(thisrunrow)
     b_row_v_end = self._run_row_right_edge(thisrunrow)
     
-    b_row_v_list = range(b_row_v_start, b_row_v_end, 2) 
+    b_row_v_list = range(int(b_row_v_start), int(b_row_v_end), 2) 
     return b_row_v_list
 
 
