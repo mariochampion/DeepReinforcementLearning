@@ -89,7 +89,7 @@ class GridBlocBoard():
 		self.ct_run = self._tilepick_run()
 		print "GBB self.ct_run = ", self.ct_run
 		
-		self.run_row_num = self._row_num_from_ct_run() #formerly "n"
+		self.run_row_num = self._run_row_from_ct_run() #formerly "n"
 		print "GBB self.run_row_num = ", self.run_row_num
 
 		self.run_row_leftedge = self._run_row_left_edge(self.run_row_num)
@@ -111,7 +111,7 @@ class GridBlocBoard():
 		print "GBB self.b_vertiles_dict = ", self.b_vertiles_dict
 		print "GBB self.block_tiles_master_dict = ", self.block_tiles_master_dict
 		
-		self.block_style = "random"
+		self.block_style = "random" # h=1 or v=2 tile type
 		self.ct_block_coords = self._pick_ct_block_coords() # ct_block_coords = (b_tile_type, b_tile_row, b_tile_num)
 		print "GBB self.ct_block_coords = ", self.ct_block_coords
 		
@@ -119,14 +119,14 @@ class GridBlocBoard():
 		self.b_tile_row = self.ct_block_coords[1]
 
 		# if clocker tile is in a run row, give it a useful name for later. it s cheap to do so!
-		if self.b_tile_type == 2: 
+		if self.b_tile_type == 2: # h=1 or v=2 tile type
 		  # TODO - follow thru where self.b_runrow_num is used
-		  self.b_runrow_num = 99999 # todo -- acct for no runrow or default to below? or above?
+		  self.b_runrow_num = False 
 		else:
 		  self.b_runrow_num = self.b_tile_row # TODO  -- remove dupe naming schemes
 		  
 		self.b_tile_num = self.ct_block_coords[2]
-		print "GBB self.b_tile_type = ", self.b_tile_type
+		print "GBB self.b_tile_type = ", self.b_tile_type, "   (h=1 or v=2 tile type)"
 		print "GBB self.b_tile_row = ", self.b_tile_row
 		print "GBB self.b_runrow_num = ", self.b_runrow_num
 		print "GBB self.b_tile_num = ", self.b_tile_num
@@ -299,7 +299,7 @@ class GridBlocBoard():
     
     if self.block_style == "random":
       ''' actually, pick 1 or 2 for h or v, then from rownums, then a tile from self.block_tiles_master_dict '''
-      b_tile_type = random.randint(1,2) # random h or v tile (1 or 2)
+      b_tile_type = random.randint(1,2) # pick random h=1 or v=2 tile type
       print "b_tile_type", b_tile_type,"::", self.block_tiles_master_dict[b_tile_type]
       
       b_tile_row = random.choice( self.block_tiles_master_dict[b_tile_type].keys() ) # from keys in dict[1|2]
@@ -323,28 +323,31 @@ class GridBlocBoard():
 	  
 
 #################################        
-  def _row_num_from_ct_run(self):
+  def _run_row_from_ct_run(self):
 	gbutil.whereami(sys._getframe().f_code.co_name)
-	
-	row_num = math.ceil( float(self.ct_run) / float((3 * self.w) + 1) )
-	return row_num
+	''' should this be formula or dict look up.
+	run_row_num = math.ceil( float(self.ct_run) / float((3 * self.w) + 1) '''
+	run_row_num = math.ceil( float(self.ct_run) / float((3 * self.w) + 1) )
+	return run_row_num
 
 
 #################################        
-  def _b_row_num_from_ct_block_coords(self, this_btile = False):
+  def _b_row_from_ct_block(self, this_btile = False):
 	  gbutil.whereami(sys._getframe().f_code.co_name)
-	  ''' find diff for b-row vs run-row-vert-tiles...''' #TODO
+	  ''' should this be formula or dict look up. '''
 	
 	  if this_btile == False:
 	    this_btile = self.ct_block_coords
 	  else:
-	    this_btile = this_btile #used passed value if exists
+	    # used passed value if exists. expect integer, then look bk up in dict?
+	    this_btile = this_btile 
 	  
 	  # ok now just look up value in self.block_tiles_master_dict and return ([1|2], rownum, tilenum)
 	  # if thisvalue in [x for v in thisdict.values() for x in v]
 	  btmd = self.block_tiles_master_dict
-	  # TODO - FINISH THIS??
-	  
+	  print "btmd", btmd
+
+	  sys.exit(1)
 	  return
 
 
@@ -452,7 +455,7 @@ class GridBlocBoard():
     
     '''
     _block_row_hor_starter = ((n-1)(2w+1)) + ((n-1)(w)) + 1
-    n default self.b_runrow_num or param this_b_row
+    n  = default self.b_runrow_num or param this_b_row
     '''
     print "this_b_row", this_b_row
     if this_b_row == False:  
