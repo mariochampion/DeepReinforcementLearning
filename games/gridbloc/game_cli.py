@@ -93,10 +93,10 @@ class GridBlocBoard():
 		print "GBB self.ct_run = ", self.ct_run
 		
 		#formerly "n" as in R(subscript n)
-		self.run_row_num = math.ceil( float(self.ct_run) / float((3 * self.w) + 1) )
+		self.run_row_num = int( math.ceil( float(self.ct_run) / float((3 * self.w) + 1) ) )
 		print "GBB self.run_row_num = ", self.run_row_num
 
-		self.run_row_leftedge = self._run_row_left_edge(self.run_row_num)
+		self.run_row_leftedge = int(self._run_row_left_edge(self.run_row_num))
 		print "GBB self.run_row_leftedge = ", self.run_row_leftedge
 		
 
@@ -130,9 +130,9 @@ class GridBlocBoard():
 		# if blocker tile is in a run row, give it a useful name for later. it s cheap to do so!
 		if self.b_tile_type == 1: # hor = 1 or vert = 2 tile type
 		  # TODO - follow thru where self.b_runrow_num is used
-		  self.b_runrow_num = self.b_tile_row 
-		else:
 		  self.b_runrow_num = False 
+		else:
+		  self.b_runrow_num = self.b_tile_row 
 		  
 		print "GBB self.b_runrow_num = ", self.b_runrow_num
 		
@@ -161,7 +161,8 @@ class GridBlocBoard():
 
 		self.b_row_h_list = self._block_row_hor_list(this_b_row = False) 
 		# TODO - get from self.block_tiles_master_dict
-		print "GBB self.b_row_h_list = ", self.b_row_h_list
+		# TODO - error of [0] in output if b_row_h_start = false
+		print "GBB self.b_row_h_list = ", self.b_row_h_list 
 		
 		
 		
@@ -232,7 +233,6 @@ class GridBlocBoard():
     for k,vs in self.run_tiles_byrow_dict.items():
       for v in vs: 
         run_tiles_list.append(v)
-    print "run_tiles_list", run_tiles_list
     
     return run_tiles_list
 
@@ -295,21 +295,19 @@ class GridBlocBoard():
     print "self.block_style=", self.block_style
     
     if self.block_style == "random":
-      ''' actually, pick 1 or 2 for h or v, then from rownums, then a tile from self.block_tiles_master_dict '''
-      b_tile_type = random.randint(1,2) # pick random h=1 or v=2 tile type
-      print "b_tile_type", b_tile_type,"::", self.block_tiles_master_dict[b_tile_type]
+      ''' from self.block_tiles_master_dict: ranpick 1=hor 2=vert, then from rownums, then a tile '''
+      b_tile_type = random.randint(1,2) # h=1 or v=2 tile type
       
-      b_tile_row = random.choice( self.block_tiles_master_dict[b_tile_type].keys() ) # from keys in dict[1|2]
-      print "b_tile_row", b_tile_row
+      # from keys in dict[1|2]
+      b_tile_row = random.choice( self.block_tiles_master_dict[b_tile_type].keys() ) 
       
-      b_tile_num = random.choice(self.block_tiles_master_dict[b_tile_type][b_tile_row]) # from values in list
-      print "b_tile_num", b_tile_num
+      # from values in list
+      b_tile_num = random.choice(self.block_tiles_master_dict[b_tile_type][b_tile_row]) 
       
       ct_block_coords = (b_tile_type, b_tile_row, b_tile_num)
-      print "ct_block_coords = ", ct_block_coords
       
     elif self.block_style == "close":
-      ''' pick from dict based on run row UP or DOWN  '''
+      ''' pick from dict based on seprator block row UP or DOWN or adjacent  '''
       pass
     
     else:
@@ -397,7 +395,7 @@ class GridBlocBoard():
     for row in range(1, self.h + 2):
       if row == 1: firsthor = 1
       else: firsthor = 1 + (self.vert_tile_distance * (row-1))
-      print "self w = ", self.w
+      
       print "firsthor = ", firsthor
       b_hortiles_dict[row] = range( firsthor, firsthor+(self.w) )
     
@@ -416,7 +414,7 @@ class GridBlocBoard():
     for row in range(1, self.w + 2):
       if row == 1: firstver = self.w + 1
       else: firstver = (self.w + 1) + (2 * (row-1))
-      print "self h = ", self.h
+      
       print "firstver = ", firstver
       b_vertiles_dict[row] = range( firstver, firstver + (self.vert_tile_distance * (self.h)), self.vert_tile_distance)
     
@@ -495,7 +493,7 @@ class GridBlocBoard():
     print "this_b_row", this_b_row
     b_row_h_start = self._block_row_hor_starter(this_b_row)
     print "b_row_h_start,", b_row_h_start
-    b_row_h_list = range( int(b_row_h_start), int(b_row_h_start + self.b_row_h_len) )
+    b_row_h_list = range( b_row_h_start, b_row_h_start + self.b_row_h_len )
 
     return b_row_h_list
 
@@ -512,7 +510,7 @@ class GridBlocBoard():
     b_row_v_start = self._run_row_left_edge(thisrunrow)
     b_row_v_end = self._run_row_right_edge(thisrunrow)
     
-    b_row_v_list = range(int(b_row_v_start), int(b_row_v_end), 2) 
+    b_row_v_list = range(b_row_v_start, b_row_v_end, 2) 
     return b_row_v_list
 
 
