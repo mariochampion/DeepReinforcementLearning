@@ -148,8 +148,8 @@ class GridBlocBoard():
 		self.b_row_v_right_last = self.b_row_v_right_first + ( (self.h - 1)  * self.vert_tile_distance)
 		print "GBB self.b_row_v_right_last = ", self.b_row_v_right_last
 
-		# TODO - wrong calc condition when tiletype == 1
-		self.b_row_v_list = self._block_row_vert_list(thisrunrow = False) 
+		# TODO - wrong calc because using RUNROW which isnt right for VERT blockers
+		self.b_row_v_list = self._block_row_vert_list(this_b_col = False) 
 		print "GBB self.b_row_v_list = ", self.b_row_v_list
 
 		# TODO - wrong calc condition when tiletype == 2
@@ -161,6 +161,7 @@ class GridBlocBoard():
 		
 		
 		######## edges
+		print "----------- generate edge values ------------------"
 		self.edge_top_list = range(1, self.w+1)
 		print "GBB edge_top_list", self.edge_top_list
 		
@@ -431,13 +432,12 @@ class GridBlocBoard():
     gbutil.whereami(sys._getframe().f_code.co_name)
     
     ''' create list of horizontal blocker tiles on THIS B ROW '''
-    if this_b_row == False: this_b_row = self.b_tile_row
-    print "Hor this_b_row", this_b_row
+    if this_b_row == False: return False # nothing to do
+    if self.b_tile_type == 2: return False
     
     if self.b_tile_type == 1:
+        print "( tiletype HORIZONTAL )"
         b_row_h_list = self.b_hortiles_dict[this_b_row]
-    else:
-        b_row_h_list = False
         
     print "this_b_row", this_b_row, "for b_row_h_list", b_row_h_list
 
@@ -446,27 +446,19 @@ class GridBlocBoard():
      
 
 #################################    
-  def _block_row_vert_list(self, thisrunrow):
+  def _block_row_vert_list(self, this_b_col):
     gbutil.whereami(sys._getframe().f_code.co_name)
     
     ''' create list of VERTICAL blocker tiles in this run row '''
     
-    if thisrunrow == False: 
-      thisrunrow = self.run_row_num
-      print "thisrunrow FALSE, so Vert thisrunrow now = ",thisrunrow
-    else:
-      print "thisrunrow TRUE = ",thisrunrow
+    if this_b_col == False: return False # nothing to do
+    if self.b_tile_type == 1: return False # mistaken call -- do nothing
     
-    
-    if self.b_tile_type == 1: 
-      print "(tiletype HORIZONTAL )"
-      return False
-    else:       # self.b_tile_type == 2:
-      print "(tiletype VERTICAL )"
+    if self.b_tile_type == 2: 
+      print "( tiletype VERTICAL )"
       b_row_v_list = self.b_vertiles_dict[thisrunrow]  
-      
-
-    print "end: thisrunrow",thisrunrow,"for b_row_v_list", b_row_v_list
+    
+    print "end: this_b_col",this_b_col,"has b_row_v_list", b_row_v_list
     
     return b_row_v_list
 
