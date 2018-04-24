@@ -75,7 +75,11 @@ class GridBlocBoard():
 
 		self.all_the_tiles = range(1, (self.tile_max+1))
 		print "GBB self.all_the_tiles = ", self.all_the_tiles
-
+		
+		#TODO -- need separate tiles and walls lists? or just this one?
+		self.clicked_tiles_walls_list = []
+		print "START GBB self.clicked_tiles_walls_list = ", self.clicked_tiles_walls_list
+		
 		self.vert_tile_distance = 3 * self.w + 1
 		print "GBB self.vert_tile_distance = ",self.vert_tile_distance
 		
@@ -177,12 +181,16 @@ class GridBlocBoard():
 		print "GBB self.b_row_h_list = ", self.b_row_h_list 
 		print
 		
-		'''
+		
 		#todo -- move this to config by input or static
-		close_edges = True 
-		if close_edges == True: 
-		  close_edges()
-		'''
+		close_all_edges = True # condition this to run
+		if close_all_edges == True: 
+		  close_edges(self)
+		
+		
+		
+		print "-------- summary ----------"
+		print "END GBB self.clicked_tiles_walls_list = ", self.clicked_tiles_walls_list
 
 
 
@@ -487,31 +495,39 @@ def block_row_vert_list(self, this_b_col):
 
 
 #################################    
-def click_tile_or_wall(clickthistile):
-  gbutil.whereami(sys._getframe().f_code.co_name)
-  
-  ''' click a tile or wall, check for validity, probably, then add to the right array / list / dict '''
-  
-  pass
-  
-  #return status code if successful
-
-
-
-#################################    
 def close_edges(self):
   gbutil.whereami(sys._getframe().f_code.co_name)
   
   ''' use list of all for edges to target them for closure '''
   
   # hmm, some function click each edge_wall in list
-  for edge in edge_walls_list:
-    click_tile_or_wall(edge)
-    
-  somecode = True
-  return somecode
+  print "self.edge_walls_list", self.edge_walls_list
+  
+  for edgewall in self.edge_walls_list:
+    print "edgewall", edgewall
+    if click_tile_or_wall(self, edgewall) == True: 
+      edges_closed = True ## todo - what should this be??
+    else:
+      edges_closed = False ## todo - what should this be??
+  
+  return edges_closed
 	
 
+#################################    
+def click_tile_or_wall(self, clickthistile):
+  gbutil.whereami(sys._getframe().f_code.co_name)
+  
+  ''' click a tile or wall, check for validity, probably, by adding to clicked_walls[] '''
+  
+  self.clicked_tiles_walls_list.append(clickthistile)
+  
+  #return status code if successful
+  if clickthistile in self.clicked_tiles_walls_list:
+    return True ## todo - what should this be??
+  else:
+    return False ## todo - what should this be??
+  
+  
 
 
 
