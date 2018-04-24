@@ -149,11 +149,14 @@ class GridBlocBoard():
 		print "GBB self.b_row_v_right_last = ", self.b_row_v_right_last
 
 		# TODO - when is this needed? on __init?
-		self.b_row_v_list = self._block_row_vert_list(this_b_col = False) 
+		# just to test it
+		this_b_col = random.randint(1,self.w+1)
+		self.b_row_v_list = self._block_row_vert_list(this_b_col) 
 		print "GBB self.b_row_v_list = ", self.b_row_v_list
 
 		# TODO - when is this needed? on __init?
-		self.b_row_h_list = self._block_row_hor_list(this_b_row = False) 
+		this_b_row = random.randint(1,self.h+1)
+		self.b_row_h_list = self._block_row_hor_list(this_b_row) 
 		print "GBB self.b_row_h_list = ", self.b_row_h_list 
 		print
 		
@@ -435,7 +438,7 @@ class GridBlocBoard():
     if self.b_tile_type == 2: return False
     
     if self.b_tile_type == 1:
-        print "( tiletype HORIZONTAL )"
+        print "tiletype HORIZONTAL = ", this_b_row
         b_row_h_list = self.b_hortiles_dict[this_b_row]
         
     print "this_b_row", this_b_row, "for b_row_h_list", b_row_h_list
@@ -454,8 +457,8 @@ class GridBlocBoard():
     if self.b_tile_type == 1: return False # mistaken call -- do nothing
     
     if self.b_tile_type == 2: 
-      print "( tiletype VERTICAL )"
-      b_row_v_list = self.b_vertiles_dict[thisrunrow]  
+      print "tiletype VERTICAL col =", this_b_col
+      b_row_v_list = self.b_vertiles_dict[this_b_col]  
     
     print "end: this_b_col",this_b_col,"has b_row_v_list", b_row_v_list
     
