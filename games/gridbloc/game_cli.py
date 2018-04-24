@@ -433,56 +433,6 @@ class GridBlocBoard():
     return b_tiles_master_dict
 
 
-
-#################################  TODO - STILL WRONG, replaced by _ender in some instances  
-  def _block_row_hor_starter(self, this_b_row=False):
-    gbutil.whereami(sys._getframe().f_code.co_name)
-    
-    '''
-    _block_row_hor_starter = ((n-1)(2w+1)) + ((n-1)(w)) + 1
-    n  = default self.b_runrow_num or param this_b_row
-    '''
-    '''# TODO -- need nested conditional for thisbrow false diff from tiletype = 1
-    print "this_b_row is HORizontal", this_b_row
-    if this_b_row == False:  
-      print "_block_row_hor_starter -- FALSE"
-      b_row_h_start = False
-    else:
-      print "_block_row_hor_starter -- TRUE"
-      this_b_row = this_b_row # just to be clear to humans you can pass a tile num
-      ## WRONG - b_row_h_start = ((this_b_row-1) * ((3 * self.w) + 1)) + self.w + 1 
-      b_row_h_start = self.b_hortiles_dict[this_b_row][0]
-    
-    print "b_row_h_start --- runrow", this_b_row ,"so", b_row_h_start
-    
-    return b_row_h_start'''
-
-
-
-#################################    
-  def _block_row_hor_ender(self, this_b_row=False):
-    gbutil.whereami(sys._getframe().f_code.co_name)
-    
-    '''
-    b_row_h_end = (this_b_row * ((3 * self.w) + 1)) + self.w 
-    self.b_row_h_end = self._block_row_hor_ender(self.h)
-    '''
-    # TODO -- need nested conditional for thisbrow false diff from tiletype = 1
-    print "this_b_row is HORizontal", this_b_row
-    if this_b_row == False:  
-      print "_block_row_hor_ender -- FALSE"
-      this_b_row = self.b_runrow_num 
-      b_row_h_end = False
-    else:
-      print "_block_row_hor_ender -- TRUE"
-      this_b_row = this_b_row # just to be clear to humans you can pass a tile num
-      b_row_h_end = (this_b_row * ((3 * self.w) + 1)) + self.w
-    
-    print "b_row_h_end ---", this_b_row ,"so", b_row_h_end 
-    
-    return b_row_h_end
-    
-  
 #################################    
   def _block_row_hor_list(self, this_b_row):
     gbutil.whereami(sys._getframe().f_code.co_name)
