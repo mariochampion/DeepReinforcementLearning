@@ -148,13 +148,12 @@ class GridBlocBoard():
 		self.b_row_v_right_last = self.b_row_v_right_first + ( (self.h - 1)  * self.vert_tile_distance)
 		print "GBB self.b_row_v_right_last = ", self.b_row_v_right_last
 
-		# TODO - when is this needed? on __init?
-		# just to test it
+		# not needed on __init__, just here to test it
 		this_b_col = random.randint(1,self.w+1)
 		self.b_row_v_list = self._block_row_vert_list(this_b_col) 
 		print "GBB self.b_row_v_list = ", self.b_row_v_list
 
-		# TODO - when is this needed? on __init?
+		# not needed on __init__, just here to test it
 		this_b_row = random.randint(1,self.h+1)
 		self.b_row_h_list = self._block_row_hor_list(this_b_row) 
 		print "GBB self.b_row_h_list = ", self.b_row_h_list 
