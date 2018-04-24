@@ -442,7 +442,7 @@ class GridBlocBoard():
     _block_row_hor_starter = ((n-1)(2w+1)) + ((n-1)(w)) + 1
     n  = default self.b_runrow_num or param this_b_row
     '''
-    # TODO -- need nested conditional for thisbrow false diff from tiletype = 1
+    '''# TODO -- need nested conditional for thisbrow false diff from tiletype = 1
     print "this_b_row is HORizontal", this_b_row
     if this_b_row == False:  
       print "_block_row_hor_starter -- FALSE"
@@ -455,7 +455,7 @@ class GridBlocBoard():
     
     print "b_row_h_start --- runrow", this_b_row ,"so", b_row_h_start
     
-    return b_row_h_start
+    return b_row_h_start'''
 
 
 
