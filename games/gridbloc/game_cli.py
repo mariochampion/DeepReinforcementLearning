@@ -122,19 +122,12 @@ class GridBlocBoard():
 		self.b_tile_row = self.ct_block_coords[1]
 		self.b_tile_num = self.ct_block_coords[2]
 		
-		print "GBB self.b_tile_type = ", self.b_tile_type, "   (h=1 or v=2 tile type)"
+		print "GBB self.b_tile_type = ", self.b_tile_type,
+		if self.b_tile_type == 1: print "(is HORIZONTAL )"
+		if self.b_tile_type == 2: print "(is VERTICAL )"
 		print "GBB self.b_tile_row = ", self.b_tile_row
 		print "GBB self.b_tile_num = ", self.b_tile_num
 		print
-		
-		# if blocker tile is in a run row, give it a useful name for later. it s cheap to do so!
-		if self.b_tile_type == 1: # hor = 1 or vert = 2 tile type
-		  # TODO - follow thru where self.b_runrow_num is used
-		  self.b_runrow_num = False 
-		else:
-		  self.b_runrow_num = self.b_tile_row 
-		  
-		print "GBB self.b_runrow_num = ", self.b_runrow_num
 		
 		  		
 		self.b_row_h_nums = self.w +1
