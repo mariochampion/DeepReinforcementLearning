@@ -148,12 +148,11 @@ class GridBlocBoard():
 		self.b_row_v_right_last = self.b_row_v_right_first + ( (self.h - 1)  * self.vert_tile_distance)
 		print "GBB self.b_row_v_right_last = ", self.b_row_v_right_last
 
-		# TODO - wrong calc because using RUNROW which isnt right for VERT blockers
+		# TODO - when is this needed? on __init?
 		self.b_row_v_list = self._block_row_vert_list(this_b_col = False) 
 		print "GBB self.b_row_v_list = ", self.b_row_v_list
 
-		# TODO - wrong calc condition when tiletype == 2
-		# TODO - error of [0] in output if b_row_h_start = false
+		# TODO - when is this needed? on __init?
 		self.b_row_h_list = self._block_row_hor_list(this_b_row = False) 
 		print "GBB self.b_row_h_list = ", self.b_row_h_list 
 		print
