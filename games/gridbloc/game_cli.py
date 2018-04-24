@@ -278,6 +278,9 @@ class GridBlocBoard():
     # make more complete switch/case for other pick styles
     print "self.run_style=", self.run_style
     
+    # todo - integrate self.clicked_tiles_walls_list
+    # todo - recursive if tile already picked? or generate a list for picking BEFORE these steps
+    
     if self.run_style == "random":
       list_tilepick = random.choice(list(self.run_tiles_byrow_dict))
       print "list_tilepick = run row = ", str(list_tilepick)
@@ -299,6 +302,9 @@ class GridBlocBoard():
     '''
     
     print "self.block_style=", self.block_style
+    
+    # todo - integrate self.clicked_tiles_walls_list
+    # todo - recursive if tile already picked? or generate a list for picking BEFORE these steps
     
     if self.block_style == "random":
       ''' from self.block_tiles_master_dict: ranpick 1=hor 2=vert, then from rownums, then a tile '''
