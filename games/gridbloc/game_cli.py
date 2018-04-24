@@ -123,8 +123,8 @@ class GridBlocBoard():
 		self.b_tile_num = self.ct_block_coords[2]
 		
 		print "GBB self.b_tile_type = ", self.b_tile_type,
-		if self.b_tile_type == 1: print "(is HORIZONTAL )"
-		if self.b_tile_type == 2: print "(is VERTICAL )"
+		if self.b_tile_type == 1: print "(tiletype HORIZONTAL )"
+		if self.b_tile_type == 2: print "(tiletype VERTICAL )"
 		print "GBB self.b_tile_row = ", self.b_tile_row
 		print "GBB self.b_tile_num = ", self.b_tile_num
 		print
@@ -432,7 +432,7 @@ class GridBlocBoard():
     
     ''' create list of horizontal blocker tiles on THIS B ROW '''
     if this_b_row == False: this_b_row = self.b_tile_row
-    print "H this_b_row", this_b_row
+    print "Hor this_b_row", this_b_row
     
     if self.b_tile_type == 1:
         b_row_h_list = self.b_hortiles_dict[this_b_row]
@@ -451,15 +451,22 @@ class GridBlocBoard():
     
     ''' create list of VERTICAL blocker tiles in this run row '''
     
-    if thisrunrow == False: thisrunrow = self.run_row_num
-    print "V thisrunrow",thisrunrow
-    
-    if self.b_tile_type == 2:
-        b_row_v_list = self.b_vertiles_dict[thisrunrow]
+    if thisrunrow == False: 
+      thisrunrow = self.run_row_num
+      print "thisrunrow FALSE, so Vert thisrunrow now = ",thisrunrow
     else:
-        b_row_v_list = False   
+      print "thisrunrow TRUE = ",thisrunrow
+    
+    
+    if self.b_tile_type == 1: 
+      print "(tiletype HORIZONTAL )"
+      return False
+    else:       # self.b_tile_type == 2:
+      print "(tiletype VERTICAL )"
+      b_row_v_list = self.b_vertiles_dict[thisrunrow]  
       
-    print "thisrunrow",thisrunrow,"for b_row_v_list", b_row_v_list
+
+    print "end: thisrunrow",thisrunrow,"for b_row_v_list", b_row_v_list
     
     return b_row_v_list
 
