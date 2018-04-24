@@ -18,7 +18,7 @@ DEV STEPS OF THIS FILE:
 1. how does this file relate to the building of arrays which are currently hardcoded into other example game.py files?
 2. probably i should just add my custom gridbloc array calculation functions to existing game.py and use function call outs rather than hardcoded arrays.
 3. CON: this might slow things down a bit as they will have to be re-calced, but they also might be so easy to calc that who cares
-4. alt to 3: calc them ahed of time and then include theoutputs as hardcoded, but include a game-setup.py style file for thsose interested, and for me (i m interested!)
+4. alt to 3: calc them ahed of time and then include the outputs as hardcoded, but include a game-setup.py style file for thsose interested, and for me (i m interested!)
 5. determine exact role of Game.gameState Game.actionSpace, GameState.winners (especially this last one as winner is simple the greater of p1.runscore and p2.runscore (or whatever that exact equivalent might be)
 6. currentBoard = state.board and currentAV = actionValues #investigate
 7. allow for a watch out for borders, so when row1 cannot goup, and edgeright, cannot go right, etc
@@ -33,8 +33,8 @@ PARAMETERS
  * "h" = height of grid (number of rows)
  * "w" =  width of a row in RUNNING tiles. 
 
-NOTE: blocking tiles (hor and vert, inclduing edge walls etc) will be calculated calculated from w & h 
- * "n" is the row number (n=3 is the 3rd row, etc)
+NOTE: blocking tiles (hor and vert, including edge walls etc) will be calculated from w & h 
+ * "n" is the row number (n=3 is the 3rd row, etc) --now called "self.run_row_num"
  * "ct_run" is the NUMBER of the current_tile, which is NOT a A7 or F2 chess style notation, but a simple integer calculated from row width, according to the formulas which account for interposing blocking tiles.
  * the upper left RUNNING tile is NEITHER 1 nor 0 (zero). the upper left column top tile is actually 1, as a blocking tile ATOP each row uses numbers 1 to w. so then, w+1 is the left border wall for the first row, and the first running tile is w+2.
 
