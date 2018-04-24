@@ -178,7 +178,8 @@ class GridBlocBoard():
 		print
 		
 		'''
-		close_edges = True #todo -- move this to config by input or static
+		#todo -- move this to config by input or static
+		close_edges = True 
 		if close_edges == True: 
 		  close_edges()
 		'''
@@ -187,7 +188,7 @@ class GridBlocBoard():
 
 
 #################################
-### start some FUNcs()
+### __INIT__ FUNcs()
 #################################		
 
 #################################
@@ -217,6 +218,7 @@ class GridBlocBoard():
 #################################
   def _run_tiles_list_maker(self):
     gbutil.whereami(sys._getframe().f_code.co_name)
+    
     ''' just convert the KEYED run tiles dict to a list for when thats easier'''
 
     # break out the values from run tiles
@@ -234,7 +236,7 @@ class GridBlocBoard():
     
     '''
     returns an integer of the left edge vertical tile of that row 
-    run_row_leftedge = (nw) + ( (n-1) + (2* w +1) ) + 1 ## should be runrow LEFT EDGE
+    run_row_leftedge = (nw) + ( (n-1) + (2* w +1) ) + 1 
     '''
     print "ROW_NUM PASSSED:",str(row_num)
 
@@ -246,8 +248,9 @@ class GridBlocBoard():
   def _run_row_right_edge(self, row_num):
     gbutil.whereami(sys._getframe().f_code.co_name)
     
-    ''' return int of RIGHT most VERTICAL tile on a runrow '''
+    ''' return int of RIGHT most VERTICAL tile on a run_row '''
     print "ROW_NUM PASSSED:",str(row_num)
+    
     leftedge = self._run_row_left_edge(row_num)
     run_row_rightedge = leftedge + (2 * self.w)
     
@@ -258,10 +261,12 @@ class GridBlocBoard():
 #################################  
   def _tilepick_run(self):
     gbutil.whereami(sys._getframe().f_code.co_name)
+    
     '''
     placeholder to pick a tile -- starting tile and in-game as well. 
     will pick by input or by policy, but for now... random is default but other styles may be passable
     '''
+    
     # make more complete switch/case for other pick styles
     print "self.run_style=", self.run_style
     
@@ -279,10 +284,12 @@ class GridBlocBoard():
 #################################  
   def _pick_ct_block_coords(self):
     gbutil.whereami(sys._getframe().f_code.co_name)
+    
     '''
     pick a starting block or in-game block as well. 
     will pick by input or by policy, but for now... random is default but other styles may be passable
     '''
+    
     print "self.block_style=", self.block_style
     
     if self.block_style == "random":
@@ -312,6 +319,7 @@ class GridBlocBoard():
 #################################        
   def _b_row_from_ct_block(self, this_btile = False):
 	  gbutil.whereami(sys._getframe().f_code.co_name)
+	  
 	  ''' should this be formula or dict look up. '''
 	
 	  if this_btile == False:
@@ -366,9 +374,8 @@ class GridBlocBoard():
   def _block_tiles_list_maker(self):
     gbutil.whereami(sys._getframe().f_code.co_name)
     
-    '''
-    build MASTER array / list of BLOCKING tiles from existing data.
-    '''
+    ''' build MASTER array / list of BLOCKING tiles from existing data. '''
+    
     b_tiles_list = list( set(self.all_the_tiles) - set(self.run_tiles_list) )
 
     return b_tiles_list
@@ -382,6 +389,7 @@ class GridBlocBoard():
     this is the dict for parts 2 and 3 of currenttile ("ct") tuple of type, row, tilenum
     calculate the horizontal blocker tiles, range with self.w, self.vert_tile_distance, "v"
     '''
+    
     b_hortiles_dict = {}
     for row in range(1, self.h + 2):
       if row == 1: firsthor = 1
@@ -401,6 +409,7 @@ class GridBlocBoard():
     this is the dict for parts 2 and 3 of currenttile ("ct") tuple of type, row, tilenum
     calculate the horizontal blocker tiles, range with self.w, self.vert_tile_distance, "v"
     '''
+    
     b_vertiles_dict = {}
     for row in range(1, self.w + 2):
       if row == 1: firstver = self.w + 1
@@ -416,9 +425,8 @@ class GridBlocBoard():
   def _block_tiles_dict_maker(self):
     gbutil.whereami(sys._getframe().f_code.co_name)
     
-    '''
-    build block_tiles_master_dict, really just combine existing dicts with type key
-    '''
+    ''' build block_tiles_master_dict, really just combine existing dicts with type key '''
+    
     b_tiles_master_dict = {} # ct = currenttile = tuple of (type, rownum, tilenum) ???
     b_tiles_master_dict[1] = self.b_hortiles_dict # converted to int 1 for horizontals
     b_tiles_master_dict[2] = self.b_vertiles_dict # converted to int 2 for verticals
@@ -438,13 +446,15 @@ class GridBlocBoard():
     return edge_walls_list
 
 
-###################  END __init__ #######################
+###################  END __init__ functions() #######################
 
 
 #################################    
 def block_row_hor_list(self, this_b_row):
   gbutil.whereami(sys._getframe().f_code.co_name)
+  
   ''' create list of horizontal blocker tiles on THIS B ROW '''
+  
   if this_b_row == False: return False # nothing to do
   if self.b_tile_type == 2: return False
   
@@ -461,6 +471,7 @@ def block_row_hor_list(self, this_b_row):
 #################################    
 def block_row_vert_list(self, this_b_col):
   gbutil.whereami(sys._getframe().f_code.co_name)
+  
   ''' create list of VERTICAL blocker tiles in this run row '''
     
   if this_b_col == False: return False # nothing to do
@@ -474,18 +485,16 @@ def block_row_vert_list(self, this_b_col):
   
   return b_row_v_list
 
+
 #################################    
 def click_tile_or_wall(clickthistile):
   gbutil.whereami(sys._getframe().f_code.co_name)
   
-  '''
-  do the things that click a tile or wall, like check for validity, probably, then add to the right array / list / dict
-  '''
+  ''' click a tile or wall, check for validity, probably, then add to the right array / list / dict '''
+  
   pass
   
   #return status code if successful
-
-
 
 
 
@@ -493,13 +502,14 @@ def click_tile_or_wall(clickthistile):
 def close_edges(self):
   gbutil.whereami(sys._getframe().f_code.co_name)
   
-  '''
-  use list of all for edges to target them for closure
-  '''
+  ''' use list of all for edges to target them for closure '''
   
   # hmm, some function click each edge_wall in list
   for edge in edge_walls_list:
     click_tile_or_wall(edge)
+    
+  somecode = True
+  return somecode
 	
 
 
