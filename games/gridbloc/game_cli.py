@@ -148,19 +148,6 @@ class GridBlocBoard():
 		self.b_row_v_right_last = self.b_row_v_right_first + ( (self.h - 1)  * self.vert_tile_distance)
 		print "GBB self.b_row_v_right_last = ", self.b_row_v_right_last
 
-		# not needed on __init__, just here to test it
-		this_b_col = random.randint(1,self.w+1)
-		self.b_row_v_list = self._block_row_vert_list(this_b_col) 
-		print "GBB self.b_row_v_list = ", self.b_row_v_list
-
-		# not needed on __init__, just here to test it
-		this_b_row = random.randint(1,self.h+1)
-		self.b_row_h_list = self._block_row_hor_list(this_b_row) 
-		print "GBB self.b_row_h_list = ", self.b_row_h_list 
-		print
-		
-		
-		
 		######## edges
 		print "----------- generate edge values ------------------"
 		self.edge_top_list = range(1, self.w+1)
@@ -175,9 +162,20 @@ class GridBlocBoard():
 		self.edge_right_list = range(self.b_row_v_right_first, self.b_row_v_right_last+1, self.vert_tile_distance)
 		print "GBB edge_right_list", self.edge_right_list
 		
-		self.edge_walls_list = _build_edges_list(self)
+		self.edge_walls_list = self._build_edges_list()
 		print "GBB self.edge_walls_list = ", self.edge_walls_list
 		
+
+		# not needed on __init__, just here to test it
+		this_b_col = random.randint(1,self.w+1)
+		self.b_row_v_list = block_row_vert_list(self, this_b_col) 
+		print "GBB self.b_row_v_list = ", self.b_row_v_list
+
+		# not needed on __init__, just here to test it
+		this_b_row = random.randint(1,self.h+1)
+		self.b_row_h_list = block_row_hor_list(self, this_b_row) 
+		print "GBB self.b_row_h_list = ", self.b_row_h_list 
+		print
 		
 		'''
 		close_edges = True #todo -- move this to config by input or static
@@ -429,52 +427,52 @@ class GridBlocBoard():
 
 
 #################################    
-  def _block_row_hor_list(self, this_b_row):
+  def _build_edges_list(self):
     gbutil.whereami(sys._getframe().f_code.co_name)
-    
-    ''' create list of horizontal blocker tiles on THIS B ROW '''
-    if this_b_row == False: return False # nothing to do
-    if self.b_tile_type == 2: return False
-    
-    if self.b_tile_type == 1:
-        print "tiletype HORIZONTAL = ", this_b_row
-        b_row_h_list = self.b_hortiles_dict[this_b_row]
-        
-    print "this_b_row", this_b_row, "for b_row_h_list", b_row_h_list
+  
+    ''' build edge wall list from the top bottom left right edge lists '''
+  
+    edge_walls_list = self.edge_top_list + self.edge_left_list + self.edge_right_list + self.edge_bottom_list
+    print "edge_walls_list", edge_walls_list
+  
+    return edge_walls_list
 
-    return b_row_h_list
+
+###################  END __init__ #######################
+
+
+#################################    
+def block_row_hor_list(self, this_b_row):
+  gbutil.whereami(sys._getframe().f_code.co_name)
+  ''' create list of horizontal blocker tiles on THIS B ROW '''
+  if this_b_row == False: return False # nothing to do
+  if self.b_tile_type == 2: return False
+  
+  if self.b_tile_type == 1:
+    print "tiletype HORIZONTAL = ", this_b_row
+    b_row_h_list = self.b_hortiles_dict[this_b_row]
+        
+  print "this_b_row", this_b_row, "for b_row_h_list", b_row_h_list
+
+  return b_row_h_list
 
      
 
 #################################    
-  def _block_row_vert_list(self, this_b_col):
-    gbutil.whereami(sys._getframe().f_code.co_name)
-    
-    ''' create list of VERTICAL blocker tiles in this run row '''
-    
-    if this_b_col == False: return False # nothing to do
-    if self.b_tile_type == 1: return False # mistaken call -- do nothing
-    
-    if self.b_tile_type == 2: 
-      print "tiletype VERTICAL col =", this_b_col
-      b_row_v_list = self.b_vertiles_dict[this_b_col]  
-    
-    print "end: this_b_col",this_b_col,"has b_row_v_list", b_row_v_list
-    
-    return b_row_v_list
-
-
-#################################    
-def _build_edges_list(self):
+def block_row_vert_list(self, this_b_col):
   gbutil.whereami(sys._getframe().f_code.co_name)
+  ''' create list of VERTICAL blocker tiles in this run row '''
+    
+  if this_b_col == False: return False # nothing to do
+  if self.b_tile_type == 1: return False # mistaken call -- do nothing
+    
+  if self.b_tile_type == 2: 
+    print "tiletype VERTICAL col =", this_b_col
+    b_row_v_list = self.b_vertiles_dict[this_b_col]  
   
-  ''' build edge wall list from the top bottom left right edge lists '''
+  print "end: this_b_col",this_b_col,"has b_row_v_list", b_row_v_list
   
-  edge_walls_list = self.edge_top_list + self.edge_left_list + self.edge_right_list + self.edge_bottom_list
-  print "edge_walls_list", edge_walls_list
-  
-  return edge_walls_list
-
+  return b_row_v_list
 
 #################################    
 def click_tile_or_wall(clickthistile):
