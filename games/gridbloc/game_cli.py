@@ -77,14 +77,12 @@ class GridBlocBoard():
 		self.all_the_tiles = range(1, (self.tile_max+1))
 		print "GBB self.all_the_tiles = ", self.all_the_tiles
 		
-		### TODO -- need separate tiles and walls lists? or just this one? actually yes:
-
 		### from all_tiles create on __init__:
 		#  - valid_runs[] (based on powers, which for now are DUCK, which means adjacent, not blocked)
 		#  - clicked_runs[], unclicked_runs[]
 		#  - clicked_blocks[], unclicked_blocks[]
 
-		self.clicked_tiles_walls_list = [] # initially none
+		self.clicked_tiles_walls_list = [] # initially none, useful for MASTER recreation of gameplay
 		print "START GBB self.clicked_tiles_walls_list = ", self.clicked_tiles_walls_list
 		self.clicked_blocks = [] # initially none
 		print "START GBB self.clicked_blocks = ", self.clicked_blocks
@@ -103,9 +101,9 @@ class GridBlocBoard():
 		
 		self.run_tiles_list = self._run_tiles_list_maker()
 		print "GBB self.run_tiles_list = ", self.run_tiles_list
-		self.valid_runs = self.run_tiles_list # initially all the running tiles
+		self.valid_runs = self.run_tiles_list # initially COPY of all running tiles
 		print "START GBB self.valid_runs = ", self.valid_runs
-		self.unclicked_runs = self.run_tiles_list # initially all the running tiles
+		self.unclicked_runs = self.run_tiles_list # initially COPY of all running tiles
 		print "START GBB self.unclicked_runs = ", self.unclicked_runs
 		
 		
@@ -116,7 +114,7 @@ class GridBlocBoard():
 		
 		self.b_tiles_list = self._block_tiles_list_maker()
 		print "GBB self.b_tiles_list = ", self.b_tiles_list
-		self.unclicked_blocks = self.b_tiles_list # initially all the blocking tiles
+		self.unclicked_blocks = self.b_tiles_list # initially COPY of all blocking tiles
 		print "GBB self.unclicked_blocks = ", self.unclicked_blocks
 		
 		self.b_hortiles_dict = self._b_hortiles_dict_maker()
@@ -175,7 +173,7 @@ class GridBlocBoard():
 		self.run_style = "random"
 		self.ct_run = self._tilepick_run() # THIS IS THE RUN!
 		print "GBB self.ct_run = ", self.ct_run
-		# todo update self.clicked_runs
+		
 		
 		#formerly "n" as in R(subscript n)
 		self.run_row_num = int( math.ceil( float(self.ct_run) / float((3 * self.w) + 1) ) )
@@ -221,6 +219,7 @@ class GridBlocBoard():
 		############### __init__ SUMMARY
 		print "-------- summary ----------"
 		print "END GBB self.clicked_tiles_walls_list = ", self.clicked_tiles_walls_list
+		print "END GBB self.valid_runs = ", self.valid_runs
 		print "END GBB self.clicked_runs = ", self.clicked_runs
 		print "END GBB self.unclicked_runs =", self.unclicked_runs
 		print
@@ -329,7 +328,7 @@ class GridBlocBoard():
       list_tilepick = random.choice(list(self.run_tiles_byrow_dict))
       ct_run = random.choice( list(self.run_tiles_byrow_dict[list_tilepick]) )
     
-    # todo update self.clicked_runs by sending to click_tile_or_wall
+    # DONE update self.clicked_runs by sending to click_tile_or_wall
     click_tile_or_wall(self, ct_run)
           
     return ct_run
@@ -582,7 +581,7 @@ def click_tile_or_wall(self, clickthistile):
     self.unclicked_blocks.remove(clickthistile)
   
   #return status code if successful
-  if clickthistile in self.clicked_tiles_walls_list:
+  if clickthistile in self.clicked_tiles_walls_list: # todo - is this the right check?
     return True ## todo - what should this be??
   else:
     return False ## todo - what should this be??
