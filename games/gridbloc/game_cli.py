@@ -110,22 +110,6 @@ class GridBlocBoard():
 		
 		
 		
-		#todo -- check from valid run moves (1st run will have all moves as valid)
-		self.run_style = "random"
-		self.ct_run = self._tilepick_run() # THIS IS THE RUN!
-		print "GBB self.ct_run = ", self.ct_run
-		# todo update self.clicked_runs
-		
-		
-		
-		#formerly "n" as in R(subscript n)
-		self.run_row_num = int( math.ceil( float(self.ct_run) / float((3 * self.w) + 1) ) )
-		print "GBB self.run_row_num = ", self.run_row_num
-
-		self.run_row_leftedge = int(self._run_row_left_edge(self.run_row_num))
-		print "GBB self.run_row_leftedge = ", self.run_row_leftedge
-		
-
 		###### blocker tile params / value calcs
 		self.b_row_h_len = self.w
 		print "GBB self.b_row_h_len = ", self.b_row_h_len
@@ -142,22 +126,6 @@ class GridBlocBoard():
 		print "GBB self.b_vertiles_dict = ", self.b_vertiles_dict
 		print "GBB self.block_tiles_master_dict = ", self.block_tiles_master_dict
 		
-		self.block_style = "random" # h=1 or v=2 tile type
-		self.ct_block_coords = self._pick_ct_block_coords() # ct_block_coords = (b_tile_type, b_tile_row, b_tile_num)
-		print "GBB self.ct_block_coords = ", self.ct_block_coords
-		
-		self.b_tile_type = self.ct_block_coords[0]
-		self.b_tile_row = self.ct_block_coords[1]
-		self.b_tile_num = self.ct_block_coords[2]
-		
-		print "GBB self.b_tile_type = ", self.b_tile_type,
-		if self.b_tile_type == 1: print "(tiletype HORIZONTAL )"
-		if self.b_tile_type == 2: print "(tiletype VERTICAL )"
-		print "GBB self.b_tile_row = ", self.b_tile_row
-		print "GBB self.b_tile_num = ", self.b_tile_num
-		print
-		
-		  		
 		self.b_row_h_nums = self.w +1
 		print "GBB self.b_row_h_nums = ", self.b_row_h_nums
 		
@@ -193,7 +161,50 @@ class GridBlocBoard():
 		self.edge_walls_list = self._build_edges_list()
 		print "GBB self.edge_walls_list = ", self.edge_walls_list
 		
+		
+		
+		#todo -- move this to config by input or static
+		close_all_edges = True # condition this to run
+		if close_all_edges == True: 
+		  close_edges(self)
+		
+		
+		############### initial RUN
+		
+		#todo -- check from valid run moves (1st run will have all moves as valid)
+		self.run_style = "random"
+		self.ct_run = self._tilepick_run() # THIS IS THE RUN!
+		print "GBB self.ct_run = ", self.ct_run
+		# todo update self.clicked_runs
+		
+		#formerly "n" as in R(subscript n)
+		self.run_row_num = int( math.ceil( float(self.ct_run) / float((3 * self.w) + 1) ) )
+		print "GBB self.run_row_num = ", self.run_row_num
 
+		self.run_row_leftedge = int(self._run_row_left_edge(self.run_row_num))
+		print "GBB self.run_row_leftedge = ", self.run_row_leftedge
+		
+		
+		
+		############### initial BLOCK
+		#todo -- check from valid BLOCKs list (1st block will have all tiles as valid)
+		self.block_style = "random" # h=1 or v=2 tile type
+		self.ct_block_coords = self._pick_ct_block_coords() # ct_block_coords = (b_tile_type, b_tile_row, b_tile_num)
+		print "GBB self.ct_block_coords = ", self.ct_block_coords
+		
+		self.b_tile_type = self.ct_block_coords[0]
+		self.b_tile_row = self.ct_block_coords[1]
+		self.b_tile_num = self.ct_block_coords[2]
+		
+		print "GBB self.b_tile_type = ", self.b_tile_type,
+		if self.b_tile_type == 1: print "(tiletype HORIZONTAL )"
+		if self.b_tile_type == 2: print "(tiletype VERTICAL )"
+		print "GBB self.b_tile_row = ", self.b_tile_row
+		print "GBB self.b_tile_num = ", self.b_tile_num
+		print
+		
+
+		########################## JUST A TEST
 		# not needed on __init__, just here to test it
 		this_b_col = random.randint(1,self.w+1)
 		self.b_row_v_list = block_row_vert_list(self, this_b_col) 
@@ -204,19 +215,18 @@ class GridBlocBoard():
 		self.b_row_h_list = block_row_hor_list(self, this_b_row) 
 		print "GBB self.b_row_h_list = ", self.b_row_h_list 
 		print
+		########################## END A TEST		
 		
 		
-		#todo -- move this to config by input or static
-		close_all_edges = True # condition this to run
-		if close_all_edges == True: 
-		  close_edges(self)
-		
-		
-		
+		############### __init__ SUMMARY
 		print "-------- summary ----------"
 		print "END GBB self.clicked_tiles_walls_list = ", self.clicked_tiles_walls_list
 		print "END GBB self.clicked_runs = ", self.clicked_runs
+		print "END GBB self.unclicked_runs =", self.unclicked_runs
+		print
 		print "END GBB self.clicked_blocks = ", self.clicked_blocks
+		print "END GBB self.unclicked_blocks =", self.unclicked_blocks
+		
 
 
 
@@ -564,9 +574,12 @@ def click_tile_or_wall(self, clickthistile):
   if clickthistile in self.run_tiles_list:
     print "logging RUN at ", clickthistile
     self.clicked_runs.append(clickthistile)
-  else:
+    self.unclicked_runs.remove(clickthistile)
+
+  if clickthistile in self.b_tiles_list:
     print "logging BLOCK at ", clickthistile
     self.clicked_blocks.append(clickthistile)
+    self.unclicked_blocks.remove(clickthistile)
   
   #return status code if successful
   if clickthistile in self.clicked_tiles_walls_list:
@@ -575,7 +588,6 @@ def click_tile_or_wall(self, clickthistile):
     return False ## todo - what should this be??
   
   
-
 
 
 
