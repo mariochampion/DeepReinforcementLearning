@@ -92,9 +92,6 @@ class GridBlocBoard():
 		print "START GBB self.clicked_runs = ", self.clicked_runs
 		
 		
-		
-		
-		
 		self.vert_tile_distance = 3 * self.w + 1
 		print "GBB self.vert_tile_distance = ",self.vert_tile_distance
 		
@@ -117,6 +114,9 @@ class GridBlocBoard():
 		self.run_style = "random"
 		self.ct_run = self._tilepick_run() # THIS IS THE RUN!
 		print "GBB self.ct_run = ", self.ct_run
+		# todo update self.clicked_runs
+		
+		
 		
 		#formerly "n" as in R(subscript n)
 		self.run_row_num = int( math.ceil( float(self.ct_run) / float((3 * self.w) + 1) ) )
@@ -215,6 +215,8 @@ class GridBlocBoard():
 		
 		print "-------- summary ----------"
 		print "END GBB self.clicked_tiles_walls_list = ", self.clicked_tiles_walls_list
+		print "END GBB self.clicked_runs = ", self.clicked_runs
+		print "END GBB self.clicked_blocks = ", self.clicked_blocks
 
 
 
@@ -303,15 +305,22 @@ class GridBlocBoard():
     print "self.run_style=", self.run_style
     
     # todo - integrate self.clicked_tiles_walls_list
-    # todo - recursive if tile already picked? or generate a list for picking BEFORE these steps
+    # todo - pick from UNclicked_runs, then add to clicked_runs.
     
     if self.run_style == "random":
+    
       list_tilepick = random.choice(list(self.run_tiles_byrow_dict))
       print "list_tilepick = run row = ", str(list_tilepick)
       ct_run = random.choice( list(self.run_tiles_byrow_dict[list_tilepick]) )
+    
+    
+    
     else:
       list_tilepick = random.choice(list(self.run_tiles_byrow_dict))
       ct_run = random.choice( list(self.run_tiles_byrow_dict[list_tilepick]) )
+    
+    # todo update self.clicked_runs by sending to click_tile_or_wall
+    click_tile_or_wall(self, ct_run)
           
     return ct_run
     
@@ -549,7 +558,15 @@ def click_tile_or_wall(self, clickthistile):
   
   ''' click a tile or wall, check for validity, probably, by adding to clicked_walls[] '''
   
-  self.clicked_tiles_walls_list.append(clickthistile)
+  self.clicked_tiles_walls_list.append(clickthistile) # master list
+  # if run_tile add to clicked_runs, if block_tile add to clicked_blocks
+  
+  if clickthistile in self.run_tiles_list:
+    print "logging RUN at ", clickthistile
+    self.clicked_runs.append(clickthistile)
+  else:
+    print "logging BLOCK at ", clickthistile
+    self.clicked_blocks.append(clickthistile)
   
   #return status code if successful
   if clickthistile in self.clicked_tiles_walls_list:
