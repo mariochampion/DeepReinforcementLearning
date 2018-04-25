@@ -26,7 +26,7 @@ DEV STEPS OF THIS FILE:
 MVP CLI phases
 1. input w and h and it calcs gamestate and tile options arrays - done.
 2. input ct param and it calcs the legal moves arrays for runner and blocker
-  - setup and check: valid_runs[]clicked_runs[], unclicked_runs[], clicked_blocks[], unclicked_blocks[]
+  - setup and check: valid_runs[], clicked_runs[], unclicked_runs[], clicked_blocks[], unclicked_blocks[]
 3. input ct and calcs GOOD moves not just legal moves for runner and blocker - thats a whole other thing
 
 
@@ -78,12 +78,20 @@ class GridBlocBoard():
 		print "GBB self.all_the_tiles = ", self.all_the_tiles
 		
 		### TODO -- need separate tiles and walls lists? or just this one? actually yes:
-		# from all_tiles create on __init__:
+
+		### from all_tiles create on __init__:
 		#  - valid_runs[] (based on powers, which for now are DUCK, which means adjacent, not blocked)
 		#  - clicked_runs[], unclicked_runs[]
 		#  - clicked_blocks[], unclicked_blocks[]
-		self.clicked_tiles_walls_list = []
+
+		self.clicked_tiles_walls_list = [] # initially none
 		print "START GBB self.clicked_tiles_walls_list = ", self.clicked_tiles_walls_list
+		self.clicked_blocks = [] # initially none
+		print "START GBB self.clicked_blocks = ", self.clicked_blocks
+		self.clicked_runs = [] # initially none
+		print "START GBB self.clicked_runs = ", self.clicked_runs
+		
+		
 		
 		
 		
@@ -98,9 +106,15 @@ class GridBlocBoard():
 		
 		self.run_tiles_list = self._run_tiles_list_maker()
 		print "GBB self.run_tiles_list = ", self.run_tiles_list
+		self.valid_runs = self.run_tiles_list # initially all the running tiles
+		print "START GBB self.valid_runs = ", self.valid_runs
+		self.unclicked_runs = self.run_tiles_list # initially all the running tiles
+		print "START GBB self.unclicked_runs = ", self.unclicked_runs
 		
-		self.run_style = "random"
+		
+		
 		#todo -- check from valid run moves (1st run will have all moves as valid)
+		self.run_style = "random"
 		self.ct_run = self._tilepick_run() # THIS IS THE RUN!
 		print "GBB self.ct_run = ", self.ct_run
 		
@@ -118,6 +132,8 @@ class GridBlocBoard():
 		
 		self.b_tiles_list = self._block_tiles_list_maker()
 		print "GBB self.b_tiles_list = ", self.b_tiles_list
+		self.unclicked_blocks = self.b_tiles_list # initially all the blocking tiles
+		print "GBB self.unclicked_blocks = ", self.unclicked_blocks
 		
 		self.b_hortiles_dict = self._b_hortiles_dict_maker()
 		self.b_vertiles_dict = self._b_vertiles_dict_maker()
