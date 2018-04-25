@@ -162,8 +162,8 @@ class GridBlocBoard():
 		## close edges
 		close_all_edges = True # condition this to static or dyanmic config
 		if close_all_edges == True: 
-		  close_edges(self)
-		
+		  if close_edges(self) == True: self.edges_closed = True
+		print "GBB self.edges_closed = ", self.edges_closed
 		
 		############### initial RUN
 		
@@ -314,17 +314,14 @@ class GridBlocBoard():
     print "self.run_style=", self.run_style
     print "AT THIS STAGE: self.valid_runs=", self.valid_runs
     
-    # done in click_tile...() - integrate self.clicked_tiles_walls_list
-    
     if self.run_style == "random":      
       ct_run = random.choice(self.valid_runs)
       
     else:
-      # todo -- implement other methods for choosing?
+      # implement other methods for choosing, but for now...
       ct_run = random.choice(self.valid_runs)
       
     print "THIS RUN ct_run", ct_run
-    # DONE, so update LISTS (self.clicked_runs, etc) by sending to click_tile_or_wall
     click_tile_or_wall(self, ct_run)
           
     return ct_run
@@ -357,7 +354,7 @@ class GridBlocBoard():
       ct_block_coords = (b_tile_type, b_tile_row, b_tile_num)
       
     elif self.block_style == "close":
-      ''' pick from dict based on seprator block row UP or DOWN or adjacent  '''
+      ''' pick from dict based on separator block row UP or DOWN or adjacent '''
       pass
     
     else:
@@ -479,7 +476,7 @@ class GridBlocBoard():
     
     ''' build block_tiles_master_dict, really just combine existing dicts with type key '''
     
-    b_tiles_master_dict = {} # ct = currenttile = tuple of (type, rownum, tilenum) ???
+    b_tiles_master_dict = {} # ct = currenttile = tuple of (type, rownum, tilenum)
     b_tiles_master_dict[1] = self.b_hortiles_dict # converted to int 1 for horizontals
     b_tiles_master_dict[2] = self.b_vertiles_dict # converted to int 2 for verticals
     
@@ -544,11 +541,11 @@ def close_edges(self):
   
   ''' use list of all for edges to target them for closure '''
   
-  # hmm, some function click each edge_wall in list
   print "self.edge_walls_list", self.edge_walls_list
   
   for edgewall in self.edge_walls_list:
     print "edgewall", edgewall
+    
     if click_tile_or_wall(self, edgewall) == True: 
       edges_closed = True ## todo - what should this be??
     else:
