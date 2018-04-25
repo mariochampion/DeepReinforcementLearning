@@ -590,7 +590,6 @@ def click_tile_or_wall(self, clickthistile):
   
   ''' click a tile or wall, check for validity, probably, by adding to clicked_walls[] '''
   
-  
   # if run_tile add to clicked_runs, if block_tile add to clicked_blocks
   
   if clickthistile in self.run_tiles_list:
