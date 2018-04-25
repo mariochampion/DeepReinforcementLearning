@@ -184,7 +184,8 @@ class GridBlocBoard():
 		############### initial BLOCK
 		
 		self.block_style = "random" # h=1 or v=2 tile type
-		self.ct_block_coords = self._pick_ct_block_coords() # ct_block_coords = (b_tile_type, b_tile_row, b_tile_num)
+		self.ct_block = self._tilepick_block()
+		# ct_block_coords = (b_tile_type, b_tile_row, b_tile_num)
 		print "GBB self.ct_block_coords = ", self.ct_block_coords
 		
 		self.b_tile_type = self.ct_block_coords[0]
@@ -326,7 +327,41 @@ class GridBlocBoard():
     
 
 #################################  
-  def _pick_ct_block_coords(self):
+  def _tilepick_block(self):
+    gbutil.whereami(sys._getframe().f_code.co_name)
+    
+    '''
+    placeholder to pick a tile -- starting tile and in-game as well. 
+    will pick by input or by policy, but for now... random is default but other styles may be passable
+    '''
+    
+    # make more complete switch/case for other pick styles
+    print "self.block_style=", self.block_style
+    print "AT THIS STAGE: self.self.unclicked_blocks=", self.unclicked_blocks
+    
+    if self.block_style == "random":      
+      ct_block = random.choice(self.unclicked_blocks)
+      
+    else:
+      # implement other methods for choosing, but for now...
+      ct_block = random.choice(self.unclicked_blocks)
+      
+    print "THIS BLOCK ct_block", ct_block
+    click_tile_or_wall(self, ct_block)
+    
+    # also set up the coords for this block for later methods
+    self.ct_block = ct_block
+    # now go get the tuple of coordinates
+    self.ct_block_coords = self._get_ct_block_coords()
+          
+    return ct_block
+
+
+
+
+
+################################# 
+  def _get_ct_block_coords(self):
     gbutil.whereami(sys._getframe().f_code.co_name)
     
     '''
@@ -335,6 +370,8 @@ class GridBlocBoard():
     '''
     
     print "self.block_style=", self.block_style
+    print "IGNORED FOR NOW, DURING CHANGES FROM pickcoords to getcoords"
+    print "self.ct_block =", self.ct_block
     
     # todo -- check from valid BLOCKs list, which is UNclicked_blocks 
     # (1st block will have all tiles as valid)
