@@ -167,7 +167,6 @@ class GridBlocBoard():
 		
 		############### initial RUN
 		
-		#todo -- check from valid run moves (1st run will have all moves as valid)
 		self.run_style = "random"
 		self.ct_run = self._tilepick_run() # THIS IS THE RUN!
 		print "GBB self.ct_run = ", self.ct_run
@@ -184,7 +183,6 @@ class GridBlocBoard():
 		
 		############### initial BLOCK
 		
-		#todo -- check from valid BLOCKs list (1st block will have all tiles as valid)
 		self.block_style = "random" # h=1 or v=2 tile type
 		self.ct_block_coords = self._pick_ct_block_coords() # ct_block_coords = (b_tile_type, b_tile_row, b_tile_num)
 		print "GBB self.ct_block_coords = ", self.ct_block_coords
@@ -338,6 +336,8 @@ class GridBlocBoard():
     
     print "self.block_style=", self.block_style
     
+    # todo -- check from valid BLOCKs list, which is UNclicked_blocks 
+    # (1st block will have all tiles as valid)
     # todo - integrate self.clicked_tiles_walls_list
     # todo - recursive if tile already picked? or generate a list for picking BEFORE these steps
     
