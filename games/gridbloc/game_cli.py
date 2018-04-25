@@ -219,8 +219,8 @@ class GridBlocBoard():
 		############### __init__ SUMMARY
 		print "-------- summary ----------"
 		print "END GBB self.clicked_tiles_walls_list = ", self.clicked_tiles_walls_list
-		print "END GBB self.valid_runs = ", self.valid_runs
 		print "END GBB self.clicked_runs = ", self.clicked_runs
+		print "END GBB self.valid_runs = ", self.valid_runs
 		print "END GBB self.unclicked_runs =", self.unclicked_runs
 		print
 		print "END GBB self.clicked_blocks = ", self.clicked_blocks
@@ -312,23 +312,19 @@ class GridBlocBoard():
     
     # make more complete switch/case for other pick styles
     print "self.run_style=", self.run_style
+    print "AT THIS STAGE: self.valid_runs=", self.valid_runs
     
-    # todo - integrate self.clicked_tiles_walls_list
-    # todo - pick from UNclicked_runs, then add to clicked_runs.
+    # done in click_tile...() - integrate self.clicked_tiles_walls_list
     
-    if self.run_style == "random":
-    
-      list_tilepick = random.choice(list(self.run_tiles_byrow_dict))
-      print "list_tilepick = run row = ", str(list_tilepick)
-      ct_run = random.choice( list(self.run_tiles_byrow_dict[list_tilepick]) )
-    
-    
-    
+    if self.run_style == "random":      
+      ct_run = random.choice(self.valid_runs)
+      
     else:
-      list_tilepick = random.choice(list(self.run_tiles_byrow_dict))
-      ct_run = random.choice( list(self.run_tiles_byrow_dict[list_tilepick]) )
-    
-    # DONE update self.clicked_runs by sending to click_tile_or_wall
+      # todo -- implement other methods for choosing?
+      ct_run = random.choice(self.valid_runs)
+      
+    print "THIS RUN ct_run", ct_run
+    # DONE, so update LISTS (self.clicked_runs, etc) by sending to click_tile_or_wall
     click_tile_or_wall(self, ct_run)
           
     return ct_run
@@ -567,26 +563,54 @@ def click_tile_or_wall(self, clickthistile):
   
   ''' click a tile or wall, check for validity, probably, by adding to clicked_walls[] '''
   
-  self.clicked_tiles_walls_list.append(clickthistile) # master list
+  
   # if run_tile add to clicked_runs, if block_tile add to clicked_blocks
   
   if clickthistile in self.run_tiles_list:
     print "logging RUN at ", clickthistile
     self.clicked_runs.append(clickthistile)
     self.unclicked_runs.remove(clickthistile)
+    # get a new valid runs, based on powers, etc
+    calculate_valid_runs(self, clickthistile)
 
   if clickthistile in self.b_tiles_list:
     print "logging BLOCK at ", clickthistile
     self.clicked_blocks.append(clickthistile)
     self.unclicked_blocks.remove(clickthistile)
-  
-  #return status code if successful
-  if clickthistile in self.clicked_tiles_walls_list: # todo - is this the right check?
-    return True ## todo - what should this be??
+    
+  self.clicked_tiles_walls_list.append(clickthistile) # update master list
+
+  # todo - is this the right check & status code to return?
+  if clickthistile in self.clicked_tiles_walls_list: 
+    clicksuccess = True 
   else:
-    return False ## todo - what should this be??
+    clicksuccess = False
   
+  return clicksuccess
+
+
+
+################################# 
+def calculate_valid_runs(self, ct_run_tile):
+  gbutil.whereami(sys._getframe().f_code.co_name)
   
+  ''' click a tile or wall, check for validity, probably, by adding to clicked_walls[] '''
+  
+  print "CVR remove ", ct_run_tile, "from", self.valid_runs
+  current_valid_runs = self.valid_runs[:]
+  current_valid_runs.remove(ct_run_tile)
+  # todo - temp trick for not calculating based on blocks but just NOT current tile
+  self.valid_runs = current_valid_runs[:]
+  print "CVR self.valid_runs", self.valid_runs
+  #todo - what is right check/status
+  if ct_run_tile not in self.valid_runs:
+    newvrsuccess = True
+  else:
+    newvrsuccess = False
+    
+  return newvrsuccess
+
+
 
 
 
