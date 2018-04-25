@@ -222,6 +222,7 @@ class GridBlocBoard():
 		print "END GBB self.valid_runs = ", self.valid_runs
 		print "END GBB self.unclicked_runs =", self.unclicked_runs
 		print
+		print "END GBB self.ct_block = ", self.ct_block
 		print "END GBB self.clicked_blocks = ", self.clicked_blocks
 		print "END GBB self.unclicked_blocks =", self.unclicked_blocks
 		
