@@ -71,7 +71,7 @@ class GridBlocBoard():
 
 		self.all_the_tiles = range(1, (self.tile_max+1))
 		print "GBB self.all_the_tiles = ", self.all_the_tiles
-		
+				
 		### from all_tiles create on __init__:
 		#  - valid_runs[] (based on powers, which for now are DUCK, which means adjacent, not blocked)
 		#  - clicked_runs[], unclicked_runs[]
@@ -161,7 +161,9 @@ class GridBlocBoard():
 		print "GBB self.edges_closed = ", self.edges_closed
 		
 		############### initial RUN
-		
+		# runnerpower determines self.valid_runs in calculate_valid_runs()
+		self.runnerpower = "duck" # also cheetah, roo, bee, mouse, chicken, frog
+
 		self.run_style = "random"
 		self.ct_run = self._tilepick_run() # THIS IS THE RUN!
 		print "GBB self.ct_run = ", self.ct_run
@@ -617,30 +619,51 @@ def click_tile_or_wall(self, clickthistile):
 
 
 ################################# 
-def calculate_valid_runs(self, ct_run_tile):
+def calculate_valid_runs(self, fromthistile):
   gbutil.whereami(sys._getframe().f_code.co_name)
   
   ''' click a tile or wall, check for validity, probably, by adding to clicked_walls[] '''
   
-  print "CVR remove ", ct_run_tile, "from", self.valid_runs
-  current_valid_runs = self.valid_runs[:]
-  current_valid_runs.remove(ct_run_tile)
+  moves_all = find_moves(self, fromthistile) # get all options
+  for move in moves_all:
+    if move_is_blocked(self, move) == True:
+      moves_all.remove(move) # if blocked, remove from options
   
-  # TODO - temp trick for not calculating based on blocks but just NOT current tile
-  self.valid_runs = current_valid_runs[:]
+  self.valid_runs = moves_all[:] # make a copy
+  
+  # cvr_success = "calculate valid runs success"
+  if fromthistile not in self.valid_runs:
+    cvr_success = False # todo - what is right check/status
+  else:
+    cvr_success = False # todo - what is right check/status
+  
   print "CVR self.valid_runs", self.valid_runs
   
-  #todo - what is right check/status
-  if ct_run_tile not in self.valid_runs:
-    newvrsuccess = True
-  else:
-    newvrsuccess = False
+  
+  return cvr_success
+
+################################# 
+def find_moves(self, fromthistile):
+  gbutil.whereami(sys._getframe().f_code.co_name)
+  ''' ddd '''
+  
+  print "fromthistile", fromthistile
+  moves_all = []
+  
+  return moves_all
+  
+  
+################################# 
+def move_is_blocked(self, move):
+  gbutil.whereami(sys._getframe().f_code.co_name)
+  ''' ddd '''
+  
+  print "move", move
+  
+  return
+  
+  
     
-  return newvrsuccess
-
-
-
-
 
 
 
