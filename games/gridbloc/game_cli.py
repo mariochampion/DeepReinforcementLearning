@@ -24,9 +24,10 @@ DEV STEPS OF THIS FILE:
 7. allow for a watch out for borders, so when row1 cannot goup, and edgeright, cannot go right, etc
 
 MVP CLI phases
-1. input w and h and it calcs gamestate and tile options arrays
+1. input w and h and it calcs gamestate and tile options arrays - done.
 2. input ct param and it calcs the legal moves arrays for runner and blocker
-3. input ct and calcs GOOD moves not just legal moves for runner and blocker
+  - setup and check: valid_runs[]clicked_runs[], unclicked_runs[], clicked_blocks[], unclicked_blocks[]
+3. input ct and calcs GOOD moves not just legal moves for runner and blocker - thats a whole other thing
 
 
 PARAMETERS 
@@ -76,9 +77,15 @@ class GridBlocBoard():
 		self.all_the_tiles = range(1, (self.tile_max+1))
 		print "GBB self.all_the_tiles = ", self.all_the_tiles
 		
-		#TODO -- need separate tiles and walls lists? or just this one?
+		### TODO -- need separate tiles and walls lists? or just this one? actually yes:
+		# from all_tiles create on __init__:
+		#  - valid_runs[] (based on powers, which for now are DUCK, which means adjacent, not blocked)
+		#  - clicked_runs[], unclicked_runs[]
+		#  - clicked_blocks[], unclicked_blocks[]
 		self.clicked_tiles_walls_list = []
 		print "START GBB self.clicked_tiles_walls_list = ", self.clicked_tiles_walls_list
+		
+		
 		
 		self.vert_tile_distance = 3 * self.w + 1
 		print "GBB self.vert_tile_distance = ",self.vert_tile_distance
@@ -93,7 +100,8 @@ class GridBlocBoard():
 		print "GBB self.run_tiles_list = ", self.run_tiles_list
 		
 		self.run_style = "random"
-		self.ct_run = self._tilepick_run()
+		#todo -- check from valid run moves (1st run will have all moves as valid)
+		self.ct_run = self._tilepick_run() # THIS IS THE RUN!
 		print "GBB self.ct_run = ", self.ct_run
 		
 		#formerly "n" as in R(subscript n)
