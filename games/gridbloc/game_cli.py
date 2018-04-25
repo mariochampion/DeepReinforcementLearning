@@ -101,9 +101,9 @@ class GridBlocBoard():
 		
 		self.run_tiles_list = self._run_tiles_list_maker()
 		print "GBB self.run_tiles_list = ", self.run_tiles_list
-		self.valid_runs = self.run_tiles_list # initially COPY of all running tiles
+		self.valid_runs = self.run_tiles_list[:] # initially COPY of all running tiles
 		print "START GBB self.valid_runs = ", self.valid_runs
-		self.unclicked_runs = self.run_tiles_list # initially COPY of all running tiles
+		self.unclicked_runs = self.run_tiles_list[:] # initially COPY of all running tiles
 		print "START GBB self.unclicked_runs = ", self.unclicked_runs
 		
 		
@@ -114,7 +114,7 @@ class GridBlocBoard():
 		
 		self.b_tiles_list = self._block_tiles_list_maker()
 		print "GBB self.b_tiles_list = ", self.b_tiles_list
-		self.unclicked_blocks = self.b_tiles_list # initially COPY of all blocking tiles
+		self.unclicked_blocks = self.b_tiles_list[:] # initially COPY of all blocking tiles
 		print "GBB self.unclicked_blocks = ", self.unclicked_blocks
 		
 		self.b_hortiles_dict = self._b_hortiles_dict_maker()
@@ -159,10 +159,8 @@ class GridBlocBoard():
 		self.edge_walls_list = self._build_edges_list()
 		print "GBB self.edge_walls_list = ", self.edge_walls_list
 		
-		
-		
-		#todo -- move this to config by input or static
-		close_all_edges = True # condition this to run
+		## close edges
+		close_all_edges = True # condition this to static or dyanmic config
 		if close_all_edges == True: 
 		  close_edges(self)
 		
@@ -175,7 +173,7 @@ class GridBlocBoard():
 		print "GBB self.ct_run = ", self.ct_run
 		
 		
-		#formerly "n" as in R(subscript n)
+		# self.run_row_num -- formerly "n" as in R(subscript n)
 		self.run_row_num = int( math.ceil( float(self.ct_run) / float((3 * self.w) + 1) ) )
 		print "GBB self.run_row_num = ", self.run_row_num
 
@@ -185,6 +183,7 @@ class GridBlocBoard():
 		
 		
 		############### initial BLOCK
+		
 		#todo -- check from valid BLOCKs list (1st block will have all tiles as valid)
 		self.block_style = "random" # h=1 or v=2 tile type
 		self.ct_block_coords = self._pick_ct_block_coords() # ct_block_coords = (b_tile_type, b_tile_row, b_tile_num)
@@ -203,6 +202,7 @@ class GridBlocBoard():
 		
 
 		########################## JUST A TEST
+		print "-------- test ----------"
 		# not needed on __init__, just here to test it
 		this_b_col = random.randint(1,self.w+1)
 		self.b_row_v_list = block_row_vert_list(self, this_b_col) 
