@@ -44,11 +44,6 @@ SOME FORMULAS
 # NOTE: need to calculate "ct_run" when starting, from the available runner options. then track as runner moves, using the formulas.
 # NOTE: "n" is calculated from ct_run and w, then track as runner moves, using the formulas.
 
- 
- * close_edges() # function to identify all edge tiles to prevent edge-wrap/pacman movement. (for now!)
- 
- * ct_run_available_all = []
- * ct_run_available_nextmove = []
 '''
 
 
