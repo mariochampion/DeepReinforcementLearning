@@ -373,11 +373,8 @@ class GridBlocBoard():
     print "IGNORED FOR NOW, DURING CHANGES FROM pickcoords to getcoords"
     print "self.ct_block =", self.ct_block
     
-    # todo -- check from valid BLOCKs list, which is UNclicked_blocks 
-    # (1st block will have all tiles as valid)
-    # todo - integrate self.clicked_tiles_walls_list
-    # todo - recursive if tile already picked? or generate a list for picking BEFORE these steps
-    
+    # TODO - work backwards from self.ct_block to coordinates
+        
     if self.block_style == "random":
       ''' from self.block_tiles_master_dict: ranpick 1=hor 2=vert, then from rownums, then a tile '''
       b_tile_type = random.randint(1,2) # h=1 or v=2 tile type
@@ -633,9 +630,11 @@ def calculate_valid_runs(self, ct_run_tile):
   print "CVR remove ", ct_run_tile, "from", self.valid_runs
   current_valid_runs = self.valid_runs[:]
   current_valid_runs.remove(ct_run_tile)
-  # todo - temp trick for not calculating based on blocks but just NOT current tile
+  
+  # TODO - temp trick for not calculating based on blocks but just NOT current tile
   self.valid_runs = current_valid_runs[:]
   print "CVR self.valid_runs", self.valid_runs
+  
   #todo - what is right check/status
   if ct_run_tile not in self.valid_runs:
     newvrsuccess = True
