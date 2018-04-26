@@ -88,7 +88,7 @@ class GridBlocBoard():
 		self.vert_tile_distance = 3 * self.w + 1
 		print "GBB self.vert_tile_distance = ",self.vert_tile_distance
 
-		#todo -- formula? diff by run column actually...
+		# TODO -- formula? diff by run column actually...
 		self.vert_edge_to_ct = 5 
 		print "GBB self.vert_edge_to_ct = ",self.vert_edge_to_ct
 		
@@ -167,7 +167,8 @@ class GridBlocBoard():
 		############### initial RUN
 		# runnerpower determines self.valid_runs in calculate_valid_runs()
 		self.runnerpower = "duck" # also cheetah, roo, bee, mouse, chicken, frog
-
+		
+		### TODO -- WRAP RUN AND BLOCK IN WRAPPER OF STEPS / CHECKS
 		# PICK THE RUN!
 		self.run_style = "random"
 		self.ct_run = self._tilepick_run() 
@@ -187,7 +188,7 @@ class GridBlocBoard():
 		
 		
 		############### initial BLOCK
-		
+		### TODO -- WRAP RUN AND BLOCK IN WRAPPER OF STEPS / CHECKS
 		# PICK THE BLOCK
 		self.block_style = "random" # h=1 or v=2 tile type
 		self.ct_block = self._tilepick_block() 
