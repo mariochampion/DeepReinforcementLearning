@@ -181,8 +181,10 @@ class GridBlocBoard():
 		############### initial BLOCK
 		
 		self.block_style = "random" # h=1 or v=2 tile type
-		self.ct_block = self._tilepick_block()
-		# ct_block_coords = (b_tile_type, b_tile_row, b_tile_num)
+		self.ct_block = self._tilepick_block() # THIS IS THE BLOCK
+		
+		# now go get the tuple of coordinates = (b_tile_type, b_tile_row, b_tile_num)
+		self.ct_block_coords = self._get_ct_block_coords()
 		print "GBB self.ct_block_coords = ", self.ct_block_coords
 		
 		self.b_tile_type = self.ct_block_coords[0]
@@ -351,9 +353,6 @@ class GridBlocBoard():
     #do the actual click processing...
     if click_tile_or_wall(self, ct_block) == False:
       self._tilepick_block(self) # try again...
-    else:
-      # now go get the tuple of coordinates
-      self.ct_block_coords = self._get_ct_block_coords()
           
     return ct_block
 
