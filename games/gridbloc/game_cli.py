@@ -87,6 +87,10 @@ class GridBlocBoard():
 		
 		self.vert_tile_distance = 3 * self.w + 1
 		print "GBB self.vert_tile_distance = ",self.vert_tile_distance
+
+		#todo -- formula? diff by run column actually...
+		self.vert_edge_to_ct = 5 
+		print "GBB self.vert_edge_to_ct = ",self.vert_edge_to_ct
 		
 		self.run_row_len = 2 * self.w + 1
 		print "GBB self.run_row_len = ", self.run_row_len
@@ -683,17 +687,54 @@ def run_is_unblocked(self, runtile):
   gbutil.whereami(sys._getframe().f_code.co_name)
   ''' from self.clicked_blocks and self.ct_run calculate blocked and UNblocked run options '''
   
+  ### for self.runningpower == "duck"
   ## orthagonals
   # if ct_run +/- 1 is in self.clicked_blocks, then no ct_run +/- 2
-  # if ct_run +/- self.vert_tile_distance, then no vert up/dn
+  # if ct_run +/- ct_top/ct_bottom, then no vert up/dn
   # if vert up/dn +/- 1 in self.clicked_blocks, then no vert up/dn +/- 2  
   ## diagonals 
-  # if from ct_run +/-1 AND ct_run_top, no then no vert up +/- 2
-  # if from ct_run +/-1 AND ct_run_bottom, no then no vert dn +/- 2
+  # if ct_run +/-1 AND ct_top, no then no vert up +/- 2
+  # if ct_run +/-1 AND ct_bottom, no then no vert dn +/- 2
   
+  # set up vars
+  ct_leftedge = ct_run-1
+  ct_rightedge = ct_run+1
+  ct_top = ct_run - self.vert_edge_to_ct 
+  ct_bottom = ct_run + self.vert_edge_to_ct
+  
+  # run thru conditionals for DUCK
+  if self.runningpower == "duck":
+    # orthagonals
+    if runtile == ct_run - 2: # LEFT
+      if ct_leftedge is in self.clicked_blocks: is_blocked = True
+
+    if runtile == ct_run + 2: # RIGHT
+      if ct_rightedge is in self.clicked_blocks: is_blocked = True
+
+    if runtile == ct_run - self.vert_tile_distance: # UP
+      if ct_top is in self.clicked_blocks: is_blocked = True
+
+    if runtile == ct_run + self.vert_tile_distance: # DN
+      if ct_bottom is in self.clicked_blocks: is_blocked = True
+
+    # diagonals
+    if runtile == ct_run + self.vert_tile_distance - 2: # DN LEFT
+      if ct_bottom is in self.clicked_blocks and ct_leftedge is in self.clicked_blocks: is_blocked = True
+      
+    if runtile == ct_run + self.vert_tile_distance + 2: # DN RIGHT
+      if ct_bottom is in self.clicked_blocks and ct_rightedge is in self.clicked_blocks: is_blocked = True
+
+    if runtile == ct_run - self.vert_tile_distance - 2: # UP LEFT
+      if ct_top is in self.clicked_blocks and ct_leftedge is in self.clicked_blocks: is_blocked = True
+      
+    if runtile == ct_run - self.vert_tile_distance + 2: # UP RIGHT
+      if ct_top is in self.clicked_blocks and ct_rightedge is in self.clicked_blocks: is_blocked = True
+
+
+
   print "runtile", runtile
   
-  return True
+  return is_blocked
   
   
     
