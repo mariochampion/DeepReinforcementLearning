@@ -194,7 +194,8 @@ class GridBlocBoard():
 		if click_tile_or_wall(self, self.ct_block) == False:
 		  self.ct_block = self._tilepick_block(self) # or try again...
 		  
-		# need to update valid runs again, with block  
+		# need to update valid runs again, with block
+		calculate_valid_runs(self, self.ct_run) # todo - do something with true/false return
 		
 		# now go get the tuple of coordinates = (b_tile_type, b_tile_row, b_tile_num)
 		self.ct_block_coords = self._get_ct_block_coords()
@@ -588,6 +589,8 @@ def click_tile_or_wall(self, clickthistile):
       # a valid block
       self.clicked_blocks.append(clickthistile)
       self.unclicked_blocks.remove(clickthistile)
+      #calculate_valid_runs(self, clickthistile)
+      
     else:
       # an already blocked block
       return False #todo - what of this? is error? should this be checked sooner?
