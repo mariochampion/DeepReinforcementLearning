@@ -612,7 +612,7 @@ def calculate_valid_runs(self, fromthistile):
   actual_runs = sorted( list( set(theory_runs) & set(self.run_tiles_list) ) )
   print "CVR POST CHK actual_runs", actual_runs
   
-  #remove blocked runs
+  #remove blocked runs from actuals available
   unblocked_runs = []
   for move in actual_runs:
     if run_is_unblocked(self, move) == True:
@@ -681,7 +681,15 @@ def vert_tile(self, direction, this_tile = False,):
 ################################# TODO -- MAKE THIS WORK!
 def run_is_unblocked(self, runtile):
   gbutil.whereami(sys._getframe().f_code.co_name)
-  ''' ddd '''
+  ''' from self.clicked_blocks and self.ct_run calculate blocked and UNblocked run options '''
+  
+  ## orthagonals
+  # if ct_run +/- 1 is in self.clicked_blocks, then no ct_run +/- 2
+  # if ct_run +/- self.vert_tile_distance, then no vert up/dn
+  # if vert up/dn +/- 1 in self.clicked_blocks, then no vert up/dn +/- 2  
+  ## diagonals 
+  # if from ct_run +/-1 AND ct_run_top, no then no vert up +/- 2
+  # if from ct_run +/-1 AND ct_run_bottom, no then no vert dn +/- 2
   
   print "runtile", runtile
   
