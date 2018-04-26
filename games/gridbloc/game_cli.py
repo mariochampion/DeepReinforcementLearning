@@ -734,8 +734,10 @@ def run_is_unblocked(self, runtile):
   print "RUB self.ct_run", self.ct_run
   vert_top_coeff = (self.ct_run - run_row_starter(self, thisrunrow)) / 2
   print "RUB vert_top_coeff", vert_top_coeff
-  vert_bottom_coeff = 3 # TODO FaKeR
 
+  ############################
+  vert_bottom_coeff = 3 # TODO FaKeR
+  ############################
   
   ct_leftedge = self.ct_run - 1
   ct_rightedge = self.ct_run + 1
@@ -743,41 +745,48 @@ def run_is_unblocked(self, runtile):
   print "RUB ct_top", ct_top 
   ct_bottom = self.ct_run + vert_bottom_coeff
   print "RUB ct_bottom", ct_bottom
-  is_blocked = False
+  
   
   # run thru conditionals for DUCK
   if self.runnerpower  == "duck":
+    
+    is_unblocked = True
+    
     # orthagonals
     if runtile == self.ct_run - 2: # LEFT
-      if ct_leftedge in self.clicked_blocks: is_blocked = True
+      if ct_leftedge in self.clicked_blocks: is_unblocked = False
 
     if runtile == self.ct_run + 2: # RIGHT
-      if ct_rightedge in self.clicked_blocks: is_blocked = True
+      if ct_rightedge in self.clicked_blocks: is_unblocked = False
 
     if runtile == self.ct_run - self.vert_tile_distance: # UP
-      if ct_top in self.clicked_blocks: is_blocked = True
+      if ct_top in self.clicked_blocks: is_unblocked = False
 
     if runtile == self.ct_run + self.vert_tile_distance: # DN
-      if ct_bottom in self.clicked_blocks: is_blocked = True
+      if ct_bottom in self.clicked_blocks: is_unblocked = False
 
     # diagonals
     if runtile == self.ct_run + self.vert_tile_distance - 2: # DN LEFT
-      if ct_bottom in self.clicked_blocks and ct_leftedge in self.clicked_blocks: is_blocked = True
+      if ct_bottom in self.clicked_blocks and ct_leftedge in self.clicked_blocks:
+        is_unblocked = False
       
     if runtile == self.ct_run + self.vert_tile_distance + 2: # DN RIGHT
-      if ct_bottom in self.clicked_blocks and ct_rightedge in self.clicked_blocks: is_blocked = True
+      if ct_bottom in self.clicked_blocks and ct_rightedge in self.clicked_blocks: 
+        is_unblocked = False
 
     if runtile == self.ct_run - self.vert_tile_distance - 2: # UP LEFT
-      if ct_top in self.clicked_blocks and ct_leftedge in self.clicked_blocks: is_blocked = True
+      if ct_top in self.clicked_blocks and ct_leftedge in self.clicked_blocks: 
+        is_unblocked = False
       
     if runtile == self.ct_run - self.vert_tile_distance + 2: # UP RIGHT
-      if ct_top in self.clicked_blocks and ct_rightedge in self.clicked_blocks: is_blocked = True
+      if ct_top in self.clicked_blocks and ct_rightedge in self.clicked_blocks: 
+        is_unblocked = False
 
 
-  if is_blocked == True: print "RUB BLOCKED run", self.ct_run," to", runtile
-  if is_blocked == False: print "RUB UNblocked run", self.ct_run, "to", runtile
+  if is_unblocked == True: print "RUB UNblocked run", self.ct_run," to", runtile
+  if is_unblocked == False: print "RUB Blocked run", self.ct_run, "to", runtile
   
-  return is_blocked
+  return is_unblocked
   
   
     
