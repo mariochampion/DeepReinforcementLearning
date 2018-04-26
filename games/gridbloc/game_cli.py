@@ -594,10 +594,23 @@ def calculate_valid_runs(self, fromthistile):
   
   ''' click a tile or wall, check for validity, probably, by adding to clicked_walls[] '''
   
-  new_valid_runs = find_new_valid_runs(self, fromthistile) # get all options
+  theory_runs = find_theoretical_runs(self, fromthistile) # get all options
+  
+  # limit theory runs to actual tiles
+  print "CVR PRE CHK theory_runs", theory_runs
+  print "CVR self.run_tiles_list", self.run_tiles_list
+  # now check for existing in master list at self.run_tiles_list
+  actual_runs = list( set(theory_runs) & set(self.run_tiles_list) )
+
+  print "CVR POST CHK actual_runs", actual_runs
+  
+  sys.exit(1)
+  
+  #remove blocked runs
   for move in new_valid_runs:
     if move_is_blocked(self, move) == True:
-      new_valid_runs.remove(move) # if blocked, remove from options
+      #new_valid_runs.remove(move) # if blocked, remove from options
+      pass
   
   self.valid_runs = new_valid_runs[:] # make a copy
   
@@ -613,13 +626,13 @@ def calculate_valid_runs(self, fromthistile):
   return cvr_success
 
 ################################# 
-def find_new_valid_runs(self, fromthistile):
+def find_theoretical_runs(self, fromthistile):
   gbutil.whereami(sys._getframe().f_code.co_name)
   ''' check self.runnerpower and build list of options based on that'''
   
   print "fromthistile = ", fromthistile
   print "self.runnerpower = ", self.runnerpower
-  new_valid_runs = []
+  theory_runs = []
   
   # also cheetah, roo, bee, mouse, chicken, frog
   # do duck power things to build a list
@@ -627,21 +640,19 @@ def find_new_valid_runs(self, fromthistile):
     # check that each one is valid in runner tile master list
     # could check via starter/ender, too probably
   if self.runnerpower == "duck":
-    new_valid_runs.append(fromthistile - 2)
-    new_valid_runs.append(fromthistile + 2)
-    
+    # arranged for readabilty of upper left to lower right
     vert_up = vert_tile(self, "up", fromthistile)
-    new_valid_runs.append(vert_up - 2)
-    new_valid_runs.append(vert_up)
-    new_valid_runs.append(vert_up + 2)
-    
+    theory_runs.append(vert_up - 2)
+    theory_runs.append(vert_up)
+    theory_runs.append(vert_up + 2)
+    theory_runs.append(fromthistile - 2)
+    theory_runs.append(fromthistile + 2)
     vert_dn = vert_tile(self, "dn", fromthistile)
-    new_valid_runs.append(vert_dn - 2)
-    new_valid_runs.append(vert_dn)
-    new_valid_runs.append(vert_dn + 2)
+    theory_runs.append(vert_dn - 2)
+    theory_runs.append(vert_dn)
+    theory_runs.append(vert_dn + 2)
     
-  print "NVR new_valid_runs", new_valid_runs
-  return new_valid_runs
+  return theory_runs
   
 
 #################################  
