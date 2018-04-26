@@ -418,37 +418,7 @@ class GridBlocBoard():
 	  return
 
 
-#################################  
-  def _tile_up_from_ct(self, this_tile = False):
-    gbutil.whereami(sys._getframe().f_code.co_name)
-    
-    '''
-    vert_tile = 3w+1 ## to current tile, add this value for below tile, and subtract for above tile.
-    this_tile allows for NOT The current tile, but some arbitrary tile to be passed
-    '''
-    
-    if this_tile == False:
-      tile_up = self.ct_run - (3 * self.w + 1)
-    else:
-      tile_up = this_tile - (3 * self.w + 1)
-    
-    return tile_up
 
-
-#################################
-  def _tile_down_from_ct(self, this_tile = False):
-    gbutil.whereami(sys._getframe().f_code.co_name)
-    
-    '''
-    vert_tile = 3w+1 ## to current tile, add this value for below tile, and subtract for above tile.
-    this_tile allows for NOT The current tile, but some arbitrary tile to be passed
-    '''
-    if this_tile == False:
-      tile_dn = self.ct_run + (3 * self.w + 1)
-    else:
-      tile_dn = this_tile + (3 * self.w + 1)
-    
-    return tile_dn
     
 
 #################################    
@@ -649,19 +619,47 @@ def find_new_valid_runs(self, fromthistile):
   
   print "fromthistile = ", fromthistile
   print "self.runnerpower = ", self.runnerpower
+  new_valid_runs = []
+  
   # also cheetah, roo, bee, mouse, chicken, frog
-  if self.runnerpower == "Duck":
-    # do duck power things to build a list
+  # do duck power things to build a list
     # simplest is plus/minus one, vertup, vertdown with +/- of those two
     # check that each one is valid in runner tile master list
     # could check via starter/ender, too probably
+  if self.runnerpower == "duck":
+    new_valid_runs.append(fromthistile - 2)
+    new_valid_runs.append(fromthistile + 2)
     
-  
-  new_valid_runs = []
-  
+    vert_up = vert_tile(self, "up", fromthistile)
+    new_valid_runs.append(vert_up - 2)
+    new_valid_runs.append(vert_up)
+    new_valid_runs.append(vert_up + 2)
+    
+    vert_dn = vert_tile(self, "dn", fromthistile)
+    new_valid_runs.append(vert_dn - 2)
+    new_valid_runs.append(vert_dn)
+    new_valid_runs.append(vert_dn + 2)
+    
+  print "NVR new_valid_runs", new_valid_runs
   return new_valid_runs
   
+
+#################################  
+def vert_tile(self, direction, this_tile = False,):
+  gbutil.whereami(sys._getframe().f_code.co_name)
+  '''
+  vert_tile = 3w+1 ## to current tile, add this value for below tile, and subtract for above tile.
+  this_tile allows for NOT just the current tile, but some arbitrary tile to be passed
+  '''
   
+  if direction == "up":
+    vert_tile = this_tile - self.vert_tile_distance
+  if direction == "dn":
+    vert_tile = this_tile + self.vert_tile_distance
+      
+  return vert_tile
+
+
 ################################# 
 def move_is_blocked(self, move):
   gbutil.whereami(sys._getframe().f_code.co_name)
