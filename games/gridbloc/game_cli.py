@@ -660,7 +660,7 @@ def move_is_blocked(self, move):
   
   print "move", move
   
-  return
+  return True
   
   
     
