@@ -624,12 +624,12 @@ def calculate_valid_runs(self, fromthistile):
   
   ''' click a tile or wall, check for validity, probably, by adding to clicked_walls[] '''
   
-  moves_all = find_moves(self, fromthistile) # get all options
-  for move in moves_all:
+  new_valid_runs = find_new_valid_runs(self, fromthistile) # get all options
+  for move in new_valid_runs:
     if move_is_blocked(self, move) == True:
-      moves_all.remove(move) # if blocked, remove from options
+      new_valid_runs.remove(move) # if blocked, remove from options
   
-  self.valid_runs = moves_all[:] # make a copy
+  self.valid_runs = new_valid_runs[:] # make a copy
   
   # cvr_success = "calculate valid runs success"
   if fromthistile not in self.valid_runs:
@@ -643,14 +643,23 @@ def calculate_valid_runs(self, fromthistile):
   return cvr_success
 
 ################################# 
-def find_moves(self, fromthistile):
+def find_new_valid_runs(self, fromthistile):
   gbutil.whereami(sys._getframe().f_code.co_name)
-  ''' ddd '''
+  ''' check self.runnerpower and build list of options based on that'''
   
-  print "fromthistile", fromthistile
-  moves_all = []
+  print "fromthistile = ", fromthistile
+  print "self.runnerpower = ", self.runnerpower
+  # also cheetah, roo, bee, mouse, chicken, frog
+  if self.runnerpower == "Duck":
+    # do duck power things to build a list
+    # simplest is plus/minus one, vertup, vertdown with +/- of those two
+    # check that each one is valid in runner tile master list
+    # could check via starter/ender, too probably
+    
   
-  return moves_all
+  new_valid_runs = []
+  
+  return new_valid_runs
   
   
 ################################# 
