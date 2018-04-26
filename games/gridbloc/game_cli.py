@@ -601,18 +601,16 @@ def calculate_valid_runs(self, fromthistile):
   print "CVR self.run_tiles_list", self.run_tiles_list
   # now check for existing in master list at self.run_tiles_list
   actual_runs = sorted( list( set(theory_runs) & set(self.run_tiles_list) ) )
-
   print "CVR POST CHK actual_runs", actual_runs
   
-  sys.exit(1)
-  
   #remove blocked runs
-  for move in new_valid_runs:
-    if move_is_blocked(self, move) == True:
-      #new_valid_runs.remove(move) # if blocked, remove from options
-      pass
-  
-  self.valid_runs = new_valid_runs[:] # make a copy
+  unblocked_runs = []
+  for move in actual_runs:
+    if run_is_unblocked(self, move) == True:
+      unblocked_runs.append(move) # if blocked, remove from options
+      
+  self.valid_runs = [] #not needed, but better for human eyes
+  self.valid_runs = unblocked_runs[:] # make a copy
   
   # cvr_success = "calculate valid runs success"
   if fromthistile not in self.valid_runs:
@@ -672,11 +670,11 @@ def vert_tile(self, direction, this_tile = False,):
 
 
 ################################# 
-def move_is_blocked(self, move):
+def run_is_unblocked(self, runtile):
   gbutil.whereami(sys._getframe().f_code.co_name)
   ''' ddd '''
   
-  print "move", move
+  print "runtile", runtile
   
   return True
   
