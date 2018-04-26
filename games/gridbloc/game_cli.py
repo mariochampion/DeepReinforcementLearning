@@ -24,10 +24,13 @@ DEV STEPS OF THIS FILE:
 7. allow for a watch out for borders, so when row1 cannot goup, and edgeright, cannot go right, etc
 
 MVP CLI phases
-1. input w and h and it calcs gamestate and tile options arrays - done.
-2. input ct param and it calcs the legal moves arrays for runner and blocker
+1. input w and h and it calcs gamestate and tile options arrays - DONE.
+2. input ct param and it calcs the legal moves arrays for runner and blocker - DONE
   - setup and check: valid_runs[], clicked_runs[], unclicked_runs[], clicked_blocks[], unclicked_blocks[]
-3. input ct and calcs GOOD moves not just legal moves for runner and blocker - thats a whole other thing
+3 TODO -- __init__ a board and have it play moves until no valid runs.
+
+4. input ct and calcs GOOD moves not just legal moves for runner and blocker - thats a whole other thing
+
 
 
 PARAMETERS 
@@ -238,6 +241,9 @@ class GridBlocBoard():
 		print "END GBB self.ct_block = ", self.ct_block
 		print "END GBB self.clicked_blocks = ", self.clicked_blocks
 		print "END GBB self.unclicked_blocks =", self.unclicked_blocks
+		
+		
+
 		
 
 
