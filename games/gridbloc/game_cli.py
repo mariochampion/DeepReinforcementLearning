@@ -732,18 +732,14 @@ def run_is_unblocked(self, runtile):
   # set up vars
   thisrunrow = run_row_from_tilenum(self, self.ct_run)
   print "RUB self.ct_run", self.ct_run
-  vert_top_coeff = (self.ct_run - run_row_starter(self, thisrunrow)) / 2
-  print "RUB vert_top_coeff", vert_top_coeff
-
-  ############################
-  vert_bottom_coeff = 3 # TODO FaKeR
-  ############################
+  vert_tile_coeff = (self.ct_run - run_row_starter(self, thisrunrow)) / 2
+  print "RUB vert_tile_coeff", vert_tile_coeff
   
   ct_leftedge = self.ct_run - 1
   ct_rightedge = self.ct_run + 1
-  ct_top = self.ct_run - (self.w + vert_top_coeff) - 1
+  ct_top = self.ct_run - (self.w + vert_tile_coeff) - 1
   print "RUB ct_top", ct_top 
-  ct_bottom = self.ct_run + vert_bottom_coeff
+  ct_bottom = self.ct_run + ( (2 * self.w - vert_tile_coeff))
   print "RUB ct_bottom", ct_bottom
   
   
