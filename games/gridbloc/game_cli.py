@@ -774,8 +774,8 @@ def run_is_unblocked(self, runtile):
       if ct_top in self.clicked_blocks and ct_rightedge in self.clicked_blocks: is_blocked = True
 
 
-  if is_blocked == True: print "BLOCKED run", self.ct_run," to", runtile
-  if is_blocked == False: print "UNblocked run", self.ct_run, "to", runtile
+  if is_blocked == True: print "RUB BLOCKED run", self.ct_run," to", runtile
+  if is_blocked == False: print "RUB UNblocked run", self.ct_run, "to", runtile
   
   return is_blocked
   
