@@ -693,10 +693,11 @@ def run_row_starter(self, row_num):
   ''' just add one to _run_row_left_edge(self, row_num)'''
     
   run_row_starter = self._run_row_left_edge(row_num) + 1
+  print "run_row_starter", run_row_starter
   return run_row_starter
     
 #################################    
-def run_row_from_runtile(self, runtile):
+def run_row_from_tilenum(self, runtile):
   gbutil.whereami(sys._getframe().f_code.co_name)
   ''' look thru self.run_tiles_byrow_dict for tile's runrow'''
 
@@ -729,9 +730,12 @@ def run_is_unblocked(self, runtile):
   # if ct_run +/-1 AND ct_bottom, no then no vert dn +/- 2
   
   # set up vars
-  thisrunrow = run_row_from_runtile(self, runtile)
+  thisrunrow = run_row_from_tilenum(self, self.ct_run)
+  print "self.ct_run", self.ct_run
   vert_edge_coeff = (self.ct_run - run_row_starter(self, thisrunrow)) / 2
+  print "vert_edge_coeff", vert_edge_coeff
   vert_edge_to_ct = self.ct_run - (self.w + vert_edge_coeff) - 1
+  print "vert_edge_to_ct", vert_edge_to_ct
   
   ct_leftedge = self.ct_run - 1
   ct_rightedge = self.ct_run + 1
@@ -768,8 +772,8 @@ def run_is_unblocked(self, runtile):
       if ct_top in self.clicked_blocks and ct_rightedge in self.clicked_blocks: is_blocked = True
 
 
-  if is_blocked == True: print "run to", runtile, "from ",self.ct_run," is BLOCKED"
-  if is_blocked == False: print "run to", runtile, "from ",self.ct_run,"is unblocked"
+  if is_blocked == True: print "run to", runtile, "from", self.ct_run, " is BLOCKED"
+  if is_blocked == False: print "run to", runtile, "from", self.ct_run, "is unblocked"
   
   return is_blocked
   
