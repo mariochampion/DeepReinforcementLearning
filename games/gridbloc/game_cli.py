@@ -678,7 +678,7 @@ def vert_tile(self, direction, this_tile = False,):
   return vert_tile
 
 
-################################# 
+################################# TODO -- MAKE THIS WORK!
 def run_is_unblocked(self, runtile):
   gbutil.whereami(sys._getframe().f_code.co_name)
   ''' ddd '''
