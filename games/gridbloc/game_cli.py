@@ -319,7 +319,10 @@ class GridBlocBoard():
       ct_run = random.choice(self.valid_runs)
       
     print "THIS RUN ct_run", ct_run
-    click_tile_or_wall(self, ct_run)
+
+    #do the actual click processing...
+    if click_tile_or_wall(self, ct_run) == False:
+      self._tilepick_run(self) # try again...
           
     return ct_run
     
@@ -345,12 +348,12 @@ class GridBlocBoard():
       ct_block = random.choice(self.unclicked_blocks)
       
     print "THIS BLOCK ct_block", ct_block
-    click_tile_or_wall(self, ct_block)
-    
-    # also set up the coords for this block for later methods
-    self.ct_block = ct_block
-    # now go get the tuple of coordinates
-    self.ct_block_coords = self._get_ct_block_coords()
+    #do the actual click processing...
+    if click_tile_or_wall(self, ct_block) == False:
+      self._tilepick_block(self) # try again...
+    else:
+      # now go get the tuple of coordinates
+      self.ct_block_coords = self._get_ct_block_coords()
           
     return ct_block
 
