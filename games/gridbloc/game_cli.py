@@ -600,7 +600,7 @@ def calculate_valid_runs(self, fromthistile):
   print "CVR PRE CHK theory_runs", theory_runs
   print "CVR self.run_tiles_list", self.run_tiles_list
   # now check for existing in master list at self.run_tiles_list
-  actual_runs = list( set(theory_runs) & set(self.run_tiles_list) )
+  actual_runs = sorted( list( set(theory_runs) & set(self.run_tiles_list) ) )
 
   print "CVR POST CHK actual_runs", actual_runs
   
