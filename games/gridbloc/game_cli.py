@@ -88,10 +88,6 @@ class GridBlocBoard():
 		self.vert_tile_distance = 3 * self.w + 1
 		print "GBB self.vert_tile_distance = ",self.vert_tile_distance
 
-		# TODO -- formula? diff by run column actually...
-		self.vert_edge_to_ct = 5 
-		print "GBB self.vert_edge_to_ct = ",self.vert_edge_to_ct
-		
 		self.run_row_len = 2 * self.w + 1
 		print "GBB self.run_row_len = ", self.run_row_len
 
@@ -301,6 +297,31 @@ class GridBlocBoard():
 
     run_row_leftedge = (row_num * self.w) + ( (row_num - 1) * ( (2 * self.w) + 1) ) + 1    
     return run_row_leftedge
+
+
+
+#################################    
+  def _run_row_starter(self, row_num):
+    gbutil.whereami(sys._getframe().f_code.co_name)
+    ''' just add one to _run_row_left_edge(self, row_num)'''
+    
+    run_row_starter = _run_row_left_edge(self, row_num) + 1
+    return run_row_starter
+    
+#################################    
+  def _run_row_from_runtile(self, runtile):
+    gbutil.whereami(sys._getframe().f_code.co_name)
+    ''' just add one to _run_row_left_edge(self, row_num)'''
+    print "runtile", runtile
+    for row in self.run_tiles_byrow_dict:
+      print "row", row
+      for tile in row:
+        print "tile:", tile
+        if runtile in row:
+          print "returning this run row! ", row 
+          return row
+    
+    return false
     
 
 #################################    
@@ -704,10 +725,14 @@ def run_is_unblocked(self, runtile):
   # if ct_run +/-1 AND ct_bottom, no then no vert dn +/- 2
   
   # set up vars
+  vert_edge_coeff = (self.ct_run - run_row_starter(self.ct_run)) / 2
+  vert_edge_to_ct = self.ct_run - (self.w + vert_edge_coeff) -
+  
+  
   ct_leftedge = self.ct_run - 1
   ct_rightedge = self.ct_run + 1
-  ct_top = self.ct_run - self.vert_edge_to_ct 
-  ct_bottom = self.ct_run + self.vert_edge_to_ct
+  ct_top = self.ct_run - vert_edge_to_ct 
+  ct_bottom = self.ct_run + vert_edge_to_ct
   is_blocked = False
   
   # run thru conditionals for DUCK
