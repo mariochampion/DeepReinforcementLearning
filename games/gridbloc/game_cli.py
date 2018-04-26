@@ -590,7 +590,7 @@ def click_tile_or_wall(self, clickthistile):
       self.unclicked_blocks.remove(clickthistile)
     else:
       # an already blocked block
-      return False #todo - what of this error? should this be checked sooner?
+      return False #todo - what of this? is error? should this be checked sooner?
     
     
   # update master list
@@ -612,9 +612,10 @@ def calculate_valid_runs(self, fromthistile):
   
   ''' click a tile or wall, check for validity, probably, by adding to clicked_walls[] '''
   
-  theory_runs = find_theoretical_runs(self, fromthistile) # get all options
+  # get all THEORETICAL options
+  theory_runs = find_theoretical_runs(self, fromthistile) 
   
-  # limit theory runs to actual tiles
+  # limit theory runs to ACTUAL tiles
   print "CVR PRE CHK theory_runs", theory_runs
   print "CVR self.run_tiles_list", self.run_tiles_list
   # now check for existing in master list at self.run_tiles_list
@@ -624,6 +625,7 @@ def calculate_valid_runs(self, fromthistile):
   #remove blocked runs from actuals available
   unblocked_runs = []
   for move in actual_runs:
+    print "CVR move", move
     if run_is_unblocked(self, move) == True:
       unblocked_runs.append(move) # if blocked, remove from options
       
@@ -649,12 +651,10 @@ def find_theoretical_runs(self, fromthistile):
   print "fromthistile = ", fromthistile
   print "self.runnerpower = ", self.runnerpower
   theory_runs = []
-  
-  # also cheetah, roo, bee, mouse, chicken, frog
+
   # do duck power things to build a list
-    # simplest is plus/minus one, vertup, vertdown with +/- of those two
-    # check that each one is valid in runner tile master list
-    # could check via starter/ender, too probably
+  # later do cheetah, roo, bee, mouse, chicken, frog
+
   if self.runnerpower == "duck":
     # arranged for readabilty of upper left to lower right
     vert_up = vert_tile(self, "up", fromthistile)
