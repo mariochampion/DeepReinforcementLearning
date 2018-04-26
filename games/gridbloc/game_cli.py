@@ -731,16 +731,18 @@ def run_is_unblocked(self, runtile):
   
   # set up vars
   thisrunrow = run_row_from_tilenum(self, self.ct_run)
-  print "self.ct_run", self.ct_run
-  vert_edge_coeff = (self.ct_run - run_row_starter(self, thisrunrow)) / 2
-  print "vert_edge_coeff", vert_edge_coeff
-  vert_edge_to_ct = self.ct_run - (self.w + vert_edge_coeff) - 1
-  print "vert_edge_to_ct", vert_edge_to_ct
+  print "RUB self.ct_run", self.ct_run
+  vert_top_coeff = (self.ct_run - run_row_starter(self, thisrunrow)) / 2
+  print "RUB vert_top_coeff", vert_top_coeff
+  vert_bottom_coeff = 3 # TODO FaKeR
+
   
   ct_leftedge = self.ct_run - 1
   ct_rightedge = self.ct_run + 1
-  ct_top = self.ct_run - vert_edge_to_ct 
-  ct_bottom = self.ct_run + vert_edge_to_ct
+  ct_top = self.ct_run - (self.w + vert_top_coeff) - 1
+  print "RUB ct_top", ct_top 
+  ct_bottom = self.ct_run + vert_bottom_coeff
+  print "RUB ct_bottom", ct_bottom
   is_blocked = False
   
   # run thru conditionals for DUCK
@@ -772,8 +774,8 @@ def run_is_unblocked(self, runtile):
       if ct_top in self.clicked_blocks and ct_rightedge in self.clicked_blocks: is_blocked = True
 
 
-  if is_blocked == True: print "run to", runtile, "from", self.ct_run, " is BLOCKED"
-  if is_blocked == False: print "run to", runtile, "from", self.ct_run, "is unblocked"
+  if is_blocked == True: print "BLOCKED run", self.ct_run," to", runtile
+  if is_blocked == False: print "UNblocked run", self.ct_run, "to", runtile
   
   return is_blocked
   
