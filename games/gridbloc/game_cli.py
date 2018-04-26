@@ -300,29 +300,6 @@ class GridBlocBoard():
 
 
 
-#################################    
-  def _run_row_starter(self, row_num):
-    gbutil.whereami(sys._getframe().f_code.co_name)
-    ''' just add one to _run_row_left_edge(self, row_num)'''
-    
-    run_row_starter = _run_row_left_edge(self, row_num) + 1
-    return run_row_starter
-    
-#################################    
-  def _run_row_from_runtile(self, runtile):
-    gbutil.whereami(sys._getframe().f_code.co_name)
-    ''' just add one to _run_row_left_edge(self, row_num)'''
-    print "runtile", runtile
-    for row in self.run_tiles_byrow_dict:
-      print "row", row
-      for tile in row:
-        print "tile:", tile
-        if runtile in row:
-          print "returning this run row! ", row 
-          return row
-    
-    return false
-    
 
 #################################    
   def _run_row_right_edge(self, row_num):
@@ -710,6 +687,33 @@ def vert_tile(self, direction, this_tile = False,):
   return vert_tile
 
 
+#################################    
+def run_row_starter(self, row_num):
+  gbutil.whereami(sys._getframe().f_code.co_name)
+  ''' just add one to _run_row_left_edge(self, row_num)'''
+    
+  run_row_starter = self._run_row_left_edge(row_num) + 1
+  return run_row_starter
+    
+#################################    
+def run_row_from_runtile(self, runtile):
+  gbutil.whereami(sys._getframe().f_code.co_name)
+  ''' look thru self.run_tiles_byrow_dict for tile's runrow'''
+
+  print "self.run_tiles_byrow_dict", self.run_tiles_byrow_dict
+  print "runtile", runtile
+  for row, tiles in self.run_tiles_byrow_dict.items():
+    print "row", row
+    for tile in tiles:
+      print "tile:", tile
+      if runtile == tile:
+        print "returning this run row! ", row 
+        return row
+    
+  return false
+
+
+
 ################################# TODO -- MAKE THIS WORK!
 def run_is_unblocked(self, runtile):
   gbutil.whereami(sys._getframe().f_code.co_name)
@@ -725,9 +729,9 @@ def run_is_unblocked(self, runtile):
   # if ct_run +/-1 AND ct_bottom, no then no vert dn +/- 2
   
   # set up vars
-  vert_edge_coeff = (self.ct_run - run_row_starter(self.ct_run)) / 2
-  vert_edge_to_ct = self.ct_run - (self.w + vert_edge_coeff) -
-  
+  thisrunrow = run_row_from_runtile(self, runtile)
+  vert_edge_coeff = (self.ct_run - run_row_starter(self, thisrunrow)) / 2
+  vert_edge_to_ct = self.ct_run - (self.w + vert_edge_coeff) - 1
   
   ct_leftedge = self.ct_run - 1
   ct_rightedge = self.ct_run + 1
