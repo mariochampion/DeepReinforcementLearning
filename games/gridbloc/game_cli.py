@@ -575,10 +575,17 @@ def click_tile_or_wall(self, clickthistile):
 
   if clickthistile in self.b_tiles_list:
     print "logging BLOCK at ", clickthistile
-    self.clicked_blocks.append(clickthistile)
-    self.unclicked_blocks.remove(clickthistile)
+    if clickthistile not in self.clicked_blocks:
+      # a valid block
+      self.clicked_blocks.append(clickthistile)
+      self.unclicked_blocks.remove(clickthistile)
+    else:
+      # an already blocked block
+      return False #todo - what of this error? should this be checked sooner?
     
-  self.clicked_tiles_walls_list.append(clickthistile) # update master list
+    
+  # update master list
+  self.clicked_tiles_walls_list.append(clickthistile) 
 
   # todo - is this the right check & status code to return?
   if clickthistile in self.clicked_tiles_walls_list: 
@@ -611,19 +618,19 @@ def calculate_valid_runs(self, fromthistile):
     if run_is_unblocked(self, move) == True:
       unblocked_runs.append(move) # if blocked, remove from options
       
-  self.valid_runs = [] #not needed, but better for human eyes
-  self.valid_runs = unblocked_runs[:] # make a copy
-  
-  # cvr_success = "calculate valid runs success"
-  if fromthistile not in self.valid_runs:
-    cvr_success = False # todo - what is right check/status
+  # final check of calculated options
+  if fromthistile not in unblocked_runs:
+    self.valid_runs = [] #not needed, but better for human eyes
+    self.valid_runs = unblocked_runs[:] # make a copy
+    cvr_success = True # todo - what is right check/status
   else:
     cvr_success = False # todo - what is right check/status
   
   print "CVR self.valid_runs", self.valid_runs
   
-  
   return cvr_success
+
+
 
 ################################# 
 def find_theoretical_runs(self, fromthistile):
