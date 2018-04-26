@@ -196,6 +196,8 @@ class GridBlocBoard():
 		# PROCESS THE BLOCK
 		if click_tile_or_wall(self, self.ct_block) == False:
 		  self.ct_block = self._tilepick_block(self) # or try again...
+		  
+		# need to update valid runs again, with block  
 		
 		# now go get the tuple of coordinates = (b_tile_type, b_tile_row, b_tile_num)
 		self.ct_block_coords = self._get_ct_block_coords()
@@ -351,7 +353,7 @@ class GridBlocBoard():
     
     # make more complete switch/case for other pick styles
     print "self.block_style=", self.block_style
-    print "AT THIS STAGE: self.self.unclicked_blocks=", self.unclicked_blocks
+    print "AT THIS STAGE: self.unclicked_blocks=", self.unclicked_blocks
     
     if self.block_style == "random":      
       ct_block = random.choice(self.unclicked_blocks)
