@@ -168,10 +168,14 @@ class GridBlocBoard():
 		# runnerpower determines self.valid_runs in calculate_valid_runs()
 		self.runnerpower = "duck" # also cheetah, roo, bee, mouse, chicken, frog
 
+		# PICK THE RUN!
 		self.run_style = "random"
-		self.ct_run = self._tilepick_run() # THIS IS THE RUN!
+		self.ct_run = self._tilepick_run() 
 		print "GBB self.ct_run = ", self.ct_run
 		
+		# PROCESS THE RUN
+		if click_tile_or_wall(self, self.ct_run) == False:
+		  self.ct_run = self._tilepick_block(self) # or try again...
 		
 		# self.run_row_num -- formerly "n" as in R(subscript n)
 		self.run_row_num = int( math.ceil( float(self.ct_run) / float((3 * self.w) + 1) ) )
@@ -184,8 +188,14 @@ class GridBlocBoard():
 		
 		############### initial BLOCK
 		
+		# PICK THE BLOCK
 		self.block_style = "random" # h=1 or v=2 tile type
-		self.ct_block = self._tilepick_block() # THIS IS THE BLOCK
+		self.ct_block = self._tilepick_block() 
+		print "GBB self.ct_block = ", self.ct_block
+		
+		# PROCESS THE BLOCK
+		if click_tile_or_wall(self, self.ct_block) == False:
+		  self.ct_block = self._tilepick_block(self) # or try again...
 		
 		# now go get the tuple of coordinates = (b_tile_type, b_tile_row, b_tile_num)
 		self.ct_block_coords = self._get_ct_block_coords()
@@ -325,12 +335,9 @@ class GridBlocBoard():
       ct_run = random.choice(self.valid_runs)
       
     print "THIS RUN ct_run", ct_run
-
-    #do the actual click processing...
-    if click_tile_or_wall(self, ct_run) == False:
-      self._tilepick_run(self) # try again...
-          
+    
     return ct_run
+    
     
 
 #################################  
@@ -354,9 +361,6 @@ class GridBlocBoard():
       ct_block = random.choice(self.unclicked_blocks)
       
     print "THIS BLOCK ct_block", ct_block
-    #do the actual click processing...
-    if click_tile_or_wall(self, ct_block) == False:
-      self._tilepick_block(self) # try again...
           
     return ct_block
 
@@ -687,9 +691,9 @@ def run_is_unblocked(self, runtile):
   gbutil.whereami(sys._getframe().f_code.co_name)
   ''' from self.clicked_blocks and self.ct_run calculate blocked and UNblocked run options '''
   
-  ### for self.runningpower == "duck"
+  ### for self.runnerpower  == "duck"
   ## orthagonals
-  # if ct_run +/- 1 is in self.clicked_blocks, then no ct_run +/- 2
+  # if ct_run +/- 1 in self.clicked_blocks, then no ct_run +/- 2
   # if ct_run +/- ct_top/ct_bottom, then no vert up/dn
   # if vert up/dn +/- 1 in self.clicked_blocks, then no vert up/dn +/- 2  
   ## diagonals 
@@ -697,42 +701,43 @@ def run_is_unblocked(self, runtile):
   # if ct_run +/-1 AND ct_bottom, no then no vert dn +/- 2
   
   # set up vars
-  ct_leftedge = ct_run-1
-  ct_rightedge = ct_run+1
-  ct_top = ct_run - self.vert_edge_to_ct 
-  ct_bottom = ct_run + self.vert_edge_to_ct
+  ct_leftedge = self.ct_run - 1
+  ct_rightedge = self.ct_run + 1
+  ct_top = self.ct_run - self.vert_edge_to_ct 
+  ct_bottom = self.ct_run + self.vert_edge_to_ct
+  is_blocked = False
   
   # run thru conditionals for DUCK
-  if self.runningpower == "duck":
+  if self.runnerpower  == "duck":
     # orthagonals
-    if runtile == ct_run - 2: # LEFT
-      if ct_leftedge is in self.clicked_blocks: is_blocked = True
+    if runtile == self.ct_run - 2: # LEFT
+      if ct_leftedge in self.clicked_blocks: is_blocked = True
 
-    if runtile == ct_run + 2: # RIGHT
-      if ct_rightedge is in self.clicked_blocks: is_blocked = True
+    if runtile == self.ct_run + 2: # RIGHT
+      if ct_rightedge in self.clicked_blocks: is_blocked = True
 
-    if runtile == ct_run - self.vert_tile_distance: # UP
-      if ct_top is in self.clicked_blocks: is_blocked = True
+    if runtile == self.ct_run - self.vert_tile_distance: # UP
+      if ct_top in self.clicked_blocks: is_blocked = True
 
-    if runtile == ct_run + self.vert_tile_distance: # DN
-      if ct_bottom is in self.clicked_blocks: is_blocked = True
+    if runtile == self.ct_run + self.vert_tile_distance: # DN
+      if ct_bottom in self.clicked_blocks: is_blocked = True
 
     # diagonals
-    if runtile == ct_run + self.vert_tile_distance - 2: # DN LEFT
-      if ct_bottom is in self.clicked_blocks and ct_leftedge is in self.clicked_blocks: is_blocked = True
+    if runtile == self.ct_run + self.vert_tile_distance - 2: # DN LEFT
+      if ct_bottom in self.clicked_blocks and ct_leftedge in self.clicked_blocks: is_blocked = True
       
-    if runtile == ct_run + self.vert_tile_distance + 2: # DN RIGHT
-      if ct_bottom is in self.clicked_blocks and ct_rightedge is in self.clicked_blocks: is_blocked = True
+    if runtile == self.ct_run + self.vert_tile_distance + 2: # DN RIGHT
+      if ct_bottom in self.clicked_blocks and ct_rightedge in self.clicked_blocks: is_blocked = True
 
-    if runtile == ct_run - self.vert_tile_distance - 2: # UP LEFT
-      if ct_top is in self.clicked_blocks and ct_leftedge is in self.clicked_blocks: is_blocked = True
+    if runtile == self.ct_run - self.vert_tile_distance - 2: # UP LEFT
+      if ct_top in self.clicked_blocks and ct_leftedge in self.clicked_blocks: is_blocked = True
       
-    if runtile == ct_run - self.vert_tile_distance + 2: # UP RIGHT
-      if ct_top is in self.clicked_blocks and ct_rightedge is in self.clicked_blocks: is_blocked = True
+    if runtile == self.ct_run - self.vert_tile_distance + 2: # UP RIGHT
+      if ct_top in self.clicked_blocks and ct_rightedge in self.clicked_blocks: is_blocked = True
 
 
-
-  print "runtile", runtile
+  if is_blocked == True: print "run to", runtile, "from ",self.ct_run," is BLOCKED"
+  if is_blocked == False: print "run to", runtile, "from ",self.ct_run,"is unblocked"
   
   return is_blocked
   
