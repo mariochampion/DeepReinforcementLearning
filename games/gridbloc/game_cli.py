@@ -850,7 +850,7 @@ def game_is_over(self):
     this_is_the_winner = "############  PLAYER 1 win! #################"
   else:
     this_is_the_winner = "############  PLAYER 2 win! #################"
-  self.round_num += 1
+
   if self.round_num > self.round_num_max :
     print "\n\n    #################################"
     print "############    GAME OVER   #################"
@@ -1138,12 +1138,12 @@ def main(args):
       gb_board.ct_run = gb_board._tilepick_run()
       click_tile_or_wall(gb_board, gb_board.ct_run)
 
-    #block - todo make single wrapper for steps
-    gb_board.ct_block = gb_board._tilepick_block()
-    click_tile_or_wall(gb_board, gb_board.ct_block)
-    calculate_valid_runs(gb_board, gb_board.ct_run)
+      #block - todo make single wrapper for steps
+      gb_board.ct_block = gb_board._tilepick_block()
+      click_tile_or_wall(gb_board, gb_board.ct_block)
+      calculate_valid_runs(gb_board, gb_board.ct_run)
     
-    show_summary(gb_board)
+      show_summary(gb_board)
   
  
   
