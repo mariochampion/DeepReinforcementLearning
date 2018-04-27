@@ -1,19 +1,6 @@
 #!/usr/bin/env python
 
 '''
-PURPOSE
-the goal here is to mathematically describe the DUAL + OVERLAPPING grids of gridbloc game, which required both running tiles and blocking tiles, so that arrays of valid choices can be calculated as needed. (the grid could, alternately, be said to have non-equal row-lengths (ie, diff num of columns), if you like.) the grid for running tiles is pretty classic, just cap all 4 edges (in an rectangular grid version) of each running tile with a tile to block and you see the dual/overlapping/interposed grid system of gridbloc.
-
-unlike most other board games, there are TWO rounds, and the winner of the game is whomever has the most points after each player has run (so, 2 rounds in a 2 player game). runners earn points for each NEW tile they occupy during a game, and may return to already scored tiles as a matter of strategy, but wont get an extra point for that move. specifically, a tile can only be scored once per game, and blockers dont earn points, they just try to limit the points the runner earns by blocking them in.
-
-IMPORTANT CONDITIONS
- * runner moves first, blocker moves next. that is one turn.
- * The end-round condition occurs when no un-scored tiles available for a runner to reach with a valid move.
- * at the end of a round, the players swap roles. new runner makes first move.
- * The end-game condition occurs at the end of round two.
- * The winner has the higher run score AFTER end of round two.
-
-
 DEV STEPS OF THIS FILE:
 1. how does this file relate to the building of arrays which are currently hardcoded into other example game.py files?
 2. probably i should just add my custom gridbloc array calculation functions to existing game.py and use function call outs rather than hardcoded arrays.
