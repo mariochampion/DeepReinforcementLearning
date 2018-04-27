@@ -176,6 +176,9 @@ class GridBlocBoard():
 		# PROCESS THE RUN
 		if click_tile_or_wall(self, self.ct_run) == False:
 		  self.ct_run = self._tilepick_block(self) # or try again...
+		  
+		# get a new valid runs, based on powers, etc -- but not until block, actually
+		#calculate_valid_runs(self, self.ct_run)
 		
 		# self.run_row_num -- formerly "n" as in R(subscript n)
 		self.run_row_num = int( math.ceil( float(self.ct_run) / float((3 * self.w) + 1) ) )
@@ -577,8 +580,7 @@ def click_tile_or_wall(self, clickthistile):
     print "logging RUN at ", clickthistile
     self.clicked_runs.append(clickthistile)
     self.unclicked_runs.remove(clickthistile)
-    # get a new valid runs, based on powers, etc
-    calculate_valid_runs(self, clickthistile)
+    
 
   if clickthistile in self.b_tiles_list:
     print "logging BLOCK at ", clickthistile
@@ -586,7 +588,7 @@ def click_tile_or_wall(self, clickthistile):
       # a valid block
       self.clicked_blocks.append(clickthistile)
       self.unclicked_blocks.remove(clickthistile)
-      #calculate_valid_runs(self, clickthistile)
+      
       
     else:
       # an already blocked block
