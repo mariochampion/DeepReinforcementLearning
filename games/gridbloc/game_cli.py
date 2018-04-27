@@ -1060,6 +1060,7 @@ def main(args):
     print "gb_board.ct_block", gb_board.ct_block
     click_tile_or_wall(gb_board, gb_board.ct_block)
     calculate_valid_runs(gb_board, gb_board.ct_run)
+    
     show_summary(gb_board)
   
  
