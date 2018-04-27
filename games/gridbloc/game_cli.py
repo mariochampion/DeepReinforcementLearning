@@ -830,31 +830,35 @@ def round_is_over(self):
   
   self.round_num += 1
   print "self.round_num", self.round_num
-  if self.round_num > self.round_num_max : game_is_over(self)
   
   #lots more things
-  print "  ########### START NEW ROUND  ###########\n"
-  #sys.exit(1)
   return
 
 
 
 
 ################################# # TODO -- upgrade lo-fi gameover, man screen ; )
-def game_is_over(self):
+def game_is_over(gb_board, gb_board_r2):
   gbutil.whereami(sys._getframe().f_code.co_name)
 
   ''' double-check logs, scores, etc, setup for new game, etc'''
 
-  if gb_board.runnerpoints > self.runnerpoints:
-    this_is_the_winner = "############  PLAYER 1 win! #################"
+  if gb_board.runnerpoints > gb_board_r2.runnerpoints:
+    this_is_winner = "############  PLAYER 1 win! #################"
+    this_is_score = " #########", gb_board.runnerpoints,"to",gb_board_r2.runnerpoints,"########"
+  elif gb_board.runnerpoints < gb_board_r2.runnerpoints:
+    this_is_winner = "############  PLAYER 2 win! #################"
+    this_is_score = " ######### ", gb_board_r2.runnerpoints,"to",gb_board.runnerpoints,"########"
   else:
-    this_is_the_winner = "############  PLAYER 2 win! #################"
+    this_is_winner = "############  DOUBLE WIN! #################"
+    this_is_score = " #########", gb_board.runnerpoints,"==",gb_board_r2.runnerpoints,"########"
+  
 
-  if self.round_num > self.round_num_max :
+  if 1 == 1 :
     print "\n\n    #################################"
     print "############    GAME OVER   #################"
-    print this_is_the_winner
+    print this_is_winner
+    print this_is_score
     print "    #################################\n\n"
     
   # lots more things
@@ -1129,11 +1133,12 @@ def main(args):
   
   
   for cycle in range(1,20):
-    print "\n############\nGAMEPLAY CYCLE", cycle
+    print "\n############\nROUND 1 CYCLE", cycle
 
     # run - todo make single wrapper for steps
     if is_round_over(gb_board) == True: 
       round_is_over(gb_board)
+      break
     else:
       gb_board.ct_run = gb_board._tilepick_run()
       click_tile_or_wall(gb_board, gb_board.ct_run)
@@ -1146,7 +1151,32 @@ def main(args):
       show_summary(gb_board)
   
  
+  print "cycles ended"
+  print "  ########### START NEW ROUND  ###########\n"
+  gb_board_r2 = GridBlocBoard(w,h)
   
+  for cycle in range(1,20):
+    print "\n############\nROUND 2 CYCLE", cycle
+
+    # run - todo make single wrapper for steps
+    if is_round_over(gb_board_r2) == True: 
+      round_is_over(gb_board_r2)
+      break
+    else:
+      gb_board_r2.ct_run = gb_board_r2._tilepick_run()
+      click_tile_or_wall(gb_board_r2, gb_board_r2.ct_run)
+
+      #block - todo make single wrapper for steps
+      gb_board_r2.ct_block = gb_board_r2._tilepick_block()
+      click_tile_or_wall(gb_board_r2, gb_board_r2.ct_block)
+      calculate_valid_runs(gb_board_r2, gb_board_r2.ct_run)
+    
+      show_summary(gb_board_r2)
+  
+  # run a new round, need to keep round nums in sep class to better 
+  game_is_over(gb_board, gb_board_r2)
+
+  sys.exit(1)  
   
 
 
