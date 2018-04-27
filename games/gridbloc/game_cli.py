@@ -28,6 +28,8 @@ MVP CLI phases
 2. input ct param and it calcs the legal moves arrays for runner and blocker - DONE
   - setup and check: valid_runs[], clicked_runs[], unclicked_runs[], clicked_blocks[], unclicked_blocks[]
 3 TODO -- __init__ a board and have it play moves until no valid runs.
+ - check for empty valid runs
+ - also collect points for NEW runs (ie, valid and NOT in unclicked_runs
 
 4. input ct and calcs GOOD moves not just legal moves for runner and blocker - thats a whole other thing
 
@@ -166,6 +168,7 @@ class GridBlocBoard():
 		############### initial RUN
 		# runnerpower determines self.valid_runs in calculate_valid_runs()
 		self.runnerpower = "duck" # also cheetah, roo, bee, mouse, chicken, frog
+		self.runnerpoints = 0 # blocker gets no points, ya know.
 		
 		### TODO -- WRAP RUN AND BLOCK IN WRAPPER OF STEPS / CHECKS
 		# PICK THE RUN!
@@ -583,7 +586,9 @@ def click_tile_or_wall(self, clickthistile):
   if clickthistile in self.run_tiles_list:
     print "logging RUN at ", clickthistile
     self.clicked_runs.append(clickthistile)
-    self.unclicked_runs.remove(clickthistile)
+    if clickthistile in self.unclicked_runs:
+      self.unclicked_runs.remove(clickthistile) # can repeat a spot, but no point
+      self.runnerpoints += 1
     
 
   if clickthistile in self.b_tiles_list:
@@ -794,6 +799,7 @@ def run_is_unblocked(self, runtile):
 #################################  
 def show_summary(self):
   print "\n-------- summary ----------\n"
+  print "END GBB self.runnerpoints =",self.runnerpoints
   print "END GBB self.ct_run = ", self.ct_run
   print "END GBB self.clicked_tiles_walls_list = ", self.clicked_tiles_walls_list
   print "END GBB self.clicked_runs = ", self.clicked_runs
@@ -1053,7 +1059,7 @@ def main(args):
   print "\n###################  __init__ DONE     #####\n"
   
   
-  for cycle in range(1,5):
+  for cycle in range(1,6):
     print "\n############\nGAMEPLAY CYCLE", cycle
 
     # run - todo make single wrapper for steps
