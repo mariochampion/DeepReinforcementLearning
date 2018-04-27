@@ -786,7 +786,7 @@ def run_is_unblocked(self, runtile):
   
 #################################  
 def show_summary(self):
-  print "-------- summary ----------"
+  print "\n-------- summary ----------\n"
   print "END GBB self.clicked_tiles_walls_list = ", self.clicked_tiles_walls_list
   print "END GBB self.clicked_runs = ", self.clicked_runs
   print "END GBB self.valid_runs = ", self.valid_runs
@@ -1041,13 +1041,17 @@ def main(args):
   #setup a new game board
   print "ready from new GridBlocBoard(w,h)"
   gb_board = GridBlocBoard(w,h)
-  print " ##### __init__ DONE #####"
+
+  print "\n###################  __init__ DONE     #####\n"
+  
   
   for cycle in range(1,3):
-    print "\n############\nCYCLE", cycle
-    gbrun = gb_board._tilepick_run()
-    gbblock = gb_board._tilepick_block()
-    calculate_valid_runs(gb_board, gbrun)
+    print "\n############\nGAMEPLAY CYCLE", cycle
+    gb_board.ct_run = gb_board._tilepick_run()
+    print "gb_board.ct_run", gb_board.ct_run
+    gb_board.ct_block = gb_board._tilepick_block()
+    print "gb_board.ct_block", gb_board.ct_block
+    calculate_valid_runs(gb_board, gb_board.ct_run)
     show_summary(gb_board)
   
  
