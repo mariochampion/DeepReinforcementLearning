@@ -169,6 +169,8 @@ class GridBlocBoard():
 		# runnerpower determines self.valid_runs in calculate_valid_runs()
 		self.runnerpower = "duck" # also cheetah, roo, bee, mouse, chicken, frog
 		self.runnerpoints = 0 # blocker gets no points, ya know.
+		self.round_num = 1
+		self.round_num_max = 2 # get these from configs to allow later for multiplayers, etc 
 		
 		### TODO -- WRAP RUN AND BLOCK IN WRAPPER OF STEPS / CHECKS
 		# PICK THE RUN!
@@ -181,7 +183,7 @@ class GridBlocBoard():
 		  self.ct_run = self._tilepick_block(self) # or try again...
 		  
 		# get a new valid runs, based on powers, etc -- but not until block, actually
-		#calculate_valid_runs(self, self.ct_run)
+		# calculate_valid_runs(self, self.ct_run)
 		
 		# self.run_row_num -- formerly "n" as in R(subscript n)
 		self.run_row_num = int( math.ceil( float(self.ct_run) / float((3 * self.w) + 1) ) )
@@ -331,6 +333,10 @@ class GridBlocBoard():
     # make more complete switch/case for other pick styles
     print "self.run_style=", self.run_style
     print "AT THIS STAGE: self.valid_runs=", self.valid_runs
+    
+    # check for any valid runs, if not, round over
+    if len(self.valid_runs) < 1:
+      self._round_is_over()
     
     if self.run_style == "random":      
       ct_run = random.choice(self.valid_runs)
@@ -530,6 +536,44 @@ class GridBlocBoard():
   
     return edges_closed
 
+
+#################################  # TODO - make real!  
+  def _round_is_over(self):
+    gbutil.whereami(sys._getframe().f_code.co_name)
+  
+    ''' hmm, lotsa things. if round 1, move to 2, if 2, move to game_over. keep logs, scores, etc'''
+  
+    print "\n\n ############## ROUND OVER ###############"
+    
+    if self.round_num == 1: self.runner_1_points = self.runnerpoints
+    if self.round_num == 2: self.runner_2_points = self.runnerpoints
+    
+    self.round_num += 1
+    if self.round_num > self.round_num_max : self._games_is_over()
+    
+    #lots more things
+    return
+
+
+################################# # TODO -- upgrade lo-fi gameover, man screen ; )
+  def _game_is_over(self):
+    gbutil.whereami(sys._getframe().f_code.co_name)
+  
+    ''' double-check logs, scores, etc, setup for new game, etc'''
+  
+    if self.runner_1_points > self.runner_2_points:
+      this_is_the_winner = "############  PLAYER 1 win! #################"
+    else:
+      this_is_the_winner = "############  PLAYER 2 win! #################"
+    self.round_num += 1
+    if self.round_num > self.round_num_max :
+      print "\n\n    #################################"
+      print "############    GAME OVER   #################"
+      print this_is_the_winner
+      print "    #################################\n\n"
+    
+    #lots more things
+    return
 
 
 ###################  END __init__ functions() #######################
@@ -1059,7 +1103,7 @@ def main(args):
   print "\n###################  __init__ DONE     #####\n"
   
   
-  for cycle in range(1,6):
+  for cycle in range(1,10):
     print "\n############\nGAMEPLAY CYCLE", cycle
 
     # run - todo make single wrapper for steps
