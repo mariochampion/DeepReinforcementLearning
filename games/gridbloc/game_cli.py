@@ -175,8 +175,13 @@ class GridBlocBoard():
 		### TODO -- WRAP RUN AND BLOCK IN WRAPPER OF STEPS / CHECKS
 		# PICK THE RUN!
 		self.run_style = "random"
-		self.ct_run = self._tilepick_run() 
-		print "GBB self.ct_run = ", self.ct_run
+		
+		# check for any valid runs, if not, round over
+		if is_round_over(self) == True:
+		  round_is_over(self)
+		else:
+		  self.ct_run = self._tilepick_run() 
+		  print "GBB self.ct_run = ", self.ct_run
 		
 		# PROCESS THE RUN
 		if click_tile_or_wall(self, self.ct_run) == False:
@@ -333,14 +338,11 @@ class GridBlocBoard():
     # make more complete switch/case for other pick styles
     print "self.run_style=", self.run_style
     print "AT THIS STAGE: self.valid_runs=", self.valid_runs
-    
-    # check for any valid runs, if not, round over
-    if len(self.valid_runs) < 1:
-      self._round_is_over()
+    print "len(self.valid_runs)", len(self.valid_runs), self.valid_runs
     
     if self.run_style == "random":      
       ct_run = random.choice(self.valid_runs)
-      
+    
     else:
       # implement other methods for choosing, but for now...
       ct_run = random.choice(self.valid_runs)
@@ -537,21 +539,6 @@ class GridBlocBoard():
     return edges_closed
 
 
-#################################  # TODO - make real!  
-  def _round_is_over(self):
-    gbutil.whereami(sys._getframe().f_code.co_name)
-  
-    ''' hmm, lotsa things. if round 1, move to 2, if 2, move to game_over. keep logs, scores, etc'''
-  
-    print "\n\n ############## ROUND OVER ###############\n\n"
-    
-    self.round_num += 1
-    if self.round_num > self.round_num_max : game_is_over(self)
-    
-    #lots more things
-    print "####### START NEW ROUND  ########\n"
-    #sys.exit(1)
-    gb_board_round_2 = GridBlocBoard(self.w,self.h)
 
 
 
@@ -820,6 +807,39 @@ def run_is_unblocked(self, runtile):
   return is_unblocked
 
 
+
+
+#################################
+def is_round_over(self):
+  gbutil.whereami(sys._getframe().f_code.co_name)
+
+  ''' just check length of valid_runs'''
+  if len(self.valid_runs) < 1:
+    return True
+  else:
+    return False
+
+
+#################################  # TODO - make real!  
+def round_is_over(self):
+  gbutil.whereami(sys._getframe().f_code.co_name)
+
+  ''' hmm, lotsa things. if round 1, move to 2, if 2, move to game_over. keep logs, scores, etc'''
+
+  print "\n ############## ROUND OVER! ###############\n"
+  
+  self.round_num += 1
+  print "self.round_num", self.round_num
+  if self.round_num > self.round_num_max : game_is_over(self)
+  
+  #lots more things
+  print "  ########### START NEW ROUND  ###########\n"
+  #sys.exit(1)
+  return
+
+
+
+
 ################################# # TODO -- upgrade lo-fi gameover, man screen ; )
 def game_is_over(self):
   gbutil.whereami(sys._getframe().f_code.co_name)
@@ -846,6 +866,7 @@ def game_is_over(self):
 #################################  
 def show_summary(self):
   print "\n-------- summary ----------\n"
+  print "self.round_num", self.round_num
   print "END GBB self.runnerpoints =",self.runnerpoints
   print "END GBB self.ct_run = ", self.ct_run
   print "END GBB self.clicked_tiles_walls_list = ", self.clicked_tiles_walls_list
@@ -856,6 +877,7 @@ def show_summary(self):
   print "END GBB self.ct_block = ", self.ct_block
   print "END GBB self.clicked_blocks = ", self.clicked_blocks
   print "END GBB self.unclicked_blocks =", self.unclicked_blocks
+  print "-------- end summary ----------\n\n" 
     
 
 
@@ -1110,8 +1132,11 @@ def main(args):
     print "\n############\nGAMEPLAY CYCLE", cycle
 
     # run - todo make single wrapper for steps
-    gb_board.ct_run = gb_board._tilepick_run()
-    click_tile_or_wall(gb_board, gb_board.ct_run)
+    if is_round_over(gb_board) == True: 
+      round_is_over(gb_board)
+    else:
+      gb_board.ct_run = gb_board._tilepick_run()
+      click_tile_or_wall(gb_board, gb_board.ct_run)
 
     #block - todo make single wrapper for steps
     gb_board.ct_block = gb_board._tilepick_block()
