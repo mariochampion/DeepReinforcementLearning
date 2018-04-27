@@ -794,6 +794,7 @@ def run_is_unblocked(self, runtile):
 #################################  
 def show_summary(self):
   print "\n-------- summary ----------\n"
+  print "END GBB self.ct_run = ", self.ct_run
   print "END GBB self.clicked_tiles_walls_list = ", self.clicked_tiles_walls_list
   print "END GBB self.clicked_runs = ", self.clicked_runs
   print "END GBB self.valid_runs = ", self.valid_runs
@@ -1052,7 +1053,7 @@ def main(args):
   print "\n###################  __init__ DONE     #####\n"
   
   
-  for cycle in range(1,6):
+  for cycle in range(1,5):
     print "\n############\nGAMEPLAY CYCLE", cycle
 
     # run - todo make single wrapper for steps
