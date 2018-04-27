@@ -160,7 +160,7 @@ class GridBlocBoard():
 		## close edges
 		close_all_edges = True # condition this to static or dyanmic config
 		if close_all_edges == True: 
-		  if close_edges(self) == True: self.edges_closed = True
+		  if self._close_edges() == True: self.edges_closed = True
 		print "GBB self.edges_closed = ", self.edges_closed
 		
 		############### initial RUN
@@ -509,6 +509,26 @@ class GridBlocBoard():
     return edge_walls_list
 
 
+#################################    
+  def _close_edges(self):
+    gbutil.whereami(sys._getframe().f_code.co_name)
+  
+    ''' use list of all for edges to target them for closure '''
+  
+    print "self.edge_walls_list", self.edge_walls_list
+  
+    for edgewall in self.edge_walls_list:
+      print "edgewall", edgewall
+    
+      if click_tile_or_wall(self, edgewall) == True: 
+        edges_closed = True ## todo - what should this be??
+      else:
+        edges_closed = False ## todo - what should this be??
+  
+    return edges_closed
+
+
+
 ###################  END __init__ functions() #######################
 
 
@@ -549,23 +569,7 @@ def block_row_vert_list(self, this_b_col):
   return b_row_v_list
 
 
-#################################    
-def close_edges(self):
-  gbutil.whereami(sys._getframe().f_code.co_name)
-  
-  ''' use list of all for edges to target them for closure '''
-  
-  print "self.edge_walls_list", self.edge_walls_list
-  
-  for edgewall in self.edge_walls_list:
-    print "edgewall", edgewall
-    
-    if click_tile_or_wall(self, edgewall) == True: 
-      edges_closed = True ## todo - what should this be??
-    else:
-      edges_closed = False ## todo - what should this be??
-  
-  return edges_closed
+
 	
 
 #################################    
@@ -706,9 +710,9 @@ def run_row_from_tilenum(self, runtile):
   print "self.run_tiles_byrow_dict", self.run_tiles_byrow_dict
   print "runtile", runtile
   for row, tiles in self.run_tiles_byrow_dict.items():
-    print "row", row
+    #print "row", row
     for tile in tiles:
-      print "tile:", tile
+      #print "tile:", tile
       if runtile == tile:
         print "returning this run row! ", row 
         return row
@@ -781,6 +785,7 @@ def run_is_unblocked(self, runtile):
         is_unblocked = False
 
 
+  print "RUB self.clicked_blocks", self.clicked_blocks
   if is_unblocked == True: print "RUB UNblocked run", self.ct_run," to", runtile
   if is_unblocked == False: print "RUB Blocked run", self.ct_run, "to", runtile
   
@@ -1047,7 +1052,7 @@ def main(args):
   print "\n###################  __init__ DONE     #####\n"
   
   
-  for cycle in range(1,3):
+  for cycle in range(1,6):
     print "\n############\nGAMEPLAY CYCLE", cycle
 
     # run - todo make single wrapper for steps
