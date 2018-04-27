@@ -232,16 +232,7 @@ class GridBlocBoard():
 		
 		
 		############### __init__ SUMMARY
-		print "-------- summary ----------"
-		print "END GBB self.clicked_tiles_walls_list = ", self.clicked_tiles_walls_list
-		print "END GBB self.clicked_runs = ", self.clicked_runs
-		print "END GBB self.valid_runs = ", self.valid_runs
-		print "END GBB self.unclicked_runs =", self.unclicked_runs
-		print
-		print "END GBB self.ct_block = ", self.ct_block
-		print "END GBB self.clicked_blocks = ", self.clicked_blocks
-		print "END GBB self.unclicked_blocks =", self.unclicked_blocks
-		
+		show_summary(self)		
 		
 
 		
@@ -724,7 +715,7 @@ def run_row_from_tilenum(self, runtile):
 
 
 
-################################# TODO -- MAKE THIS WORK!
+#################################
 def run_is_unblocked(self, runtile):
   gbutil.whereami(sys._getframe().f_code.co_name)
   ''' from self.clicked_blocks and self.ct_run calculate blocked and UNblocked run options '''
@@ -793,7 +784,17 @@ def run_is_unblocked(self, runtile):
   
   return is_unblocked
   
-  
+#################################  
+def show_summary(self):
+  print "-------- summary ----------"
+  print "END GBB self.clicked_tiles_walls_list = ", self.clicked_tiles_walls_list
+  print "END GBB self.clicked_runs = ", self.clicked_runs
+  print "END GBB self.valid_runs = ", self.valid_runs
+  print "END GBB self.unclicked_runs =", self.unclicked_runs
+  print
+  print "END GBB self.ct_block = ", self.ct_block
+  print "END GBB self.clicked_blocks = ", self.clicked_blocks
+  print "END GBB self.unclicked_blocks =", self.unclicked_blocks
     
 
 
@@ -1040,7 +1041,16 @@ def main(args):
   #setup a new game board
   print "ready from new GridBlocBoard(w,h)"
   gb_board = GridBlocBoard(w,h)
+  print " ##### __init__ DONE #####"
   
+  for cycle in range(1,3):
+    print "\n############\nCYCLE", cycle
+    gbrun = gb_board._tilepick_run()
+    gbblock = gb_board._tilepick_block()
+    calculate_valid_runs(gb_board, gbrun)
+    show_summary(gb_board)
+  
+ 
   
   
 
