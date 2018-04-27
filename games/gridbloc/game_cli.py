@@ -543,37 +543,16 @@ class GridBlocBoard():
   
     ''' hmm, lotsa things. if round 1, move to 2, if 2, move to game_over. keep logs, scores, etc'''
   
-    print "\n\n ############## ROUND OVER ###############"
-    
-    if self.round_num == 1: self.runner_1_points = self.runnerpoints
-    if self.round_num == 2: self.runner_2_points = self.runnerpoints
+    print "\n\n ############## ROUND OVER ###############\n\n"
     
     self.round_num += 1
-    if self.round_num > self.round_num_max : self._games_is_over()
+    if self.round_num > self.round_num_max : game_is_over(self)
     
     #lots more things
-    return
+    print "####### START NEW ROUND  ########\n"
+    #sys.exit(1)
+    gb_board_round_2 = GridBlocBoard(self.w,self.h)
 
-
-################################# # TODO -- upgrade lo-fi gameover, man screen ; )
-  def _game_is_over(self):
-    gbutil.whereami(sys._getframe().f_code.co_name)
-  
-    ''' double-check logs, scores, etc, setup for new game, etc'''
-  
-    if self.runner_1_points > self.runner_2_points:
-      this_is_the_winner = "############  PLAYER 1 win! #################"
-    else:
-      this_is_the_winner = "############  PLAYER 2 win! #################"
-    self.round_num += 1
-    if self.round_num > self.round_num_max :
-      print "\n\n    #################################"
-      print "############    GAME OVER   #################"
-      print this_is_the_winner
-      print "    #################################\n\n"
-    
-    #lots more things
-    return
 
 
 ###################  END __init__ functions() #######################
@@ -839,6 +818,30 @@ def run_is_unblocked(self, runtile):
   if is_unblocked == False: print "RUB Blocked run", self.ct_run, "to", runtile
   
   return is_unblocked
+
+
+################################# # TODO -- upgrade lo-fi gameover, man screen ; )
+def game_is_over(self):
+  gbutil.whereami(sys._getframe().f_code.co_name)
+
+  ''' double-check logs, scores, etc, setup for new game, etc'''
+
+  if gb_board.runnerpoints > self.runnerpoints:
+    this_is_the_winner = "############  PLAYER 1 win! #################"
+  else:
+    this_is_the_winner = "############  PLAYER 2 win! #################"
+  self.round_num += 1
+  if self.round_num > self.round_num_max :
+    print "\n\n    #################################"
+    print "############    GAME OVER   #################"
+    print this_is_the_winner
+    print "    #################################\n\n"
+    
+  # lots more things
+  return
+
+
+
   
 #################################  
 def show_summary(self):
@@ -1103,7 +1106,7 @@ def main(args):
   print "\n###################  __init__ DONE     #####\n"
   
   
-  for cycle in range(1,10):
+  for cycle in range(1,20):
     print "\n############\nGAMEPLAY CYCLE", cycle
 
     # run - todo make single wrapper for steps
