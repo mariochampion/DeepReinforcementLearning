@@ -1057,12 +1057,10 @@ def main(args):
 
     # run - todo make single wrapper for steps
     gb_board.ct_run = gb_board._tilepick_run()
-    print "gb_board.ct_run", gb_board.ct_run
     click_tile_or_wall(gb_board, gb_board.ct_run)
 
     #block - todo make single wrapper for steps
     gb_board.ct_block = gb_board._tilepick_block()
-    print "gb_board.ct_block", gb_board.ct_block
     click_tile_or_wall(gb_board, gb_board.ct_block)
     calculate_valid_runs(gb_board, gb_board.ct_run)
     
