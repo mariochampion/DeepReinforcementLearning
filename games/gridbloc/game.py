@@ -242,10 +242,10 @@ class GridBlocBoard():
     
     run_tiles_byrow_dict = {}
     for row_num in range(1, self.h+1):
-      print "row_num:", str(row_num) 
+      #print "row_num:", str(row_num) 
       run_row_leftedge = self._run_row_left_edge(row_num)
-      print "run_row_leftedge", str(run_row_leftedge)
-      print
+      #print "run_row_leftedge", str(run_row_leftedge)
+      #print
       #step by two in the range to SKIP OVER vertical blocker tiles
       a = run_row_leftedge + 1
       b = run_row_leftedge + self.run_row_len
@@ -277,7 +277,7 @@ class GridBlocBoard():
     returns an integer of the left edge vertical tile of that row 
     run_row_leftedge = (nw) + ( (n-1) + (2* w +1) ) + 1 
     '''
-    print "ROW_NUM PASSSED:",str(row_num)
+    #print "ROW_NUM PASSSED:",str(row_num)
 
     run_row_leftedge = (row_num * self.w) + ( (row_num - 1) * ( (2 * self.w) + 1) ) + 1    
     return run_row_leftedge
@@ -290,7 +290,7 @@ class GridBlocBoard():
     gbutil.whereami(sys._getframe().f_code.co_name)
     
     ''' return int of RIGHT most VERTICAL tile on a run_row '''
-    print "ROW_NUM PASSSED:",str(row_num)
+    #print "ROW_NUM PASSSED:",str(row_num)
     
     leftedge = self._run_row_left_edge(row_num)
     run_row_rightedge = leftedge + (2 * self.w)
@@ -311,7 +311,6 @@ class GridBlocBoard():
     # make more complete switch/case for other pick styles
     print "self.run_style=", self.run_style
     print "AT THIS STAGE: self.valid_runs=", self.valid_runs
-    print "len(self.valid_runs)", len(self.valid_runs), self.valid_runs
     
     if self.run_style == "random":      
       ct_run = random.choice(self.valid_runs)
@@ -363,9 +362,9 @@ class GridBlocBoard():
     will pick by input or by policy, but for now... random is default but other styles may be passable
     '''
     
-    print "self.block_style=", self.block_style
+    #print "self.block_style=", self.block_style
     print "IGNORED FOR NOW, DURING CHANGES FROM pickcoords to getcoords"
-    print "self.ct_block =", self.ct_block
+    #print "self.ct_block =", self.ct_block
     
     # TODO - work backwards from self.ct_block to coordinates
         
@@ -393,30 +392,6 @@ class GridBlocBoard():
 	  
 
 
-#################################        
-  def _b_row_from_ct_block(self, this_btile = False):
-	  gbutil.whereami(sys._getframe().f_code.co_name)
-	  
-	  ''' should this be formula or dict look up. '''
-	
-	  if this_btile == False:
-	    this_btile = self.ct_block_coords
-	  else:
-	    # used passed value if exists. expect integer, then look bk up in dict?
-	    this_btile = this_btile 
-	  
-	  # ok now just look up value in self.block_tiles_master_dict and return ([1|2], rownum, tilenum)
-	  # if thisvalue in [x for v in thisdict.values() for x in v]
-	  btmd = self.block_tiles_master_dict
-	  print "btmd", btmd
-
-	  sys.exit(1)
-	  return
-
-
-
-    
-
 #################################    
   def _block_tiles_list_maker(self):
     gbutil.whereami(sys._getframe().f_code.co_name)
@@ -442,7 +417,7 @@ class GridBlocBoard():
       if row == 1: firsthor = 1
       else: firsthor = 1 + (self.vert_tile_distance * (row-1))
       
-      print "firsthor = ", firsthor
+      #print "firsthor = ", firsthor
       b_hortiles_dict[row] = range( firsthor, firsthor+(self.w) )
     
     return b_hortiles_dict
@@ -462,7 +437,7 @@ class GridBlocBoard():
       if row == 1: firstver = self.w + 1
       else: firstver = (self.w + 1) + (2 * (row-1))
       
-      print "firstver = ", firstver
+      #print "firstver = ", firstver
       b_vertiles_dict[row] = range( firstver, firstver + (self.vert_tile_distance * (self.h)), self.vert_tile_distance)
     
     return b_vertiles_dict
@@ -488,7 +463,7 @@ class GridBlocBoard():
     ''' build edge wall list from the top bottom left right edge lists '''
   
     edge_walls_list = self.edge_top_list + self.edge_left_list + self.edge_right_list + self.edge_bottom_list
-    print "edge_walls_list", edge_walls_list
+    #print "edge_walls_list", edge_walls_list
   
     return edge_walls_list
 
@@ -499,10 +474,10 @@ class GridBlocBoard():
   
     ''' use list of all for edges to target them for closure '''
   
-    print "self.edge_walls_list", self.edge_walls_list
+    #print "self.edge_walls_list", self.edge_walls_list
   
     for edgewall in self.edge_walls_list:
-      print "edgewall", edgewall
+      #print "edgewall", edgewall
     
       if click_tile_or_wall(self, edgewall) == True: 
         edges_closed = True ## todo - what should this be??
@@ -528,7 +503,7 @@ def block_row_hor_list(self, this_b_row):
   if self.b_tile_type == 2: return False
   
   if self.b_tile_type == 1:
-    print "tiletype HORIZONTAL = ", this_b_row
+    #print "tiletype HORIZONTAL = ", this_b_row
     b_row_h_list = self.b_hortiles_dict[this_b_row]
         
   print "this_b_row", this_b_row, "for b_row_h_list", b_row_h_list
@@ -547,7 +522,7 @@ def block_row_vert_list(self, this_b_col):
   if self.b_tile_type == 1: return False # mistaken call -- do nothing
     
   if self.b_tile_type == 2: 
-    print "tiletype VERTICAL col =", this_b_col
+    #print "tiletype VERTICAL col =", this_b_col
     b_row_v_list = self.b_vertiles_dict[this_b_col]  
   
   print "end: this_b_col",this_b_col,"has b_row_v_list", b_row_v_list
@@ -642,8 +617,8 @@ def find_theoretical_runs(self, fromthistile):
   gbutil.whereami(sys._getframe().f_code.co_name)
   ''' check self.runnerpower and build list of options based on that'''
   
-  print "fromthistile = ", fromthistile
-  print "self.runnerpower = ", self.runnerpower
+  #print "fromthistile = ", fromthistile
+  #print "self.runnerpower = ", self.runnerpower
   theory_runs = []
 
   # do duck power things to build a list
@@ -687,7 +662,7 @@ def run_row_starter(self, row_num):
   ''' just add one to _run_row_left_edge(self, row_num)'''
     
   run_row_starter = self._run_row_left_edge(row_num) + 1
-  print "run_row_starter", run_row_starter
+  #print "run_row_starter", run_row_starter
   return run_row_starter
     
 #################################    
@@ -695,14 +670,14 @@ def run_row_from_tilenum(self, runtile):
   gbutil.whereami(sys._getframe().f_code.co_name)
   ''' look thru self.run_tiles_byrow_dict for tile's runrow'''
 
-  print "self.run_tiles_byrow_dict", self.run_tiles_byrow_dict
-  print "runtile", runtile
+  #print "self.run_tiles_byrow_dict", self.run_tiles_byrow_dict
+  #print "runtile", runtile
   for row, tiles in self.run_tiles_byrow_dict.items():
     #print "row", row
     for tile in tiles:
       #print "tile:", tile
       if runtile == tile:
-        print "returning this run row! ", row 
+        #print "returning this run row! ", row 
         return row
     
   return false
@@ -725,16 +700,16 @@ def run_is_unblocked(self, runtile):
   
   # set up vars
   thisrunrow = run_row_from_tilenum(self, self.ct_run)
-  print "RUB self.ct_run", self.ct_run
+  #print "RUB self.ct_run", self.ct_run
   vert_tile_coeff = (self.ct_run - run_row_starter(self, thisrunrow)) / 2
-  print "RUB vert_tile_coeff", vert_tile_coeff
+  #print "RUB vert_tile_coeff", vert_tile_coeff
   
   ct_leftedge = self.ct_run - 1
   ct_rightedge = self.ct_run + 1
   ct_top = self.ct_run - (self.w + vert_tile_coeff) - 1
-  print "RUB ct_top", ct_top 
+  #print "RUB ct_top", ct_top 
   ct_bottom = self.ct_run + ( (2 * self.w - vert_tile_coeff))
-  print "RUB ct_bottom", ct_bottom
+  #print "RUB ct_bottom", ct_bottom
   
   
   # run thru conditionals for DUCK
@@ -818,20 +793,20 @@ def game_is_over(gb_board, gb_board_r2):
 
   if gb_board.runnerpoints > gb_board_r2.runnerpoints:
     this_is_winner = "############  PLAYER 1 win! #################"
-    this_is_score = " #########", gb_board.runnerpoints,"to",gb_board_r2.runnerpoints,"########"
+    this_is_score = gb_board.runnerpoints, gb_board_r2.runnerpoints
   elif gb_board.runnerpoints < gb_board_r2.runnerpoints:
     this_is_winner = "############  PLAYER 2 win! #################"
-    this_is_score = " ######### ", gb_board_r2.runnerpoints,"to",gb_board.runnerpoints,"########"
+    this_is_score = gb_board_r2.runnerpoints, gb_board.runnerpoints
   else:
     this_is_winner = "############  DOUBLE WIN! #################"
-    this_is_score = " #########", gb_board.runnerpoints,"==",gb_board_r2.runnerpoints,"########"
+    this_is_score = gb_board.runnerpoints, gb_board_r2.runnerpoints
   
 
   if 1 == 1 :
     print "\n\n    #################################"
     print "############    GAME OVER   #################"
     print this_is_winner
-    print this_is_score
+    print "               ", this_is_score
     print "    #################################\n\n"
     
   # lots more things
