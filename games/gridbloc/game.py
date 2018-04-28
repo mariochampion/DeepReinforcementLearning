@@ -13,7 +13,9 @@ MVP CLI phases
 1. input w and h and it calcs gamestate and tile options arrays - DONE.
 2. input ct param and it calcs the legal moves arrays for runner and blocker - DONE
   - setup and check: valid_runs[], clicked_runs[], unclicked_runs[], clicked_blocks[], unclicked_blocks[]
-3 TODO -- __init__ a board and have it play moves until no valid runs.
+3 TODO -- 
+ - dont make a move IN __init__ but only after? do this AFTER wrapping runs and blocks in wrapper
+ - __init__ a board and have it play moves until no valid runs.
  - move from range() to check for empty valid_runs -- TODO
  - check for empty valid runs - done
  - also collect points for NEW runs (ie, valid and NOT in unclicked_runs) - done
@@ -145,7 +147,7 @@ class GridBlocBoard():
 		self.round_num = 1
 		self.round_num_max = 2 # get these from configs to allow later for multiplayers, etc 
 		
-		### TODO -- WRAP RUN AND BLOCK IN WRAPPER OF STEPS / CHECKS
+		
 		# PICK THE RUN!
 		self.run_style = "random"
 		
@@ -173,7 +175,7 @@ class GridBlocBoard():
 		
 		
 		############### initial BLOCK
-		### TODO -- WRAP RUN AND BLOCK IN WRAPPER OF STEPS / CHECKS
+		
 		# PICK THE BLOCK
 		self.block_style = "random" # h=1 or v=2 tile type
 		self.ct_block = self._tilepick_block() 
