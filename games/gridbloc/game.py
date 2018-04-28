@@ -176,12 +176,12 @@ class GridBlocBoard():
 		
 		# PICK THE BLOCK
 		self.block_style = "random" # h=1 or v=2 tile type
-		self.ct_block = self._tilepick_block() 
+		self.ct_block = tilepick_block(self) 
 		print "GBB self.ct_block = ", self.ct_block
 		
 		# PROCESS THE BLOCK
 		if click_tile_or_wall(self, self.ct_block) == False:
-		  self.ct_block = self._tilepick_block(self) # or try again...
+		  self.ct_block = tilepick_block(self) # or try again...
 		  
 		# need to update valid runs again, with block
 		calculate_valid_runs(self, self.ct_run) # todo - do something with true/false return
@@ -297,35 +297,6 @@ class GridBlocBoard():
     
     
     return run_row_rightedge
-
-
-
-#################################  
-  def _tilepick_block(self):
-    gbutil.whereami(sys._getframe().f_code.co_name)
-    
-    '''
-    placeholder to pick a tile -- starting tile and in-game as well. 
-    will pick by input or by policy, but for now... random is default but other styles may be passable
-    '''
-    
-    # make more complete switch/case for other pick styles
-    print "self.block_style=", self.block_style
-    print "AT THIS STAGE: self.unclicked_blocks=", self.unclicked_blocks
-    
-    if self.block_style == "random":      
-      ct_block = random.choice(self.unclicked_blocks)
-      
-    else:
-      # implement other methods for choosing, but for now...
-      ct_block = random.choice(self.unclicked_blocks)
-      
-    print "THIS BLOCK ct_block", ct_block
-          
-    return ct_block
-
-
-
 
 
 ################################# 
@@ -491,6 +462,32 @@ def tilepick_run(self):
   print "THIS RUN ct_run", ct_run
   
   return ct_run
+
+
+#################################  
+def tilepick_block(self):
+  gbutil.whereami(sys._getframe().f_code.co_name)
+  
+  '''
+  placeholder to pick a tile -- starting tile and in-game as well. 
+  will pick by input or by policy, but for now... random is default but other styles may be passable
+  '''
+  
+  # make more complete switch/case for other pick styles
+  print "self.block_style=", self.block_style
+  print "AT THIS STAGE: self.unclicked_blocks=", self.unclicked_blocks
+  
+  if self.block_style == "random":      
+    ct_block = random.choice(self.unclicked_blocks)
+    
+  else:
+    # implement other methods for choosing, but for now...
+    ct_block = random.choice(self.unclicked_blocks)
+    
+  print "THIS BLOCK ct_block", ct_block
+        
+  return ct_block
+
 
 #################################    
 def block_row_hor_list(self, this_b_row):
@@ -1091,7 +1088,7 @@ def main(args):
       click_tile_or_wall(gb_board, gb_board.ct_run)
 
       #block - todo make single wrapper for steps
-      gb_board.ct_block = gb_board._tilepick_block()
+      gb_board.ct_block = tilepick_block(gb_board)
       click_tile_or_wall(gb_board, gb_board.ct_block)
       calculate_valid_runs(gb_board, gb_board.ct_run)
     
@@ -1114,7 +1111,7 @@ def main(args):
       click_tile_or_wall(gb_board_r2, gb_board_r2.ct_run)
 
       #block - todo make single wrapper for steps
-      gb_board_r2.ct_block = gb_board_r2._tilepick_block()
+      gb_board_r2.ct_block = tilepick_block(gb_board_r2)
       click_tile_or_wall(gb_board_r2, gb_board_r2.ct_block)
       calculate_valid_runs(gb_board_r2, gb_board_r2.ct_run)
     
