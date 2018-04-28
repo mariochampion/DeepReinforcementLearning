@@ -151,25 +151,8 @@ class GridBlocBoard():
 		
 
 		############### initial RUN
-		# check for any valid runs, if not, round over
-		if is_round_over(self) == True:
-		  round_is_over(self)
-		else:
-		  self.ct_run = tilepick_run(self) 
-		  print "GBB self.ct_run = ", self.ct_run
 		
-		# PROCESS THE RUN
-		if click_tile_or_wall(self, self.ct_run) == False:
-		  self.ct_run = tilepick_run(self)  # or try again...
-		  		
-		# SET SOME VALUES BASED ON CT_RUN
-		# self.run_row_num -- formerly "n" as in R(subscript n)
-		self.run_row_num = int( math.ceil( float(self.ct_run) / float((3 * self.w) + 1) ) )
-		print "GBB self.run_row_num = ", self.run_row_num
-
-		self.run_row_leftedge = int(self._run_row_left_edge(self.run_row_num))
-		print "GBB self.run_row_leftedge = ", self.run_row_leftedge
-		
+		run_pick_click_process(self)
 		
 		
 		############### initial BLOCK
@@ -437,6 +420,35 @@ class GridBlocBoard():
 
 
 ###################  END __init__ functions() #######################
+
+
+def run_pick_click_process(self):
+  gbutil.whereami(sys._getframe().f_code.co_name)
+  
+  ''' wrapper for run functions '''
+
+  # check for any valid runs, if not, round over
+  if is_round_over(self) == True:
+    round_is_over(self)
+  else:
+    self.ct_run = tilepick_run(self) 
+    print "GBB self.ct_run = ", self.ct_run
+		
+  # PROCESS THE RUN
+  if click_tile_or_wall(self, self.ct_run) == False:
+    self.ct_run = tilepick_run(self)  # or try again...
+		  		
+  # SET SOME VALUES BASED ON CT_RUN
+  # self.run_row_num -- formerly "n" as in R(subscript n)
+  self.run_row_num = int( math.ceil( float(self.ct_run) / float((3 * self.w) + 1) ) )
+  print "GBB self.run_row_num = ", self.run_row_num
+  self.run_row_leftedge = int(self._run_row_left_edge(self.run_row_num))
+  print "GBB self.run_row_leftedge = ", self.run_row_leftedge
+  
+  
+  return True
+
+
 
 
 #################################  
