@@ -140,31 +140,29 @@ class GridBlocBoard():
 		  if self._close_edges() == True: self.edges_closed = True
 		print "GBB self.edges_closed = ", self.edges_closed
 		
-		############### initial RUN
-		# runnerpower determines self.valid_runs in calculate_valid_runs()
-		self.runnerpower = "duck" # also cheetah, roo, bee, mouse, chicken, frog
+		
+		# runnerpower - determines self.valid_runs in calculate_valid_runs()
+		# runnerpower - also cheetah, roo, bee, mouse, chicken, frog
+		self.runnerpower = "duck" #default/beginner runnerpower
 		self.runnerpoints = 0 # blocker gets no points, ya know.
 		self.round_num = 1
-		self.round_num_max = 2 # get these from configs to allow later for multiplayers, etc 
-		
-		
-		# PICK THE RUN!
+		self.round_num_max = 2 
 		self.run_style = "random"
 		
+
+		############### initial RUN
 		# check for any valid runs, if not, round over
 		if is_round_over(self) == True:
 		  round_is_over(self)
 		else:
-		  self.ct_run = self._tilepick_run() 
+		  self.ct_run = tilepick_run(self) 
 		  print "GBB self.ct_run = ", self.ct_run
 		
 		# PROCESS THE RUN
 		if click_tile_or_wall(self, self.ct_run) == False:
-		  self.ct_run = self._tilepick_block(self) # or try again...
-		  
-		# get a new valid runs, based on powers, etc -- but not until block, actually
-		# calculate_valid_runs(self, self.ct_run)
-		
+		  self.ct_run = tilepick_run(self)  # or try again...
+		  		
+		# SET SOME VALUES BASED ON CT_RUN
 		# self.run_row_num -- formerly "n" as in R(subscript n)
 		self.run_row_num = int( math.ceil( float(self.ct_run) / float((3 * self.w) + 1) ) )
 		print "GBB self.run_row_num = ", self.run_row_num
@@ -301,31 +299,6 @@ class GridBlocBoard():
     return run_row_rightedge
 
 
-#################################  
-  def _tilepick_run(self):
-    gbutil.whereami(sys._getframe().f_code.co_name)
-    
-    '''
-    placeholder to pick a tile -- starting tile and in-game as well. 
-    will pick by input or by policy, but for now... random is default but other styles may be passable
-    '''
-    
-    # make more complete switch/case for other pick styles
-    print "self.run_style=", self.run_style
-    print "AT THIS STAGE: self.valid_runs=", self.valid_runs
-    
-    if self.run_style == "random":      
-      ct_run = random.choice(self.valid_runs)
-    
-    else:
-      # implement other methods for choosing, but for now...
-      ct_run = random.choice(self.valid_runs)
-      
-    print "THIS RUN ct_run", ct_run
-    
-    return ct_run
-    
-    
 
 #################################  
   def _tilepick_block(self):
@@ -494,6 +467,30 @@ class GridBlocBoard():
 
 ###################  END __init__ functions() #######################
 
+
+#################################  
+def tilepick_run(self):
+  gbutil.whereami(sys._getframe().f_code.co_name)
+  
+  '''
+  placeholder to pick a tile -- starting tile and in-game as well. 
+  will pick by input or by policy, but for now... random is default but other styles may be passable
+  '''
+  
+  # make more complete switch/case for other pick styles
+  print "self.run_style=", self.run_style
+  print "AT THIS STAGE: self.valid_runs=", self.valid_runs
+  
+  if self.run_style == "random":      
+    ct_run = random.choice(self.valid_runs)
+  
+  else:
+    # implement other methods for choosing, but for now...
+    ct_run = random.choice(self.valid_runs)
+    
+  print "THIS RUN ct_run", ct_run
+  
+  return ct_run
 
 #################################    
 def block_row_hor_list(self, this_b_row):
@@ -1090,7 +1087,7 @@ def main(args):
       round_is_over(gb_board)
       break
     else:
-      gb_board.ct_run = gb_board._tilepick_run()
+      gb_board.ct_run = tilepick_run(gb_board)
       click_tile_or_wall(gb_board, gb_board.ct_run)
 
       #block - todo make single wrapper for steps
@@ -1113,7 +1110,7 @@ def main(args):
       round_is_over(gb_board_r2)
       break
     else:
-      gb_board_r2.ct_run = gb_board_r2._tilepick_run()
+      gb_board_r2.ct_run = tilepick_run(gb_board_r2)
       click_tile_or_wall(gb_board_r2, gb_board_r2.ct_run)
 
       #block - todo make single wrapper for steps
