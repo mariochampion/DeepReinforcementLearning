@@ -148,19 +148,19 @@ class GridBlocBoard():
 		self.round_num = 1
 		self.round_num_max = 2 
 		self.run_style = "random"
-		
-		############### initial RUN
-		
-		run_pick_click_process(self)
-		
-		
-		############### initial BLOCK
 		self.block_style = "random" # h=1 or v=2 tile type
-		block_pick_click_process(self)
+		
+		############### warp up __init__
+		run_pick_click_process(self) 	############### initial RUN
+		block_pick_click_process(self) 	############### initial BLOCK
+		show_summary(self) 				############### initial SUMMARY	
 		
 		
-		# now go get the tuple of coordinates = (b_tile_type, b_tile_row, b_tile_num)
+		
+		
+		
 		''' remove for now -- todo - add back for logging and analysis?
+		# now go get the tuple of coordinates = (b_tile_type, b_tile_row, b_tile_num)
 		self.ct_block_coords = self._get_ct_block_coords()
 		print "GBB self.ct_block_coords = ", self.ct_block_coords
 		
@@ -190,10 +190,6 @@ class GridBlocBoard():
 		print "GBB self.b_row_h_list = ", self.b_row_h_list 
 		print
 		########################## END A TEST	'''	
-		
-		
-		############### __init__ SUMMARY
-		show_summary(self)		
 		
 
 		
