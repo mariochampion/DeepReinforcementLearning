@@ -421,7 +421,7 @@ class GridBlocBoard():
 
 ###################  END __init__ functions() #######################
 
-
+#################################  
 def run_pick_click_process(self):
   gbutil.whereami(sys._getframe().f_code.co_name)
   
@@ -446,7 +446,18 @@ def run_pick_click_process(self):
   print "GBB self.run_row_leftedge = ", self.run_row_leftedge
   
   
+  return True # todo -- is his right return
+
+
+#################################  
+def block_pick_click_process(self):
+  gbutil.whereami(sys._getframe().f_code.co_name)
+  
+  ''' wrapper for block functions '''
+  
   return True
+
+
 
 
 
