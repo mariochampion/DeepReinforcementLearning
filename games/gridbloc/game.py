@@ -1057,7 +1057,7 @@ def main(args):
   print "w = ", w, " h = ", h
   
   #setup a new game board
-  print "ready from new GridBlocBoard(w,h)"
+  print "ready a new GridBlocBoard(w,h)"
   gb_board = GridBlocBoard(w,h)
 
   print "\n###################  __init__ DONE     #####\n"
@@ -1066,45 +1066,21 @@ def main(args):
   for cycle in range(1,20):
     print "\n############\nROUND 1 CYCLE", cycle
 
-    # run - todo make single wrapper for steps
-    if is_round_over(gb_board) == True: 
-      round_is_over(gb_board)
-      break
-    else:
-      gb_board.ct_run = tilepick_run(gb_board)
-      click_tile_or_wall(gb_board, gb_board.ct_run)
-
-      #block - todo make single wrapper for steps
-      gb_board.ct_block = tilepick_block(gb_board)
-      click_tile_or_wall(gb_board, gb_board.ct_block)
-      calculate_valid_runs(gb_board, gb_board.ct_run)
-    
-      show_summary(gb_board)
+    run_pick_click_process(gb_board)    
+    block_pick_click_process(gb_board)    
+    show_summary(gb_board)
   
- 
   print "cycles ended"
   print "  ########### START NEW ROUND  ###########\n"
-  gb_board_r2 = GridBlocBoard(w,h)
   
+  gb_board_r2 = GridBlocBoard(w,h)
   for cycle in range(1,20):
     print "\n############\nROUND 2 CYCLE", cycle
-
-    # run - todo make single wrapper for steps
-    if is_round_over(gb_board_r2) == True: 
-      round_is_over(gb_board_r2)
-      break
-    else:
-      gb_board_r2.ct_run = tilepick_run(gb_board_r2)
-      click_tile_or_wall(gb_board_r2, gb_board_r2.ct_run)
-
-      #block - todo make single wrapper for steps
-      gb_board_r2.ct_block = tilepick_block(gb_board_r2)
-      click_tile_or_wall(gb_board_r2, gb_board_r2.ct_block)
-      calculate_valid_runs(gb_board_r2, gb_board_r2.ct_run)
-    
-      show_summary(gb_board_r2)
+    run_pick_click_process(gb_board_r2)    
+    block_pick_click_process(gb_board_r2)    
+    show_summary(gb_board_r2)
   
-  # run a new round, need to keep round nums in sep class to better 
+  # do game over FPO stuff
   game_is_over(gb_board, gb_board_r2)
 
   sys.exit(1)  
