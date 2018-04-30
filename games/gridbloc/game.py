@@ -371,6 +371,45 @@ class GridBlocBoard():
 
 ###################  END __init__ functions() #######################
 
+
+#################################    
+def block_row_hor_list(self, this_b_row):
+  gbutil.whereami(sys._getframe().f_code.co_name)
+  
+  ''' create list of horizontal blocker tiles on THIS B ROW '''
+  
+  if this_b_row == False: return False # nothing to do
+  if self.b_tile_type == 2: return False
+  
+  if self.b_tile_type == 1:
+    #print "tiletype HORIZONTAL = ", this_b_row
+    b_row_h_list = self.b_hortiles_dict[this_b_row]
+        
+  print "this_b_row", this_b_row, "for b_row_h_list", b_row_h_list
+
+  return b_row_h_list
+
+     
+
+#################################    
+def block_row_vert_list(self, this_b_col):
+  gbutil.whereami(sys._getframe().f_code.co_name)
+  
+  ''' create list of VERTICAL blocker tiles in this run row '''
+    
+  if this_b_col == False: return False # nothing to do
+  if self.b_tile_type == 1: return False # mistaken call -- do nothing
+    
+  if self.b_tile_type == 2: 
+    #print "tiletype VERTICAL col =", this_b_col
+    b_row_v_list = self.b_vertiles_dict[this_b_col]  
+  
+  print "end: this_b_col",this_b_col,"has b_row_v_list", b_row_v_list
+  
+  return b_row_v_list
+
+
+
 #################################  
 def run_pick_click_process(self):
   gbutil.whereami(sys._getframe().f_code.co_name)
@@ -378,7 +417,7 @@ def run_pick_click_process(self):
   ''' wrapper for run functions '''
 
   # check for any valid runs, if not, round over
-  if is_round_over(self) == True:
+  if is_run_available(self) == False:
     if round_is_over(self) == True:
       if is_game_over(self) == True: #check round_num
         return False
@@ -386,19 +425,19 @@ def run_pick_click_process(self):
     self.ct_run = tilepick_run(self) 
     print "GBB self.ct_run = ", self.ct_run
 		
-  # PROCESS THE RUN # todo -- right place for recursive?
-  if click_tile_or_wall(self, self.ct_run) == False:
-    return False # bail out of this process, something went wrong
+    # PROCESS THE RUN # todo -- right place for recursive?
+    if click_tile_or_wall(self, self.ct_run) == False:
+      return False # bail out of this process, something went wrong
 		  		
-  # SET SOME VALUES BASED ON CT_RUN
-  # self.run_row_num -- formerly "n" as in R(subscript n)
-  self.run_row_num = int( math.ceil( float(self.ct_run) / float((3 * self.w) + 1) ) )
-  print "GBB self.run_row_num = ", self.run_row_num
-  self.run_row_leftedge = int(self._run_row_left_edge(self.run_row_num))
-  print "GBB self.run_row_leftedge = ", self.run_row_leftedge
+    # SET SOME VALUES BASED ON CT_RUN
+    # self.run_row_num -- formerly "n" as in R(subscript n)
+    self.run_row_num = int( math.ceil( float(self.ct_run) / float((3 * self.w) + 1) ) )
+    print "GBB self.run_row_num = ", self.run_row_num
+    self.run_row_leftedge = int(self._run_row_left_edge(self.run_row_num))
+    print "GBB self.run_row_leftedge = ", self.run_row_leftedge
   
-  # if return false, catch that in main(), wherethis is called
-  return True
+    # if return false, catch that in main(), wherethis is called
+    return True
 
 
 #################################  
@@ -406,7 +445,8 @@ def block_pick_click_process(self):
   gbutil.whereami(sys._getframe().f_code.co_name)
   
   ''' wrapper for block functions '''
-  if is_round_over(self) == True:
+  
+  if is_block_available(self) == False:
     if round_is_over(self) == True:
       if is_game_over(self) == True: #check round_num
         return False
@@ -414,20 +454,48 @@ def block_pick_click_process(self):
     self.ct_block = tilepick_block(self)
     print "GBB self.ct_block = ", self.ct_block
   
-  # PROCESS THE BLOCK # todo -- right place for recursive?
-  if click_tile_or_wall(self, self.ct_block) == False:
-    self.ct_block = tilepick_block(self) # or try again...
+    # PROCESS THE BLOCK # todo -- right place for recursive?
+    if click_tile_or_wall(self, self.ct_block) == False:
+      self.ct_block = tilepick_block(self) # or try again...
   
-  # need to update valid runs again, with block
-  if calculate_valid_runs(self, self.ct_run) == True:
-    block_success = True
+    # need to update valid runs again, with block
+    if calculate_valid_runs(self, self.ct_run) == True:
+      return True
+    else:
+      return False
+    
+
+
+################################# # TODO - combine with block_available
+def is_run_available(self):
+  gbutil.whereami(sys._getframe().f_code.co_name)
+
+  ''' just check length of valid_runs. if zero, then roundover.
+      TODO - later check that valid runs already scored and CANNOT get to new unscored?
+  '''
+  
+  if len(self.valid_runs) > 0:
+    print "yes, some"
+    return True
   else:
-    block_success = False
-
-  return block_success # todo -- is this right return
-
+    print "no runs available"
+    return False
 
 
+#################################
+def is_block_available(self):
+  gbutil.whereami(sys._getframe().f_code.co_name)
+
+  ''' just check length of unclicked blocks. if zero, then roundover.
+      TODO - later check that valid runs already scored and CANNOT get to new unscored?
+  '''
+  
+  if len(self.unclicked_blocks) > 0:
+    print "yes, some"
+    return True
+  else:
+    print "no blocks" 
+    return False
 
 
 
@@ -481,45 +549,6 @@ def tilepick_block(self):
   return ct_block
 
 
-#################################    
-def block_row_hor_list(self, this_b_row):
-  gbutil.whereami(sys._getframe().f_code.co_name)
-  
-  ''' create list of horizontal blocker tiles on THIS B ROW '''
-  
-  if this_b_row == False: return False # nothing to do
-  if self.b_tile_type == 2: return False
-  
-  if self.b_tile_type == 1:
-    #print "tiletype HORIZONTAL = ", this_b_row
-    b_row_h_list = self.b_hortiles_dict[this_b_row]
-        
-  print "this_b_row", this_b_row, "for b_row_h_list", b_row_h_list
-
-  return b_row_h_list
-
-     
-
-#################################    
-def block_row_vert_list(self, this_b_col):
-  gbutil.whereami(sys._getframe().f_code.co_name)
-  
-  ''' create list of VERTICAL blocker tiles in this run row '''
-    
-  if this_b_col == False: return False # nothing to do
-  if self.b_tile_type == 1: return False # mistaken call -- do nothing
-    
-  if self.b_tile_type == 2: 
-    #print "tiletype VERTICAL col =", this_b_col
-    b_row_v_list = self.b_vertiles_dict[this_b_col]  
-  
-  print "end: this_b_col",this_b_col,"has b_row_v_list", b_row_v_list
-  
-  return b_row_v_list
-
-
-
-	
 
 #################################    
 def click_tile_or_wall(self, clickthistile):
@@ -744,33 +773,17 @@ def run_is_unblocked(self, runtile):
 
 
 
-
-#################################
-def is_round_over(self):
-  gbutil.whereami(sys._getframe().f_code.co_name)
-
-  ''' just check length of valid_runs. if zero, then roundover.
-      TODO - later check that valid runs already scored and CANNOT get to new unscored?
-  '''
-  
-  if len(self.valid_runs) < 1 or len(self.unclicked_blocks) < 1:
-    print "yes over" # for humans looking at output scroll
-    return True
-  else:
-    print "not over, self.round_num=", self.round_num # for humans looking at output scroll
-    return False
-
-
 #################################  # TODO - make real!  
 def round_is_over(self):
   gbutil.whereami(sys._getframe().f_code.co_name)
 
   ''' hmm, lotsa things. if round 1, move to 2, if 2, move to game_over. keep logs, scores, etc'''
 
+  print "1 RND OVER self.round_num", self.round_num
   print "\n ############## ROUND OVER! ###############\n"
   
   self.round_num += 1
-  print "RND OVER self.round_num", self.round_num
+  print "2 RND OVER self.round_num", self.round_num
   
   #lots more things
   return True
@@ -1090,13 +1103,15 @@ def main(args):
   gb_board = GridBlocBoard(w,h)
   print "\n###################  __init__ ONE DONE     #####\n"
   gb_board_r2 = GridBlocBoard(w,h)
+  gb_board_r2.round_num = 2 # todo - potentially move to other gamestate or similar class
   print "\n###################  __init__ TWO DONE     #####\n"
 
   # start round one
+  print "########################## START ROUND ONE"
   cycle = 0
   while run_pick_click_process(gb_board) == True:
     cycle += 1
-    print "\n############\nROUND 1 CYCLE", cycle
+    print "\n############\nROUND 1 MID-CYCLE", cycle
     if block_pick_click_process(gb_board) == False: 
       print "======= BREAKING 1 ======="
       break
@@ -1105,11 +1120,11 @@ def main(args):
   
 
   # start round two
-  print "  ########### START NEW ROUND  ###########\n"  
+  print "########################## --START ROUND TWO"
   cycle = 0
   while run_pick_click_process(gb_board_r2) == True:
     cycle += 1
-    print "\n############\nROUND 2 CYCLE", cycle
+    print "\n############\nROUND 2 MID-CYCLE", cycle
     if block_pick_click_process(gb_board_r2) == False: 
       print "======= BREAKING 2 ======="
       break    
