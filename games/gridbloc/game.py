@@ -782,8 +782,10 @@ def is_round_over(self):
 
   ''' just check length of valid_runs'''
   if len(self.valid_runs) < 1:
+    print "yes over"
     return True
   else:
+    print "not over"
     return False
 
 
