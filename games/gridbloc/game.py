@@ -1103,7 +1103,7 @@ def main(args):
   gb_board = GridBlocBoard(w,h)
   print "\n###################  __init__ ONE DONE     #####\n"
   gb_board_r2 = GridBlocBoard(w,h)
-  gb_board_r2.round_num = 2 # todo - potentially move to other gamestate or similar class
+  gb_board_r2.round_num = 2 # todo - potentially move to Gamestate or similar class
   print "\n###################  __init__ TWO DONE     #####\n"
 
   # start round one
