@@ -151,9 +151,9 @@ class GridBlocBoard():
 		self.block_style = "random" # h=1 or v=2 tile type
 		
 		############### warp up __init__
-		run_pick_click_process(self) 	############### initial RUN
-		block_pick_click_process(self) 	############### initial BLOCK
-		show_summary(self) 				############### initial SUMMARY	
+		#run_pick_click_process(self) 	############### initial RUN
+		#block_pick_click_process(self) 	############### initial BLOCK
+		#show_summary(self) 				############### initial SUMMARY	
 		
 		
 		
