@@ -379,14 +379,16 @@ def run_pick_click_process(self):
 
   # check for any valid runs, if not, round over
   if is_round_over(self) == True:
-    round_is_over(self)
+    if round_is_over(self) == True:
+      if is_game_over(self) == True: #check round_num
+        return False
   else:
     self.ct_run = tilepick_run(self) 
     print "GBB self.ct_run = ", self.ct_run
 		
   # PROCESS THE RUN # todo -- right place for recursive?
   if click_tile_or_wall(self, self.ct_run) == False:
-    self.ct_run = tilepick_run(self)  # or try again...
+    return False # bail out of this process, something went wrong
 		  		
   # SET SOME VALUES BASED ON CT_RUN
   # self.run_row_num -- formerly "n" as in R(subscript n)
@@ -395,8 +397,8 @@ def run_pick_click_process(self):
   self.run_row_leftedge = int(self._run_row_left_edge(self.run_row_num))
   print "GBB self.run_row_leftedge = ", self.run_row_leftedge
   
-  
-  return True # todo -- is this right return
+  # if return false, catch that in main(), wherethis is called
+  return True
 
 
 #################################  
@@ -404,8 +406,14 @@ def block_pick_click_process(self):
   gbutil.whereami(sys._getframe().f_code.co_name)
   
   ''' wrapper for block functions '''
-  self.ct_block = tilepick_block(self)
-  print "GBB self.ct_block = ", self.ct_block
+  #check here as well in 
+  if is_round_over(self) == True:
+    if round_is_over(self) == True:
+      if is_game_over(self) == True: #check round_num
+        return False
+  else:
+    self.ct_block = tilepick_block(self)
+    print "GBB self.ct_block = ", self.ct_block
   
   # PROCESS THE BLOCK # todo -- right place for recursive?
   if click_tile_or_wall(self, self.ct_block) == False:
@@ -742,12 +750,15 @@ def run_is_unblocked(self, runtile):
 def is_round_over(self):
   gbutil.whereami(sys._getframe().f_code.co_name)
 
-  ''' just check length of valid_runs'''
+  ''' just check length of valid_runs. if zero, then roundover.
+      TODO - later check that valid runs already scored and CANNOT get to new unscored?
+  '''
+  
   if len(self.valid_runs) < 1:
-    print "yes over"
+    print "yes over" # for humans looking at output scroll
     return True
   else:
-    print "not over"
+    print "not over, self.round_num=", self.round_num # for humans looking at output scroll
     return False
 
 
@@ -760,11 +771,26 @@ def round_is_over(self):
   print "\n ############## ROUND OVER! ###############\n"
   
   self.round_num += 1
-  print "self.round_num", self.round_num
+  print "RND OVER self.round_num", self.round_num
   
   #lots more things
-  return
+  return True
 
+
+
+#################################
+def is_game_over(self):
+  gbutil.whereami(sys._getframe().f_code.co_name)
+
+  ''' check round_num > round_num_max '''
+  
+  if self.round_num > self.round_num_max:
+    print "yes game over"
+    return True
+  else:
+    print "no game over"
+    return False
+  
 
 
 
@@ -772,7 +798,10 @@ def round_is_over(self):
 def game_is_over(gb_board, gb_board_r2):
   gbutil.whereami(sys._getframe().f_code.co_name)
 
-  ''' double-check logs, scores, etc, setup for new game, etc'''
+  ''' TODO - double-check and store logs, scores, etc.  
+      TODO - print some stuff for the humans looking at output, etc
+      TODO - setup for new game, player rankings, etc.
+  '''
 
   if gb_board.runnerpoints > gb_board_r2.runnerpoints:
     this_is_winner = "############  PLAYER 1 win! #################"
@@ -785,6 +814,7 @@ def game_is_over(gb_board, gb_board_r2):
     this_is_score = gb_board.runnerpoints, gb_board_r2.runnerpoints
   
 
+  # TODO - use a real conditional, but which one?
   if 1 == 1 :
     print "\n\n    #################################"
     print "############    GAME OVER   #################"
@@ -1059,31 +1089,34 @@ def main(args):
   #setup a new game board
   print "ready a new GridBlocBoard(w,h)"
   gb_board = GridBlocBoard(w,h)
+  print "\n###################  __init__ ONE DONE     #####\n"
+  gb_board_r2 = GridBlocBoard(w,h)
+  print "\n###################  __init__ TWO DONE     #####\n"
 
-  print "\n###################  __init__ DONE     #####\n"
-  
-  
-  for cycle in range(1,20):
+  # start round one
+  cycle = 0
+  while run_pick_click_process(gb_board) == True:
+    cycle += 1
     print "\n############\nROUND 1 CYCLE", cycle
-
-    run_pick_click_process(gb_board)    
     block_pick_click_process(gb_board)    
     show_summary(gb_board)
+  print "ROUND ENDED"
   
-  print "cycles ended"
-  print "  ########### START NEW ROUND  ###########\n"
-  
-  gb_board_r2 = GridBlocBoard(w,h)
-  for cycle in range(1,20):
+
+  # start round two
+  print "  ########### START NEW ROUND  ###########\n"  
+  cycle = 0
+  while run_pick_click_process(gb_board_r2) == True:
+    cycle += 1
     print "\n############\nROUND 2 CYCLE", cycle
-    run_pick_click_process(gb_board_r2)    
     block_pick_click_process(gb_board_r2)    
     show_summary(gb_board_r2)
   
-  # do game over FPO stuff
+  # do the end game things
   game_is_over(gb_board, gb_board_r2)
-
-  sys.exit(1)  
+  
+  # then end it all!
+  sys.exit(1)
   
 
 
