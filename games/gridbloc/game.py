@@ -847,6 +847,56 @@ def show_summary(self):
     
 
 
+################################# # TODO -- upgrade from lo-fi gameover, man screen ; )
+def play_a_game():
+  gbutil.whereami(sys._getframe().f_code.co_name)
+  ''' desc '''
+  
+  
+  w = random.randint(3,11)
+  h = random.randint(3,11)  
+  
+  
+  #setup a new game board
+  print "ready a new GridBlocBoard(w,h)"
+  gb_board = GridBlocBoard(w,h)
+  print "\n###################  __init__ ONE DONE     #####\n"
+  gb_board_r2 = GridBlocBoard(w,h)
+  gb_board_r2.round_num = 2 # todo - potentially move to Gamestate or similar class
+  print "\n###################  __init__ TWO DONE     #####\n"
+
+  # start round one
+  print "########################## START ROUND ONE"
+  cycle = 0
+  while run_pick_click_process(gb_board) == True:
+    cycle += 1
+    print "\n############\nROUND 1 MID-CYCLE", cycle
+    if block_pick_click_process(gb_board) == False: 
+      print "======= ERROR in round 1 ======="
+      sys.exit(1)
+    show_summary(gb_board)
+  print "ROUND ONE ENDED"
+  
+
+  # start round two
+  print "########################## --START ROUND TWO"
+  cycle = 0
+  while run_pick_click_process(gb_board_r2) == True:
+    cycle += 1
+    print "\n############\nROUND 2 MID-CYCLE", cycle
+    if block_pick_click_process(gb_board_r2) == False: 
+      print "======= ERROR in round 1 ======="
+      sys.exit(1)    
+    show_summary(gb_board_r2)
+  
+  # do the end game things
+  game_is_over(gb_board, gb_board_r2)
+  
+  return True
+
+
+
+
 
 ################################
 ################################ original file for connect4
@@ -1087,44 +1137,20 @@ def main(args):
   h = int(args[1])
   print "w = ", w, " h = ", h
   
-  #setup a new game board
-  print "ready a new GridBlocBoard(w,h)"
-  gb_board = GridBlocBoard(w,h)
-  print "\n###################  __init__ ONE DONE     #####\n"
-  gb_board_r2 = GridBlocBoard(w,h)
-  gb_board_r2.round_num = 2 # todo - potentially move to Gamestate or similar class
-  print "\n###################  __init__ TWO DONE     #####\n"
-
-  # start round one
-  print "########################## START ROUND ONE"
-  cycle = 0
-  while run_pick_click_process(gb_board) == True:
-    cycle += 1
-    print "\n############\nROUND 1 MID-CYCLE", cycle
-    if block_pick_click_process(gb_board) == False: 
-      print "======= ERROR in round 1 ======="
-      sys.exit(1)
-    show_summary(gb_board)
-  print "ROUND ONE ENDED"
   
-
-  # start round two
-  print "########################## --START ROUND TWO"
-  cycle = 0
-  while run_pick_click_process(gb_board_r2) == True:
-    cycle += 1
-    print "\n############\nROUND 2 MID-CYCLE", cycle
-    if block_pick_click_process(gb_board_r2) == False: 
-      print "======= ERROR in round 1 ======="
-      sys.exit(1)    
-    show_summary(gb_board_r2)
+  ######### COMBINE INTO A SEP FUNC to e called in a loop for loog aggregation
   
-  # do the end game things
-  game_is_over(gb_board, gb_board_r2)
-  
+  for fame in range(1,20):
+    play_a_game() # or 20
+ 
   # then end it all!
   sys.exit(1)
   
+
+
+
+
+
 
 
   
