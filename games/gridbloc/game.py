@@ -406,7 +406,6 @@ def block_pick_click_process(self):
   gbutil.whereami(sys._getframe().f_code.co_name)
   
   ''' wrapper for block functions '''
-  #check here as well in 
   if is_round_over(self) == True:
     if round_is_over(self) == True:
       if is_game_over(self) == True: #check round_num
@@ -754,7 +753,7 @@ def is_round_over(self):
       TODO - later check that valid runs already scored and CANNOT get to new unscored?
   '''
   
-  if len(self.valid_runs) < 1:
+  if len(self.valid_runs) < 1 or len(self.unclicked_blocks) < 1:
     print "yes over" # for humans looking at output scroll
     return True
   else:
@@ -785,10 +784,10 @@ def is_game_over(self):
   ''' check round_num > round_num_max '''
   
   if self.round_num > self.round_num_max:
-    print "yes game over"
+    print "yes game over", self.round_num, self.round_num_max
     return True
   else:
-    print "no game over"
+    print "not game over", self.round_num, self.round_num_max
     return False
   
 
@@ -1098,9 +1097,11 @@ def main(args):
   while run_pick_click_process(gb_board) == True:
     cycle += 1
     print "\n############\nROUND 1 CYCLE", cycle
-    block_pick_click_process(gb_board)    
+    if block_pick_click_process(gb_board) == False: 
+      print "======= BREAKING 1 ======="
+      break
     show_summary(gb_board)
-  print "ROUND ENDED"
+  print "ROUND ONE ENDED"
   
 
   # start round two
@@ -1109,7 +1110,9 @@ def main(args):
   while run_pick_click_process(gb_board_r2) == True:
     cycle += 1
     print "\n############\nROUND 2 CYCLE", cycle
-    block_pick_click_process(gb_board_r2)    
+    if block_pick_click_process(gb_board_r2) == False: 
+      print "======= BREAKING 2 ======="
+      break    
     show_summary(gb_board_r2)
   
   # do the end game things
