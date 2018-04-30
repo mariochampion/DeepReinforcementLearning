@@ -150,50 +150,12 @@ class GridBlocBoard():
 		self.run_style = "random"
 		self.block_style = "random" # h=1 or v=2 tile type
 		
-		############### warp up __init__
+		############### wrap up __init__
 		#run_pick_click_process(self) 	############### initial RUN
 		#block_pick_click_process(self) 	############### initial BLOCK
 		#show_summary(self) 				############### initial SUMMARY	
 		
 		
-		
-		
-		
-		''' remove for now -- todo - add back for logging and analysis?
-		# now go get the tuple of coordinates = (b_tile_type, b_tile_row, b_tile_num)
-		self.ct_block_coords = self._get_ct_block_coords()
-		print "GBB self.ct_block_coords = ", self.ct_block_coords
-		
-		self.b_tile_type = self.ct_block_coords[0]
-		self.b_tile_row = self.ct_block_coords[1]
-		self.b_tile_num = self.ct_block_coords[2]
-		
-		print "GBB self.b_tile_type = ", self.b_tile_type,
-		if self.b_tile_type == 1: print "(tiletype HORIZONTAL )"
-		if self.b_tile_type == 2: print "(tiletype VERTICAL )"
-		print "GBB self.b_tile_row = ", self.b_tile_row
-		print "GBB self.b_tile_num = ", self.b_tile_num
-		print'''
-		
-
-		########################## JUST A TEST
-		''' remove for now, test no longer needed here
-		print "-------- test ----------"
-		# not needed on __init__, just here to test it
-		this_b_col = random.randint(1,self.w+1)
-		self.b_row_v_list = block_row_vert_list(self, this_b_col) 
-		print "GBB self.b_row_v_list = ", self.b_row_v_list
-
-		# not needed on __init__, just here to test it
-		this_b_row = random.randint(1,self.h+1)
-		self.b_row_h_list = block_row_hor_list(self, this_b_row) 
-		print "GBB self.b_row_h_list = ", self.b_row_h_list 
-		print
-		########################## END A TEST	'''	
-		
-
-		
-
 
 
 
