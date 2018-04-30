@@ -10,15 +10,6 @@ DEV STEPS OF THIS FILE:
 6. currentBoard = state.board and currentAV = actionValues #investigate
 
 MVP CLI phases
-1. input w and h and it calcs gamestate and tile options arrays - DONE.
-2. input ct param and it calcs the legal moves arrays for runner and blocker - DONE
-  - setup and check: valid_runs[], clicked_runs[], unclicked_runs[], clicked_blocks[], unclicked_blocks[]
-3 TODO -- 
- - dont make a move IN __init__ but only after? do this AFTER wrapping runs and blocks in wrapper
- - __init__ a board and have it play moves until no valid runs.
- - move from range() to check for empty valid_runs -- TODO
- - check for empty valid runs - done
- - also collect points for NEW runs (ie, valid and NOT in unclicked_runs) - done
 4. input ct and calcs GOOD moves not just legal moves for runner and blocker - thats a whole other thing
 
 PARAMETERS 
@@ -359,9 +350,9 @@ class GridBlocBoard():
       #print "edgewall", edgewall
     
       if click_tile_or_wall(self, edgewall) == True: 
-        edges_closed = True ## todo - what should this be??
+        edges_closed = True 
       else:
-        edges_closed = False ## todo - what should this be??
+        edges_closed = False 
   
     return edges_closed
 
@@ -423,20 +414,20 @@ def run_pick_click_process(self):
         return False
   else:
     self.ct_run = tilepick_run(self) 
-    print "GBB self.ct_run = ", self.ct_run
+    print "RPC self.ct_run = ", self.ct_run
 		
-    # PROCESS THE RUN # todo -- right place for recursive?
+    # PROCESS THE RUN 
     if click_tile_or_wall(self, self.ct_run) == False:
       return False # bail out of this process, something went wrong
 		  		
     # SET SOME VALUES BASED ON CT_RUN
     # self.run_row_num -- formerly "n" as in R(subscript n)
     self.run_row_num = int( math.ceil( float(self.ct_run) / float((3 * self.w) + 1) ) )
-    print "GBB self.run_row_num = ", self.run_row_num
+    print "RPC self.run_row_num = ", self.run_row_num
     self.run_row_leftedge = int(self._run_row_left_edge(self.run_row_num))
-    print "GBB self.run_row_leftedge = ", self.run_row_leftedge
+    print "RPC self.run_row_leftedge = ", self.run_row_leftedge
   
-    # if return false, catch that in main(), wherethis is called
+    # if return false, catch that in main(), where this is called
     return True
 
 
@@ -454,9 +445,9 @@ def block_pick_click_process(self):
     self.ct_block = tilepick_block(self)
     print "GBB self.ct_block = ", self.ct_block
   
-    # PROCESS THE BLOCK # todo -- right place for recursive?
+    # PROCESS THE BLOCK 
     if click_tile_or_wall(self, self.ct_block) == False:
-      self.ct_block = tilepick_block(self) # or try again...
+      return False # bail out of this process, something went wrong
   
     # need to update valid runs again, with block
     if calculate_valid_runs(self, self.ct_run) == True:
@@ -471,7 +462,7 @@ def is_run_available(self):
   gbutil.whereami(sys._getframe().f_code.co_name)
 
   ''' just check length of valid_runs. if zero, then roundover.
-      TODO - later check that valid runs already scored and CANNOT get to new unscored?
+      TODO - later check that if valid runs already scored and CANNOT get to new unscored?
   '''
   
   if len(self.valid_runs) > 0:
@@ -486,9 +477,7 @@ def is_run_available(self):
 def is_block_available(self):
   gbutil.whereami(sys._getframe().f_code.co_name)
 
-  ''' just check length of unclicked blocks. if zero, then roundover.
-      TODO - later check that valid runs already scored and CANNOT get to new unscored?
-  '''
+  ''' just check length of unclicked blocks. if zero, then roundover. '''
   
   if len(self.unclicked_blocks) > 0:
     print "yes, some"
@@ -806,7 +795,7 @@ def is_game_over(self):
 
 
 
-################################# # TODO -- upgrade lo-fi gameover, man screen ; )
+################################# # TODO -- upgrade from lo-fi gameover, man screen ; )
 def game_is_over(gb_board, gb_board_r2):
   gbutil.whereami(sys._getframe().f_code.co_name)
 
@@ -1113,8 +1102,8 @@ def main(args):
     cycle += 1
     print "\n############\nROUND 1 MID-CYCLE", cycle
     if block_pick_click_process(gb_board) == False: 
-      print "======= BREAKING 1 ======="
-      break
+      print "======= ERROR in round 1 ======="
+      sys.exit(1)
     show_summary(gb_board)
   print "ROUND ONE ENDED"
   
@@ -1126,8 +1115,8 @@ def main(args):
     cycle += 1
     print "\n############\nROUND 2 MID-CYCLE", cycle
     if block_pick_click_process(gb_board_r2) == False: 
-      print "======= BREAKING 2 ======="
-      break    
+      print "======= ERROR in round 1 ======="
+      sys.exit(1)    
     show_summary(gb_board_r2)
   
   # do the end game things
