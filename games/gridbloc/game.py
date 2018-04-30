@@ -149,27 +149,18 @@ class GridBlocBoard():
 		self.round_num_max = 2 
 		self.run_style = "random"
 		
-
 		############### initial RUN
 		
 		run_pick_click_process(self)
 		
 		
 		############### initial BLOCK
-		
-		# PICK THE BLOCK
 		self.block_style = "random" # h=1 or v=2 tile type
-		self.ct_block = tilepick_block(self) 
-		print "GBB self.ct_block = ", self.ct_block
+		block_pick_click_process(self)
 		
-		# PROCESS THE BLOCK
-		if click_tile_or_wall(self, self.ct_block) == False:
-		  self.ct_block = tilepick_block(self) # or try again...
-		  
-		# need to update valid runs again, with block
-		calculate_valid_runs(self, self.ct_run) # todo - do something with true/false return
 		
 		# now go get the tuple of coordinates = (b_tile_type, b_tile_row, b_tile_num)
+		''' remove for now -- todo - add back for logging and analysis?
 		self.ct_block_coords = self._get_ct_block_coords()
 		print "GBB self.ct_block_coords = ", self.ct_block_coords
 		
@@ -182,10 +173,11 @@ class GridBlocBoard():
 		if self.b_tile_type == 2: print "(tiletype VERTICAL )"
 		print "GBB self.b_tile_row = ", self.b_tile_row
 		print "GBB self.b_tile_num = ", self.b_tile_num
-		print
+		print'''
 		
 
 		########################## JUST A TEST
+		''' remove for now, test no longer needed here
 		print "-------- test ----------"
 		# not needed on __init__, just here to test it
 		this_b_col = random.randint(1,self.w+1)
@@ -197,7 +189,7 @@ class GridBlocBoard():
 		self.b_row_h_list = block_row_hor_list(self, this_b_row) 
 		print "GBB self.b_row_h_list = ", self.b_row_h_list 
 		print
-		########################## END A TEST		
+		########################## END A TEST	'''	
 		
 		
 		############### __init__ SUMMARY
@@ -434,7 +426,7 @@ def run_pick_click_process(self):
     self.ct_run = tilepick_run(self) 
     print "GBB self.ct_run = ", self.ct_run
 		
-  # PROCESS THE RUN
+  # PROCESS THE RUN # todo -- right place for recursive?
   if click_tile_or_wall(self, self.ct_run) == False:
     self.ct_run = tilepick_run(self)  # or try again...
 		  		
@@ -446,7 +438,7 @@ def run_pick_click_process(self):
   print "GBB self.run_row_leftedge = ", self.run_row_leftedge
   
   
-  return True # todo -- is his right return
+  return True # todo -- is this right return
 
 
 #################################  
@@ -454,8 +446,20 @@ def block_pick_click_process(self):
   gbutil.whereami(sys._getframe().f_code.co_name)
   
   ''' wrapper for block functions '''
+  self.ct_block = tilepick_block(self)
+  print "GBB self.ct_block = ", self.ct_block
   
-  return True
+  # PROCESS THE BLOCK # todo -- right place for recursive?
+  if click_tile_or_wall(self, self.ct_block) == False:
+    self.ct_block = tilepick_block(self) # or try again...
+  
+  # need to update valid runs again, with block
+  if calculate_valid_runs(self, self.ct_run) == True:
+    block_success = True
+  else:
+    block_success = False
+
+  return block_success # todo -- is this right return
 
 
 
