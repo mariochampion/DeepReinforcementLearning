@@ -139,16 +139,11 @@ class GridBlocBoard():
 		self.block_style = "random" # h=1 or v=2 tile type
 		
 		############### wrap up __init__
-		#run_pick_click_process(self) 	############### initial RUN
-		#block_pick_click_process(self) 	############### initial BLOCK
-		#show_summary(self) 				############### initial SUMMARY	
-		
-		
 
 
 
 #################################
-### __INIT__ FUNcs()
+### non __init functions. # todo -- move to gbutil?
 #################################		
 
 #################################
@@ -358,43 +353,6 @@ class GridBlocBoard():
 
 
 ###################  END __init__ functions() #######################
-
-
-#################################    
-def block_row_hor_list(self, this_b_row):
-  gbutil.whereami(sys._getframe().f_code.co_name)
-  
-  ''' create list of horizontal blocker tiles on THIS B ROW '''
-  
-  if this_b_row == False: return False # nothing to do
-  if self.b_tile_type == 2: return False
-  
-  if self.b_tile_type == 1:
-    #print "tiletype HORIZONTAL = ", this_b_row
-    b_row_h_list = self.b_hortiles_dict[this_b_row]
-        
-  print "this_b_row", this_b_row, "for b_row_h_list", b_row_h_list
-
-  return b_row_h_list
-
-     
-
-#################################    
-def block_row_vert_list(self, this_b_col):
-  gbutil.whereami(sys._getframe().f_code.co_name)
-  
-  ''' create list of VERTICAL blocker tiles in this run row '''
-    
-  if this_b_col == False: return False # nothing to do
-  if self.b_tile_type == 1: return False # mistaken call -- do nothing
-    
-  if self.b_tile_type == 2: 
-    #print "tiletype VERTICAL col =", this_b_col
-    b_row_v_list = self.b_vertiles_dict[this_b_col]  
-  
-  print "end: this_b_col",this_b_col,"has b_row_v_list", b_row_v_list
-  
-  return b_row_v_list
 
 
 
@@ -813,21 +771,7 @@ def game_is_over(gb_board, gb_board_r2):
 
 
   
-#################################  
-def show_summary(self):
-  print "\n-------- summary ----------\n"
-  print "self.round_num", self.round_num
-  print "END GBB self.runnerpoints =",self.runnerpoints
-  print "END GBB self.ct_run = ", self.ct_run
-  print "END GBB self.clicked_tiles_walls_list = ", self.clicked_tiles_walls_list
-  print "END GBB self.clicked_runs = ", self.clicked_runs
-  print "END GBB self.valid_runs = ", self.valid_runs
-  print "END GBB self.unclicked_runs =", self.unclicked_runs
-  print
-  print "END GBB self.ct_block = ", self.ct_block
-  print "END GBB self.clicked_blocks = ", self.clicked_blocks
-  print "END GBB self.unclicked_blocks =", self.unclicked_blocks
-  print "-------- end summary ----------\n\n" 
+
     
 
 
@@ -853,7 +797,7 @@ def play_a_game(w, h):
     if block_pick_click_process(gb_board) == False: 
       print "======= ERROR in round 1 ======="
       sys.exit(1)
-    show_summary(gb_board)
+    gbutil.show_summary(gb_board)
   print "ROUND ONE ENDED"
   
 
@@ -866,7 +810,7 @@ def play_a_game(w, h):
     if block_pick_click_process(gb_board_r2) == False: 
       print "======= ERROR in round 1 ======="
       sys.exit(1)    
-    show_summary(gb_board_r2)
+    gbutil.show_summary(gb_board_r2)
   
   # do the end game things
   game_is_over(gb_board, gb_board_r2)
