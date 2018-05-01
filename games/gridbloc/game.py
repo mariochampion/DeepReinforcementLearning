@@ -848,14 +848,9 @@ def show_summary(self):
 
 
 ################################# # TODO -- upgrade from lo-fi gameover, man screen ; )
-def play_a_game():
+def play_a_game(w, h):
   gbutil.whereami(sys._getframe().f_code.co_name)
   ''' desc '''
-  
-  
-  w = random.randint(3,11)
-  h = random.randint(3,11)  
-  
   
   #setup a new game board
   print "ready a new GridBlocBoard(w,h)"
@@ -1140,8 +1135,9 @@ def main(args):
   
   ######### COMBINE INTO A SEP FUNC to e called in a loop for loog aggregation
   
-  for fame in range(1,20):
-    play_a_game() # or 20
+  for fame in range(1,2):
+    print "--------------------PLAY FOR FAME:", fame
+    play_a_game(w, h) # or 20
  
   # then end it all!
   sys.exit(1)
@@ -1165,8 +1161,10 @@ if __name__ == '__main__':
     if len(args)==2:
       print "TRY args", args 
     else:
-      print "need width AND height as parameters. setting to defaults (5)"
-      args = [5,5]
+      print "need width AND height as parameters. setting to randoms 3 to 10"
+      w = random.randint(3,11)
+      h = random.randint(3,11)
+      args = [w,h]
   except:
     print "something wrong in __name__ \ngoodbye"
     sys.exit(1)
