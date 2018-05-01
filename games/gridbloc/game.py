@@ -831,7 +831,7 @@ def show_summary(self):
     
 
 
-################################# # TODO -- upgrade from lo-fi gameover, man screen ; )
+#################################
 def play_a_game(w, h):
   gbutil.whereami(sys._getframe().f_code.co_name)
   ''' desc '''
