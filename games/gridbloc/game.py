@@ -777,11 +777,12 @@ def is_game_over(self):
 
 
 
-################################# # TODO -- upgrade from lo-fi gameover, man screen ; )
+################################# 
 def game_is_over(gb_board, gb_board_r2):
   gbutil.whereami(sys._getframe().f_code.co_name)
 
-  ''' TODO - double-check and store logs, scores, etc.  
+  ''' TODO -- upgrade from lo-fi gameover, man screen ; )
+      TODO - double-check and store logs, scores, etc.  
       TODO - print some stuff for the humans looking at output, etc
       TODO - setup for new game, player rankings, etc.
   '''
@@ -797,8 +798,8 @@ def game_is_over(gb_board, gb_board_r2):
     this_is_score = gb_board.runnerpoints, gb_board_r2.runnerpoints
   
 
-  # TODO - use a real conditional, but which one?
-  if 1 == 1 :
+  # use a real conditional, but which one?
+  if gb_board_r2.round_num > gb_board_r2.round_num_max :
     print "\n\n    #################################"
     print "############    GAME OVER   #################"
     print this_is_winner
