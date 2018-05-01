@@ -31,6 +31,8 @@ class GridBlocBoard():
   gbutil.whereami(sys._getframe().f_code.co_name)
   
   def __init__(self,w,h):		
+		''' desc here '''
+		
 		self.w = w
 		print "GBB self.w = ", w
 		
@@ -43,11 +45,6 @@ class GridBlocBoard():
 		self.all_the_tiles = range(1, (self.tile_max+1))
 		print "GBB self.all_the_tiles = ", self.all_the_tiles
 				
-		### from all_tiles create on __init__:
-		#  - valid_runs[] (based on powers, which for now are DUCK, which means adjacent, not blocked)
-		#  - clicked_runs[], unclicked_runs[]
-		#  - clicked_blocks[], unclicked_blocks[]
-
 		self.clicked_tiles_walls_list = [] # initially none, useful for MASTER recreation of gameplay
 		print "START GBB self.clicked_tiles_walls_list = ", self.clicked_tiles_walls_list
 		self.clicked_blocks = [] # initially none
@@ -553,13 +550,13 @@ def click_tile_or_wall(self, clickthistile):
       
     else:
       # an already blocked block
-      return False #todo - what of this? is error? should this be checked sooner?
+      return False # used by calling funcs (run_process(), block_process(), close_edges()
     
     
   # update master list
   self.clicked_tiles_walls_list.append(clickthistile) 
 
-  # todo - is this the right check & status code to return?
+  # used by calling funcs (run_process(), block_process(), close_edges()
   if clickthistile in self.clicked_tiles_walls_list: 
     clicksuccess = True 
   else:
@@ -594,11 +591,11 @@ def calculate_valid_runs(self, fromthistile):
       
   # final check of calculated options
   if fromthistile not in unblocked_runs:
-    self.valid_runs = [] #not needed, but better for human eyes
+    self.valid_runs = [] # not needed, but better for human eyes
     self.valid_runs = unblocked_runs[:] # make a copy
-    cvr_success = True # todo - what is right check/status
+    cvr_success = True # used by calling func block_process()
   else:
-    cvr_success = False # todo - what is right check/status
+    cvr_success = False # used by calling func block_process()
   
   print "CVR self.valid_runs", self.valid_runs
   
@@ -681,9 +678,22 @@ def run_row_from_tilenum(self, runtile):
 #################################
 def run_is_unblocked(self, runtile):
   gbutil.whereami(sys._getframe().f_code.co_name)
-  ''' from self.clicked_blocks and self.ct_run calculate blocked and UNblocked run options '''
   
-  ### for self.runnerpower  == "duck"
+  ''' IMPORTANT FUNCTION (based on runnerpower)
+      from self.clicked_blocks and self.ct_run calculate blocked and UNblocked run options 
+  '''
+  
+  # set up vars
+  thisrunrow = run_row_from_tilenum(self, self.ct_run)
+  vert_tile_coeff = (self.ct_run - run_row_starter(self, thisrunrow)) / 2
+  
+  ct_leftedge = self.ct_run - 1
+  ct_rightedge = self.ct_run + 1
+  ct_top = self.ct_run - (self.w + vert_tile_coeff) - 1
+  ct_bottom = self.ct_run + ( (2 * self.w - vert_tile_coeff))
+  
+  
+  #### run thru conditionals for DUCK (others later)
   ## orthagonals
   # if ct_run +/- 1 in self.clicked_blocks, then no ct_run +/- 2
   # if ct_run +/- ct_top/ct_bottom, then no vert up/dn
@@ -691,22 +701,6 @@ def run_is_unblocked(self, runtile):
   ## diagonals 
   # if ct_run +/-1 AND ct_top, no then no vert up +/- 2
   # if ct_run +/-1 AND ct_bottom, no then no vert dn +/- 2
-  
-  # set up vars
-  thisrunrow = run_row_from_tilenum(self, self.ct_run)
-  #print "RUB self.ct_run", self.ct_run
-  vert_tile_coeff = (self.ct_run - run_row_starter(self, thisrunrow)) / 2
-  #print "RUB vert_tile_coeff", vert_tile_coeff
-  
-  ct_leftedge = self.ct_run - 1
-  ct_rightedge = self.ct_run + 1
-  ct_top = self.ct_run - (self.w + vert_tile_coeff) - 1
-  #print "RUB ct_top", ct_top 
-  ct_bottom = self.ct_run + ( (2 * self.w - vert_tile_coeff))
-  #print "RUB ct_bottom", ct_bottom
-  
-  
-  # run thru conditionals for DUCK
   if self.runnerpower  == "duck":
     
     is_unblocked = True
