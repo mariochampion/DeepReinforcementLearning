@@ -349,7 +349,51 @@ class GridBlocBoard():
     return edges_closed
 
 
-###################  END GridBlocBoard__init__ functions() #######################
+#################################
+def play_a_game(w, h):
+  gbutil.whereami(sys._getframe().f_code.co_name)
+  ''' desc '''
+  
+  #setup a new game board
+  print "ready a new GridBlocBoard(w,h)"
+  gb_board = GridBlocBoard(w,h)
+  print "\n###################  __init__ ONE DONE     #####\n"
+  gb_board_r2 = GridBlocBoard(w,h)
+  gb_board_r2.round_num = 2 # todo - potentially move to Gamestate or similar class
+  print "\n###################  __init__ TWO DONE     #####\n"
+
+  # start round one
+  print "########################## START ROUND ONE"
+  cycle = 0
+  while gbutil.run_pick_click_process(gb_board) == True:
+    cycle += 1
+    print "\n############\nROUND 1 MID-CYCLE", cycle
+    if gbutil.block_pick_click_process(gb_board) == False: 
+      print "======= ERROR in round 1 ======="
+      sys.exit(1)
+    gbutil.show_summary(gb_board)
+  print "ROUND ONE ENDED"
+  
+
+  # start round two
+  print "########################## --START ROUND TWO"
+  cycle = 0
+  while gbutil.run_pick_click_process(gb_board_r2) == True:
+    cycle += 1
+    print "\n############\nROUND 2 MID-CYCLE", cycle
+    if gbutil.block_pick_click_process(gb_board_r2) == False: 
+      print "======= ERROR in round 1 ======="
+      sys.exit(1)    
+    gbutil.show_summary(gb_board_r2)
+  
+  # do the end game things
+  gbutil.game_is_over(gb_board, gb_board_r2)
+  
+  return True
+
+
+
+###################  END GridBlocBoard functions() #######################
 
     
 
@@ -604,52 +648,6 @@ def main(args):
   # then end it all!
   sys.exit(1)
   
-
-#################################
-def play_a_game(w, h):
-  gbutil.whereami(sys._getframe().f_code.co_name)
-  ''' desc '''
-  
-  #setup a new game board
-  print "ready a new GridBlocBoard(w,h)"
-  gb_board = GridBlocBoard(w,h)
-  print "\n###################  __init__ ONE DONE     #####\n"
-  gb_board_r2 = GridBlocBoard(w,h)
-  gb_board_r2.round_num = 2 # todo - potentially move to Gamestate or similar class
-  print "\n###################  __init__ TWO DONE     #####\n"
-
-  # start round one
-  print "########################## START ROUND ONE"
-  cycle = 0
-  while gbutil.run_pick_click_process(gb_board) == True:
-    cycle += 1
-    print "\n############\nROUND 1 MID-CYCLE", cycle
-    if gbutil.block_pick_click_process(gb_board) == False: 
-      print "======= ERROR in round 1 ======="
-      sys.exit(1)
-    gbutil.show_summary(gb_board)
-  print "ROUND ONE ENDED"
-  
-
-  # start round two
-  print "########################## --START ROUND TWO"
-  cycle = 0
-  while gbutil.run_pick_click_process(gb_board_r2) == True:
-    cycle += 1
-    print "\n############\nROUND 2 MID-CYCLE", cycle
-    if gbutil.block_pick_click_process(gb_board_r2) == False: 
-      print "======= ERROR in round 1 ======="
-      sys.exit(1)    
-    gbutil.show_summary(gb_board_r2)
-  
-  # do the end game things
-  gbutil.game_is_over(gb_board, gb_board_r2)
-  
-  return True
-
-
-
-
 
 
   
