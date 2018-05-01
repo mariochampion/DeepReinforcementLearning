@@ -408,7 +408,7 @@ def run_pick_click_process(self):
   ''' wrapper for run functions '''
 
   # check for any valid runs, if not, round over
-  if is_run_available(self) == False:
+  if is_run_or_block_available(self, "run") == False:
     if round_is_over(self) == True:
       if is_game_over(self) == True: #check round_num
         return False
@@ -437,7 +437,7 @@ def block_pick_click_process(self):
   
   ''' wrapper for block functions '''
   
-  if is_block_available(self) == False:
+  if is_run_or_block_available(self, "block") == False:
     if round_is_over(self) == True:
       if is_game_over(self) == True: #check round_num
         return False
@@ -457,35 +457,23 @@ def block_pick_click_process(self):
     
 
 
-################################# # TODO - combine with block_available
-def is_run_available(self):
+################################# 
+def is_run_or_block_available(self, r_or_b):
   gbutil.whereami(sys._getframe().f_code.co_name)
 
-  ''' just check length of valid_runs. if zero, then roundover.
+  ''' just check length of valid_runs or unclicked_blocks. if zero, then round is over.
       TODO - later check that if valid runs already scored and CANNOT get to new unscored?
   '''
+  if r_or_b == "run": availability = len(self.valid_runs)
+  if r_or_b == "block": availability = len(self.unclicked_blocks)
+  print "available?", r_or_b
   
-  if len(self.valid_runs) > 0:
+  if availability > 0:
     print "yes, some"
     return True
   else:
-    print "no runs available"
+    print "no, none"
     return False
-
-
-#################################
-def is_block_available(self):
-  gbutil.whereami(sys._getframe().f_code.co_name)
-
-  ''' just check length of unclicked blocks. if zero, then roundover. '''
-  
-  if len(self.unclicked_blocks) > 0:
-    print "yes, some"
-    return True
-  else:
-    print "no blocks" 
-    return False
-
 
 
 #################################  
@@ -1135,9 +1123,9 @@ def main(args):
   
   ######### COMBINE INTO A SEP FUNC to e called in a loop for loog aggregation
   
-  for fame in range(1,2):
+  for fame in range(1,2): #play a game or 20
     print "--------------------PLAY FOR FAME:", fame
-    play_a_game(w, h) # or 20
+    play_a_game(w, h) 
  
   # then end it all!
   sys.exit(1)
