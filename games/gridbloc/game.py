@@ -781,10 +781,11 @@ def is_game_over(self):
 def game_is_over(gb_board, gb_board_r2):
   gbutil.whereami(sys._getframe().f_code.co_name)
 
-  ''' TODO -- upgrade from lo-fi gameover, man screen ; )
-      TODO - double-check and store logs, scores, etc.  
-      TODO - print some stuff for the humans looking at output, etc
-      TODO - setup for new game, player rankings, etc.
+  ''' TODOs:
+  	-- upgrade from lo-fi gameover, man screen ; )
+    - double-check and store logs, scores, etc.  
+    - print some stuff for the humans looking at output, etc
+    - setup for new game, player rankings, etc.
   '''
 
   if gb_board.runnerpoints > gb_board_r2.runnerpoints:
