@@ -465,21 +465,22 @@ def game_is_over(gb_board, gb_board_r2):
 
   if gb_board.runnerpoints > gb_board_r2.runnerpoints:
     this_is_winner = "############  PLAYER 1 win! #################"
-    this_is_score = gb_board.runnerpoints, gb_board_r2.runnerpoints
+    this_is_score = str(gb_board.runnerpoints) + " to " + str(gb_board_r2.runnerpoints)
   elif gb_board.runnerpoints < gb_board_r2.runnerpoints:
     this_is_winner = "############  PLAYER 2 win! #################"
-    this_is_score = gb_board_r2.runnerpoints, gb_board.runnerpoints
+    this_is_score = str(gb_board_r2.runnerpoints) + " to " + str(gb_board.runnerpoints)
   else:
     this_is_winner = "############  DOUBLE WIN! #################"
-    this_is_score = gb_board.runnerpoints, gb_board_r2.runnerpoints
+    this_is_score = str(gb_board.runnerpoints) + " = " + str(gb_board_r2.runnerpoints)
   
-
+  
+  board_size = "on a "+str(gb_board.w) + " x " + str(gb_board.h)
   # use a real conditional, but which one?
   if gb_board_r2.round_num > gb_board_r2.round_num_max :
     print "\n\n    #################################"
     print "############    GAME OVER   #################"
     print this_is_winner
-    print "               ", this_is_score
+    print "         ", this_is_score + " "+ board_size
     print "    #################################\n\n"
     
   # lots more things
