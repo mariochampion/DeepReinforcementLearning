@@ -6,6 +6,7 @@ GRIDBLOC support functions.
 
 ## GLOBAL implorts/vars (mostly for use in this file?)
 import sys, random, math
+from showboard import ShowBoard
 show_whereami = True
 
 
@@ -484,9 +485,20 @@ def game_is_over(gb_board, gb_board_r2):
     print "    #################################\n\n"
     
   # lots more things
+  showboard(gb_board_r2)
   return
 
 
 
+################################# 
+def showboard(thisboard):
+  whereami(sys._getframe().f_code.co_name)
 
+  ''' TODOs:'''
+  
+  ShowBoard(thisboard)
+  
+  
+  
+  
     
