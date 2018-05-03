@@ -43,17 +43,11 @@ class ShowBoard():
 #############
 
 
-
-
-
-
-
-
 def printboard(board):
 	gbutil.whereami(sys._getframe().f_code.co_name)
 	''' desc '''
 
-	print( "unmarked board "+ str(board.w) + " by " + str(board.h) )
+	print( "unplayed board "+ str(board.w) + " by " + str(board.h) )
 	#top edge
 	for a in range(board.w):
 	  print(board.hor_closed, end="")
@@ -76,6 +70,13 @@ def printboard(board):
 	  
 	  
 	  print()
+	  
+  ## TODO
+	# print the tilenums rather than the symbols
+	# then replace num, if in board.clicked_runs or board.clicked_blocks with symbol
+	# replace with index of board.clicked_runs, to recreate steps
+	print( "board.clicked_runs", board.clicked_runs)
+	print( "board.clicked_blocks", board.clicked_blocks)
 
 
 
