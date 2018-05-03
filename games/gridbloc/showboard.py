@@ -88,9 +88,9 @@ def printboard(board):
   ''' desc '''
   
   ## TODO
-	# print the tilenums rather than the symbols
-	# then replace num, if in board.clicked_runs or board.clicked_blocks with symbol
-	# replace with index of board.clicked_runs, to recreate steps
+  # use wall OPEN or CLOSED if in board.clicked_blocks == DONE
+	# print the tilenums rather than the symbols ? nahh... == DONE
+	# use index of board.clicked_runs as running num, if in board.clicked_runs -- NEXT
 	
   print( "board.clicked_runs", board.clicked_runs)
   print( "board.clicked_blocks", board.clicked_blocks)
