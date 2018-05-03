@@ -34,9 +34,9 @@ class ShowBoard():
 		
 		'''
 		
-		print( "SHOW GAME BOARD" )
-		print( "board.w = ", board.w )
-		print( "board.h = ", board.h )
+		#print( "SHOW GAME BOARD" )
+		#print( "board.w = ", board.w )
+		#print( "board.h = ", board.h )
 		board.hor_open = "....."
 		board.hor_closed = " ----"
 		board.ver_open = ":    "
@@ -44,7 +44,7 @@ class ShowBoard():
 		board.cell_spaces = 4
 
 		# go print to screen
-		printboard_unplayed(board)
+		#printboard_unplayed(board)
 		
 		# version two -- played data an calc'ed differently
 		printboard(board)
