@@ -115,10 +115,17 @@ def h_row(board, r):
   
   print("(printboard num) hor r = ", r)
   rownum = range(1, 2 * board.h + 3,2 ).index(r) + 1
-  print("rownum = ", rownum)
-  print("self.b_hortiles_dict ", board.b_hortiles_dict)
-  print( "board.b_hortiles_dict[rownum] tiles IN clicked?", board.b_hortiles_dict[rownum]) 
-  print()
+  print(" rownum = ", rownum)
+  print(" self.b_hortiles_dict ", board.b_hortiles_dict)
+  print( "board.b_hortiles_dict[rownum] tiles IN clicked?", board.b_hortiles_dict[rownum])
+  print( "board.clicked_blocks", board.clicked_blocks) 
+  hor_row = board.b_hortiles_dict[rownum]
+  for hwall in range(board.w):
+    if hor_row[hwall] in board.clicked_blocks:
+      print(board.hor_closed,end="")
+    else:
+      print(board.hor_open,end="")
+
   return	
 	
 
