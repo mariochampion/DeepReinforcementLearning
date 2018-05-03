@@ -142,14 +142,17 @@ def v_row(board, r):
   #print( "board.clicked_blocks", board.clicked_blocks)
   ver_row = board.b_vertiles_dict[rownum]
   for vwall in range(board.w+1):
+    thistile = ver_row[vwall]+1
     if ver_row[vwall] in board.clicked_blocks:
-      if (ver_row[vwall]+1) in board.clicked_runs:
-        print( "| "+str(ver_row[vwall]+1), end="")
+      if thistile in board.clicked_runs:
+        thisrun = board.clicked_runs.index(thistile) + 1
+        print( "|  " + str(thisrun)+ " ", end="")
       else:
         print(board.ver_closed,end="")
     else:
-      if (ver_row[vwall]+1) in board.clicked_runs:
-        print( ": "+str(ver_row[vwall]+1), end="")
+      if thistile in board.clicked_runs:
+        thisrun = board.clicked_runs.index(thistile) + 1
+        print( ":  " + str(thisrun) + " ", end="")
       else:
         print(board.ver_open,end="")
   
