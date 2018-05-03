@@ -133,6 +133,7 @@ class GridBlocBoard():
 		# runnerpower - also cheetah, roo, bee, mouse, chicken, frog
 		self.runnerpower = "duck" #default/beginner runnerpower
 		### TODO -- this might not be calculated properly, looking at visualization...
+		### ok it is, but clicked_runs.INDEX() shows too high num on printboard()
 		self.runnerpoints = 0 # blocker gets no points, ya know.
 		self.round_num = 1
 		self.round_num_max = 2 
