@@ -17,13 +17,23 @@ class ShowBoard():
   
   def __init__(self, board):		
 		''' do the things to visualize runs and blocks, with nums and ... bolds? '''
+		'''
+		 .... ---- .... .... .... .... 
+		|    :    :    :    : 99 |    :
+		...........----................
+		|    :    :    : 100|    |    :
+		 .... .... .... .... .... .... 
+		
+		
+		'''
 		
 		print "SHOW GAME BOARD"
 		print "board.w = ", board.w
 		print "board.h = ", board.h
-		board.cell_top = " ---- "
-		board.cell_verts = "| 22 |"
-		board.cell_bttm = " ____"
+		board.hor_open = "....."
+		board.hor_closed = ".----"
+		board.ver_open = ":    "
+		board.ver_closed = "|    "
 		
 		printboard(board)
 
@@ -34,13 +44,27 @@ class ShowBoard():
 
 
 
+
+
+
 def printboard(board):
 	gbutil.whereami(sys._getframe().f_code.co_name)
 	''' desc '''
 	print "start board\n"
-	print board.cell_top
-	print board.cell_verts
-	print board.cell_bttm
+	print board.hor_open+board.hor_open+board.hor_open
+	print board.ver_open+board.ver_open+board.ver_open+board.ver_closed
+
+	print board.hor_closed+board.hor_open+board.hor_open
+	print board.ver_open+board.ver_open+board.ver_open+board.ver_closed	
+
+	print board.hor_open+board.hor_open+board.hor_open
+	print board.ver_closed+board.ver_open+board.ver_closed+board.ver_closed
+	
+	print board.hor_open+board.hor_open+board.hor_open
+	
+	print
+	print
+
 	
 	
 	
