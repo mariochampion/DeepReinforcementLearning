@@ -37,12 +37,12 @@ class ShowBoard():
 		#print( "SHOW GAME BOARD" )
 		#print( "board.w = ", board.w )
 		#print( "board.h = ", board.h )
-		board.hor_open = "....."
-		board.hor_closed = " ----"
-		board.ver_open = ":    "
-		board.ver_closed = "|    "
-		board.cell_spaces = 4
-
+		board.hor_open = "......"
+		board.hor_closed = " -----"
+		board.ver_open = ":"
+		board.ver_closed = "|"
+		board.defpad = "     " # 5 spaces
+		
 		# go print to screen
 		#printboard_unplayed(board)
 		
@@ -69,14 +69,14 @@ def printboard_unplayed(board):
 	    if c == 0 or c == board.w:
 	      print(board.ver_closed, end="")
 	    else:
-	      print(board.ver_open, end="")	
+	      print(board.ver_open+board.ver_padd, end="")	
 	  print()
 	  #horizontals
 	  for d in range(board.w):
 	    if b == board.h-1:
 	      print(board.hor_closed, end="")
 	    else:
-	      print(board.hor_open, end="")	      
+	      print(board.hor_open+board.ver_padd, end="")	      
 	  
 	  
 	  print()
@@ -135,33 +135,51 @@ def v_row(board, r):
   gbutil.whereami(sys._getframe().f_code.co_name)
   ''' desc '''
   
-  #print("(printboard num) ver r = ", r)
+  #convert from 'r' to the index from b_vertiles_dict
   rownum = range(0, 2 * board.h + 3, 2).index(r)
-  #print("rownum = ", rownum)
-  #print("self.b_vertiles_dict ", board.b_vertiles_dict)
-  #print( "board.clicked_blocks", board.clicked_blocks)
   ver_row = board.b_vertiles_dict[rownum]
   for vwall in range(board.w+1):
-    thistile = ver_row[vwall]+1
+    thistile = ver_row[vwall]+1 #get tilenum
+    tileclicked = False
+    
+    #check if clicked run next to this vertical wall
+    if thistile in board.clicked_runs:
+      tileclicked = True
+      thisrun = board.clicked_runs.index(thistile) + 1 # get running step number
+      # adjust for digit count to keep cols in line
+      leftpad,ritepad = setpadding(thisrun)
+    
     if ver_row[vwall] in board.clicked_blocks:
-      if thistile in board.clicked_runs:
-        thisrun = board.clicked_runs.index(thistile) + 1
-        print( "|  " + str(thisrun)+ " ", end="")
+      if tileclicked == True:
+        print( board.ver_closed + leftpad + str(thisrun)+ ritepad, end="")
       else:
-        print(board.ver_closed,end="")
+        print(board.ver_closed + board.defpad,end="")
     else:
-      if thistile in board.clicked_runs:
-        thisrun = board.clicked_runs.index(thistile) + 1
-        print( ":  " + str(thisrun) + " ", end="")
+      if tileclicked == True:
+        print( board.ver_open + leftpad + str(thisrun) + ritepad, end="")
       else:
-        print(board.ver_open,end="")
+        print(board.ver_open + board.defpad,end="")
   
   print()
   return	
 
 
+#################################
+def setpadding(thisrun):
+  gbutil.whereami(sys._getframe().f_code.co_name)
+  ''' desc '''
 
-
+  if len(str(thisrun)) == 1 : 
+    leftpad = "  "
+    ritepad = "  "
+  if len(str(thisrun)) == 2 : 
+    leftpad = "  "
+    ritepad = " "
+  if len(str(thisrun)) > 2 : 
+    leftpad = " "
+    ritepad = " "
+  
+  return (leftpad,ritepad)
 
 
 
