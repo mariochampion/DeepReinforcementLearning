@@ -94,6 +94,7 @@ def printboard(board):
 	
   print( "board.clicked_runs", board.clicked_runs)
   print( "board.clicked_blocks", board.clicked_blocks)
+  print( "board.block_tiles_master_dict", board.block_tiles_master_dict)
   print( "PLAYED BOARD - draft 1" )
   print()
   for r in range(1, (2 * board.h + 2)):
@@ -108,22 +109,29 @@ def printboard(board):
 	
 
 #################################
-def h_row(board, rownum):
+def h_row(board, r):
   gbutil.whereami(sys._getframe().f_code.co_name)
   ''' desc '''
   
-  print("hor rownum = ", rownum)
-  
+  print("(printboard num) hor r = ", r)
+  rownum = range(1, 2 * board.h + 3,2 ).index(r) + 1
+  print("rownum = ", rownum)
+  print("self.b_hortiles_dict ", board.b_hortiles_dict)
+  print( "board.b_hortiles_dict[rownum] tiles IN clicked?", board.b_hortiles_dict[rownum]) 
+  print()
   return	
 	
 
 #################################
-def v_row(board, rownum):
+def v_row(board, r):
   gbutil.whereami(sys._getframe().f_code.co_name)
   ''' desc '''
   
-  print("ver rownum = ", rownum)
-  
+  print("(printboard num) ver r = ", r)
+  rownum = range(0, 2 * board.h + 3, 2).index(r)
+  print("rownum = ", rownum)
+  print("self.b_vertiles_dict ", board.b_vertiles_dict) 
+  print()
   return	
 
 
