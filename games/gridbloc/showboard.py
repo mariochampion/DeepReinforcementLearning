@@ -23,7 +23,14 @@ class ShowBoard():
 		...........----................
 		|    :    :    : 100|    |    :
 		 .... .... .... .... .... .... 
-		
+
+		  ---- ---- ----
+     |    :    :    |    
+     ...............
+     |    :    :    |    
+     ...............
+     |    :    :    |    
+      ---- ---- ----
 		
 		'''
 		
@@ -37,13 +44,16 @@ class ShowBoard():
 		board.cell_spaces = 4
 
 		# go print to screen
+		printboard_unplayed(board)
+		
+		# version two -- played data an calc'ed differently
 		printboard(board)
 
 		
 #############
 
 
-def printboard(board):
+def printboard_unplayed(board):
 	gbutil.whereami(sys._getframe().f_code.co_name)
 	''' desc '''
 
@@ -70,13 +80,68 @@ def printboard(board):
 	  
 	  
 	  print()
-	  
+
+
+#################################
+def printboard(board):
+  gbutil.whereami(sys._getframe().f_code.co_name)
+  ''' desc '''
+  
   ## TODO
 	# print the tilenums rather than the symbols
 	# then replace num, if in board.clicked_runs or board.clicked_blocks with symbol
 	# replace with index of board.clicked_runs, to recreate steps
-	print( "board.clicked_runs", board.clicked_runs)
-	print( "board.clicked_blocks", board.clicked_blocks)
+	
+  print( "board.clicked_runs", board.clicked_runs)
+  print( "board.clicked_blocks", board.clicked_blocks)
+  print( "PLAYED BOARD - draft 1" )
+  print()
+  for r in range(1, (2 * board.h + 2)):
+    #print(r,end="")
+    if r == 1 or r == (2 * board.h + 1): h_closed(board, r)
+    # odds and evens in range() rather than %modulo, just because
+    if r > 1 or r < (2 * board.h + 1):
+      if r in range(1, (2 * board.h + 1), 2): h_row(r) # odds
+      if r in range(0, (2 * board.h + 1), 2): v_row(r)  # evens
+
+
+  print()
+	
+	
+	
+#################################
+def h_closed(board, rownum):
+  gbutil.whereami(sys._getframe().f_code.co_name)
+  ''' desc '''
+  
+  print("h closed it is: w = " + str(board.w) + " on ROW: "+ str(rownum))
+  
+  return
+
+
+#################################
+def h_row(rownum):
+  gbutil.whereami(sys._getframe().f_code.co_name)
+  ''' desc '''
+  
+  print("hor rownum = ", rownum)
+  
+  return	
+	
+
+#################################
+def v_row(rownum):
+  gbutil.whereami(sys._getframe().f_code.co_name)
+  ''' desc '''
+  
+  print("ver rownum = ", rownum)
+  
+  return	
+
+
+
+
+
 
 
 
