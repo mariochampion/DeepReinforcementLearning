@@ -289,18 +289,18 @@ class GridBlocBoard():
   def _b_vertiles_dict_maker(self):
     gbutil.whereami(sys._getframe().f_code.co_name)
     
-    '''
+    ''' THIS WAS CHANGED to allow for printboard(). needed verttils ACROSS not UP/DOWN
     this is the dict for parts 2 and 3 of currenttile ("ct") tuple of type, row, tilenum
-    calculate the horizontal blocker tiles, range with self.w, self.vert_tile_distance, "v"
+    DEPRECATED --> calculate the horizontal blocker tiles, range with self.w, self.vert_tile_distance, "v"
     '''
     
     b_vertiles_dict = {}
-    for row in range(1, self.w + 2):
-      if row == 1: firstver = self.w + 1
-      else: firstver = (self.w + 1) + (2 * (row-1))
+    for row in range(1, self.h + 1):
+      if row == 1: firstvert = self.w + 1
+      else: firstvert = (self.w + 1) + (self.vert_tile_distance * (row-1))
       
-      #print "firstver = ", firstver
-      b_vertiles_dict[row] = range( firstver, firstver + (self.vert_tile_distance * (self.h)), self.vert_tile_distance)
+      #print "firstvert = ", firstvert
+      b_vertiles_dict[row] = range( firstvert, firstvert + self.run_row_len, 2)
     
     return b_vertiles_dict
     
