@@ -132,6 +132,7 @@ class GridBlocBoard():
 		# runnerpower - determines self.valid_runs in calculate_valid_runs()
 		# runnerpower - also cheetah, roo, bee, mouse, chicken, frog
 		self.runnerpower = "duck" #default/beginner runnerpower
+		### TODO -- this might not be calculated properly, looking at visualization...
 		self.runnerpoints = 0 # blocker gets no points, ya know.
 		self.round_num = 1
 		self.round_num_max = 2 
