@@ -82,7 +82,7 @@ def printboard(board):
 	  print()
 	  #horizontals
 	  for d in range(board.w):
-	    if b == board.w-1:
+	    if b == board.h-1:
 	      print(board.hor_closed, end="")
 	    else:
 	      print(board.hor_open, end="")	      
