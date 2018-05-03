@@ -33,6 +33,7 @@ def show_summary(self):
   print "END GBB self.ct_block = ", self.ct_block
   print "END GBB self.clicked_blocks = ", self.clicked_blocks
   print "END GBB self.unclicked_blocks =", self.unclicked_blocks
+  showboard(self)
   print "-------- end summary ----------\n\n"     
   
   
