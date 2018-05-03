@@ -7,7 +7,7 @@ GRIDBLOC support functions.
 ## GLOBAL implorts/vars (mostly for use in this file?)
 import sys, random, math
 from showboard import ShowBoard
-show_whereami = True
+show_whereami = False
 
 
 ##################################	
