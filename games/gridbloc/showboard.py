@@ -97,30 +97,15 @@ def printboard(board):
   print( "PLAYED BOARD - draft 1" )
   print()
   for r in range(1, (2 * board.h + 2)):
-    # top and bottm edge
-    if r == 1 or r == (2 * board.h + 1): 
-      h_closed(board, r)
-    # inner rows
-    if r > 1 or r < (2 * board.h + 1):
-      if r % 2 == 0: 
-        v_row(board, r) # evens
-      else: 
-        h_row(board, r)  # odds
+    if r % 2 == 0: 
+      v_row(board, r) # evens
+    else: 
+      h_row(board, r)  # odds
 
 
   print()
 	
 	
-	
-#################################
-def h_closed(board, rownum):
-  gbutil.whereami(sys._getframe().f_code.co_name)
-  ''' desc '''
-  
-  print("h closed it is: w = " + str(board.w) + " on ROW: "+ str(rownum))
-  
-  return
-
 
 #################################
 def h_row(board, rownum):
