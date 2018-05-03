@@ -52,20 +52,7 @@ class ShowBoard():
 def printboard(board):
 	gbutil.whereami(sys._getframe().f_code.co_name)
 	''' desc '''
-	print( "sample board\n" )
-	print( board.hor_open+board.hor_open+board.hor_open )
-	print( board.ver_open+board.ver_open+board.ver_open+board.ver_closed )
 
-	print( board.hor_closed+board.hor_open+board.hor_open )
-	print( board.ver_open+board.ver_open+board.ver_open+board.ver_closed )
-
-	print( board.hor_open+board.hor_open+board.hor_open )
-	print( board.ver_closed+board.ver_open+board.ver_closed+board.ver_closed )
-	
-	print( board.hor_closed+board.hor_closed+board.hor_closed )
-	
-	print( )
-	print( )
 	print( "unmarked board "+ str(board.w) + " by " + str(board.h) )
 	#top edge
 	for a in range(board.w):
