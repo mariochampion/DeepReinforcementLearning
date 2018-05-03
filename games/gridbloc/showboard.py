@@ -113,12 +113,12 @@ def h_row(board, r):
   gbutil.whereami(sys._getframe().f_code.co_name)
   ''' desc '''
   
-  print("(printboard num) hor r = ", r)
+  #print("(printboard num) hor r = ", r)
   rownum = range(1, 2 * board.h + 3,2 ).index(r) + 1
-  print(" rownum = ", rownum)
-  print(" self.b_hortiles_dict ", board.b_hortiles_dict)
-  print( "board.b_hortiles_dict[rownum] tiles IN clicked?", board.b_hortiles_dict[rownum])
-  print( "board.clicked_blocks", board.clicked_blocks) 
+  #print(" rownum = ", rownum)
+  #print(" self.b_hortiles_dict ", board.b_hortiles_dict)
+  #print( "board.b_hortiles_dict[rownum] tiles IN clicked?", board.b_hortiles_dict[rownum])
+  #print( "board.clicked_blocks", board.clicked_blocks) 
   hor_row = board.b_hortiles_dict[rownum]
   for hwall in range(board.w):
     if hor_row[hwall] in board.clicked_blocks:
@@ -126,6 +126,7 @@ def h_row(board, r):
     else:
       print(board.hor_open,end="")
 
+  print()
   return	
 	
 
@@ -134,10 +135,18 @@ def v_row(board, r):
   gbutil.whereami(sys._getframe().f_code.co_name)
   ''' desc '''
   
-  print("(printboard num) ver r = ", r)
+  #print("(printboard num) ver r = ", r)
   rownum = range(0, 2 * board.h + 3, 2).index(r)
-  print("rownum = ", rownum)
-  print("self.b_vertiles_dict ", board.b_vertiles_dict) 
+  #print("rownum = ", rownum)
+  #print("self.b_vertiles_dict ", board.b_vertiles_dict)
+  #print( "board.clicked_blocks", board.clicked_blocks)
+  ver_row = board.b_vertiles_dict[rownum]
+  for vwall in range(board.w+1):
+    if ver_row[vwall] in board.clicked_blocks:
+      print(board.ver_closed,end="")
+    else:
+      print(board.ver_open,end="")
+  
   print()
   return	
 
