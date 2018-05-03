@@ -31,7 +31,7 @@ class ShowBoard():
 		print( "board.w = ", board.w )
 		print( "board.h = ", board.h )
 		board.hor_open = "....."
-		board.hor_closed = ".----"
+		board.hor_closed = " ----"
 		board.ver_open = ":    "
 		board.ver_closed = "|    "
 		board.cell_spaces = 4
@@ -75,7 +75,7 @@ def printboard(board):
 	for b in range(board.h):
 	  #verts
 	  for c in range(board.w+1):
-	    if c == 1:
+	    if c == 0 or c == board.w:
 	      print(board.ver_closed, end="")
 	    else:
 	      print(board.ver_open, end="")	
