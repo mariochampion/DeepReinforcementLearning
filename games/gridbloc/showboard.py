@@ -132,8 +132,8 @@ def v_row(board, r):
     if thistile in board.clicked_runs:
       tileclicked = True
       # TODO - clicked_runs.INDEX() can be higher than actual score
-      thisrun = board.clicked_runs.index(thistile) + 1 # get running step number
       repeater = thisrun_repeat(board, thistile)
+      thisrun = board.clicked_points.index(thistile) + 1 # get running step number
       thisrun = str(thisrun)+repeater
       
       # adjust for digit count to keep cols in line
