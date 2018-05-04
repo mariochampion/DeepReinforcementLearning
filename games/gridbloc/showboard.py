@@ -41,9 +41,9 @@ class ShowBoard():
 		printboard(board)
 
 		
-#############
+############# end __init__
 
-
+#################################
 def printboard_unplayed(board):
 	gbutil.whereami(sys._getframe().f_code.co_name)
 	''' desc '''
@@ -68,48 +68,38 @@ def printboard_unplayed(board):
 	      print(board.hor_closed, end="")
 	    else:
 	      print(board.hor_open+board.ver_padd, end="")	      
-	  
-	  
 	  print()
 
 
 #################################
 def printboard(board):
   gbutil.whereami(sys._getframe().f_code.co_name)
-  ''' desc '''
+  ''' print gridbloc game board, showing un|clicked tiles & walls'''
   
-  ## TODO
-  # use wall OPEN or CLOSED if in board.clicked_blocks == DONE
-	# print the tilenums rather than the symbols ? nahh... == DONE
-	# use index of board.clicked_runs as running num, if in board.clicked_runs -- NEXT
-	
   print( "board.clicked_runs", board.clicked_runs)
   print( "board.clicked_blocks", board.clicked_blocks)
   print( "board.block_tiles_master_dict", board.block_tiles_master_dict)
   print( "PLAYED BOARD - draft 1" )
   print()
+  # (2 * board.h + 2) == the number of rows in a gameboard, including top & bottom edges
   for r in range(1, (2 * board.h + 2)):
     if r % 2 == 0: 
       v_row(board, r) # evens
     else: 
       h_row(board, r)  # odds
 
-
   print()
+  return
 	
 	
 
 #################################
 def h_row(board, r):
   gbutil.whereami(sys._getframe().f_code.co_name)
-  ''' desc '''
+  ''' build a row of horizontal blockers (like the top or bottom edge '''
   
-  #print("(printboard num) hor r = ", r)
+  #find index in range of odd numbers, use as b_hortiles_dict index
   rownum = range(1, 2 * board.h + 3,2 ).index(r) + 1
-  #print(" rownum = ", rownum)
-  #print(" self.b_hortiles_dict ", board.b_hortiles_dict)
-  #print( "board.b_hortiles_dict[rownum] tiles IN clicked?", board.b_hortiles_dict[rownum])
-  #print( "board.clicked_blocks", board.clicked_blocks) 
   hor_row = board.b_hortiles_dict[rownum]
   for hwall in range(board.w):
     if hor_row[hwall] in board.clicked_blocks:
@@ -124,9 +114,9 @@ def h_row(board, r):
 #################################
 def v_row(board, r):
   gbutil.whereami(sys._getframe().f_code.co_name)
-  ''' desc '''
+  ''' build a row of vertical blockers, AND the un|clicked cell space to its right.'''
   
-  #convert from 'r' to the index from b_vertiles_dict
+  #find index in range of even numbers, use as b_vertiles_dict index
   rownum = range(0, 2 * board.h + 3, 2).index(r)
   ver_row = board.b_vertiles_dict[rownum]
   for vwall in range(board.w+1):
@@ -136,6 +126,7 @@ def v_row(board, r):
     #check if clicked run next to this vertical wall
     if thistile in board.clicked_runs:
       tileclicked = True
+      # TODO - clicked_runs.INDEX() can be higher than actual score
       thisrun = board.clicked_runs.index(thistile) + 1 # get running step number
       # adjust for digit count to keep cols in line
       leftpad,ritepad = setpadding(thisrun)
@@ -158,7 +149,7 @@ def v_row(board, r):
 #################################
 def setpadding(thisrun):
   gbutil.whereami(sys._getframe().f_code.co_name)
-  ''' desc '''
+  ''' adjust some spacing when step numbers present to keep COLs in line '''
 
   if len(str(thisrun)) == 1 : 
     leftpad = "  "
