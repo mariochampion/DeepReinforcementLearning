@@ -33,6 +33,11 @@ class ShowBoard():
 		board.ver_open = ":"
 		board.ver_closed = "|"
 		board.defpad = "     " # 5 spaces
+		board.repeat1 = "."
+		board.repeat2 = ":"
+		board.repeat3 = "*"
+		board.repeat4 = "+"
+		
 		
 		# go print to screen
 		#printboard_unplayed(board)
@@ -128,8 +133,8 @@ def v_row(board, r):
       tileclicked = True
       # TODO - clicked_runs.INDEX() can be higher than actual score
       thisrun = board.clicked_runs.index(thistile) + 1 # get running step number
-      if thisrun_repeat(board.clicked_runs, thistile) == True:
-        thisrun = str(thisrun)+"."
+      repeater = thisrun_repeat(board, thistile)
+      thisrun = str(thisrun)+repeater
       
       # adjust for digit count to keep cols in line
       leftpad,ritepad = setpadding(thisrun)
@@ -168,15 +173,16 @@ def setpadding(thisrun):
 
 
 #################################
-def thisrun_repeat(clicked_runs_list, thistile):
+def thisrun_repeat(board, thistile):
   gbutil.whereami(sys._getframe().f_code.co_name)
   ''' add a "." to run num to show when back to tile. legal but gets no new point '''
   
-  if clicked_runs_list.count(thistile) > 1:
-    return True
-  else:
-    return False
-  
+  if board.clicked_runs.count(thistile) == 2: return board.repeat1
+  elif board.clicked_runs.count(thistile) == 3: return board.repeat2
+  elif board.clicked_runs.count(thistile) == 4: return board.repeat3
+  elif board.clicked_runs.count(thistile) > 4: return board.repeat4  
+  else: return ""
+
   
   
   
