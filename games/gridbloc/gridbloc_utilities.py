@@ -371,6 +371,17 @@ def run_is_unblocked(self, runtile):
   ct_rightedge = self.ct_run + 1
   ct_top = self.ct_run - (self.w + vert_tile_coeff) - 1
   ct_bottom = self.ct_run + ( (2 * self.w - vert_tile_coeff))
+  # up and down edge vertical neighbors
+  ct_leftedge_up = ct_leftedge - self.vert_tile_distance
+  ct_leftedge_down = ct_leftedge + self.vert_tile_distance
+  ct_rightedge_up = ct_rightedge - self.vert_tile_distance
+  ct_rightedge_down = ct_rightedge + self.vert_tile_distance
+  # top and bottom edge horizontal neighbors
+  ct_top_left = ct_top - 1
+  ct_top_right = ct_top + 1
+  ct_btm_left = ct_bottom - 1
+  ct_btm_right = ct_bottom + 1
+
   
   
   #### run thru conditionals for DUCK (others later)
@@ -381,7 +392,7 @@ def run_is_unblocked(self, runtile):
   ## diagonals 
   # if ct_run +/-1 AND ct_top, no then no vert up +/- 2
   # if ct_run +/-1 AND ct_bottom, no then no vert dn +/- 2
-  # TODO -- add for two verts to bloc the angle move, too!!
+  # TODO -- add for two verts to block the angle move, too!!
   
   if self.runnerpower  == "duck":
     
@@ -416,6 +427,10 @@ def run_is_unblocked(self, runtile):
     if runtile == self.ct_run - self.vert_tile_distance + 2: # UP RIGHT
       if ct_top in self.clicked_blocks and ct_rightedge in self.clicked_blocks: 
         is_unblocked = False
+        
+    # diagonal blocked by double verticals
+    if runtile == self.ct_run + self.vert_tile_distance - 2: # DN LEFT
+      
 
 
   print "RUB self.clicked_blocks", self.clicked_blocks
