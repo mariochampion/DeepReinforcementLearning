@@ -128,6 +128,9 @@ def v_row(board, r):
       tileclicked = True
       # TODO - clicked_runs.INDEX() can be higher than actual score
       thisrun = board.clicked_runs.index(thistile) + 1 # get running step number
+      if thisrun_repeat(board.clicked_runs, thistile) == True:
+        thisrun = str(thisrun)+"."
+      
       # adjust for digit count to keep cols in line
       leftpad,ritepad = setpadding(thisrun)
     
@@ -164,5 +167,20 @@ def setpadding(thisrun):
   return (leftpad,ritepad)
 
 
+#################################
+def thisrun_repeat(clicked_runs_list, thistile):
+  gbutil.whereami(sys._getframe().f_code.co_name)
+  ''' add a "." to run num to show when back to tile. legal but gets no new point '''
+  
+  if clicked_runs_list.count(thistile) > 1:
+    return True
+  else:
+    return False
+  
+  
+  
+  
+  
 
+  
 
