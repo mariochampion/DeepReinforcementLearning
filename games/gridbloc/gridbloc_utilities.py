@@ -27,6 +27,7 @@ def show_summary(self):
   print "END GBB self.ct_run = ", self.ct_run
   print "END GBB self.clicked_tiles_walls_list = ", self.clicked_tiles_walls_list
   print "END GBB self.clicked_runs = ", self.clicked_runs
+  print "END GBB self.clicked_points = ", self.clicked_points
   print "END GBB self.valid_runs = ", self.valid_runs
   print "END GBB self.unclicked_runs =", self.unclicked_runs
   print
@@ -257,7 +258,9 @@ def click_tile_or_wall(self, clickthistile):
     self.clicked_runs.append(clickthistile)
     if clickthistile in self.unclicked_runs:
       self.unclicked_runs.remove(clickthistile) # can repeat a spot, but no point
-      self.runnerpoints += 1
+      if clickthistile not in self.clicked_points:
+        self.clicked_points.append(clickthistile)
+        self.runnerpoints += 1
     
 
   if clickthistile in self.b_tiles_list:
