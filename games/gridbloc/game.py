@@ -51,6 +51,8 @@ class GridBlocBoard():
 		print "START GBB self.clicked_blocks = ", self.clicked_blocks
 		self.clicked_runs = [] # initially none
 		print "START GBB self.clicked_runs = ", self.clicked_runs
+		self.clicked_points = [] # initially none
+		print "START GBB self.clicked_points = ", self.clicked_points
 		
 		
 		self.vert_tile_distance = 3 * self.w + 1
