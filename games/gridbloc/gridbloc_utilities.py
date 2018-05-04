@@ -415,22 +415,35 @@ def run_is_unblocked(self, runtile):
     if runtile == self.ct_run + self.vert_tile_distance - 2: # DN LEFT
       if ct_bottom in self.clicked_blocks and ct_leftedge in self.clicked_blocks:
         is_unblocked = False
+      if ct_bottom in self.clicked_blocks and ct_btm_left in self.clicked_blocks:
+        is_unblocked = False
+      if ct_leftedge in self.clicked_blocks and ct_leftedge_down in self.clicked_blocks:
+        is_unblocked = False
       
     if runtile == self.ct_run + self.vert_tile_distance + 2: # DN RIGHT
       if ct_bottom in self.clicked_blocks and ct_rightedge in self.clicked_blocks: 
         is_unblocked = False
+      if ct_bottom in self.clicked_blocks and ct_btm_right in self.clicked_blocks:
+        is_unblocked = False
+      if ct_rightedge in self.clicked_blocks and ct_rightedge_down in self.clicked_blocks:
+        is_unblocked = False  
 
     if runtile == self.ct_run - self.vert_tile_distance - 2: # UP LEFT
       if ct_top in self.clicked_blocks and ct_leftedge in self.clicked_blocks: 
+        is_unblocked = False
+      if ct_top in self.clicked_blocks and ct_top_left in self.clicked_blocks: 
+        is_unblocked = False
+      if ct_leftedge in self.clicked_blocks and ct_leftedge_up in self.clicked_blocks:
         is_unblocked = False
       
     if runtile == self.ct_run - self.vert_tile_distance + 2: # UP RIGHT
       if ct_top in self.clicked_blocks and ct_rightedge in self.clicked_blocks: 
         is_unblocked = False
+      if ct_top in self.clicked_blocks and ct_top_right in self.clicked_blocks: 
+        is_unblocked = False
+      if ct_rightedge in self.clicked_blocks and ct_rightedge_up in self.clicked_blocks:
+        is_unblocked = False 
         
-    # diagonal blocked by double verticals
-    if runtile == self.ct_run + self.vert_tile_distance - 2: # DN LEFT
-      
 
 
   print "RUB self.clicked_blocks", self.clicked_blocks
