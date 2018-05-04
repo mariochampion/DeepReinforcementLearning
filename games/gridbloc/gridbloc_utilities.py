@@ -144,6 +144,7 @@ def run_pick_click_process(self):
     print "RPC self.run_row_num = ", self.run_row_num
     self.run_row_leftedge = int(self._run_row_left_edge(self.run_row_num))
     print "RPC self.run_row_leftedge = ", self.run_row_leftedge
+    showboard(self)
   
     # if return false, catch that in main(), where this is called
     return True
@@ -459,6 +460,7 @@ def round_is_over(self):
   whereami(sys._getframe().f_code.co_name)
 
   ''' hmm, lotsa things. if round 1, move to 2, if 2, move to game_over. keep logs, scores, etc'''
+  ### TODO -- check if ALL valid runs in clicked_runs
 
   print "1 RND OVER self.round_num", self.round_num
   print "\n ############## ROUND OVER! ###############\n"
