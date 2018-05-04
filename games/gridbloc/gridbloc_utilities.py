@@ -381,6 +381,8 @@ def run_is_unblocked(self, runtile):
   ## diagonals 
   # if ct_run +/-1 AND ct_top, no then no vert up +/- 2
   # if ct_run +/-1 AND ct_bottom, no then no vert dn +/- 2
+  # TODO -- add for two verts to bloc the angle move, too!!
+  
   if self.runnerpower  == "duck":
     
     is_unblocked = True
