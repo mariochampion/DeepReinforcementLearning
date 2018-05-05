@@ -108,7 +108,12 @@ def h_row(board, r):
   hor_row = board.b_hortiles_dict[rownum]
   for hwall in range(board.w):
     if hor_row[hwall] in board.clicked_blocks:
-      print(board.hor_closed,end="")
+      # if latest block, make color, else leave as white
+      latest = len(board.clicked_blocks)-1
+      if board.clicked_blocks.index(hor_row[hwall])== latest :
+        print(gbu.color.green + board.hor_closed + gbu.color.white,end="")
+      else:
+        print(board.hor_closed,end="")
     else:
       print(board.hor_open,end="")
 
@@ -132,20 +137,16 @@ def v_row(board, r):
     #check if clicked run next to this vertical wall
     if thistile in board.clicked_runs:
       tileclicked = True
-      # TODO - clicked_runs.INDEX() can be higher than actual score
-      repeater = thisrun_repeat(board, thistile)
+      repeater = thisrun_repeat(board, thistile) # indicate if repeat run to this tile
       thisrun = board.clicked_points.index(thistile) + 1 # get running step number
       thisrun = str(thisrun)+repeater
-      
-      # adjust for digit count to keep cols in line      
-      leftpad,ritepad = setpadding(thisrun)
+      leftpad,ritepad = setpadding(thisrun)# adjust for digit count to keep cols in line      
     
     if ver_row[vwall] in board.clicked_blocks:
+      latest = len(board.clicked_blocks)-1
       if tileclicked == True:
         print( board.ver_closed + leftpad + str(thisrun)+ ritepad, end="")
-        #print( board.ver_closed + leftpad + gbu.color.green + str(thisrun)+ gbu.color.white + ritepad, end="")
       else:
-        #print(board.ver_closed + board.defpad,end="")
         if thistile in board.run_tiles_list:
          print( board.ver_closed + leftpadb + gbu.color.gray + str(thistile)+ gbu.color.white + ritepadb, end="")
         else:
