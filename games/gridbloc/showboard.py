@@ -142,21 +142,33 @@ def v_row(board, r):
       thisrun = str(thisrun)+repeater
       leftpad,ritepad = setpadding(thisrun)# adjust for digit count to keep cols in line      
     
+    ## CLICKED WALL
     if ver_row[vwall] in board.clicked_blocks:
       latest = len(board.clicked_blocks)-1
+      ## CLICKED TILE / RUN ADJACENT
       if tileclicked == True:
-        print( board.ver_closed + leftpad + str(thisrun)+ ritepad, end="")
+        if board.clicked_blocks.index(ver_row[vwall])== latest :
+          ## MOST RECENT BLOCK WALL
+          print( gbu.color.green + board.ver_closed + gbu.color.white + leftpad + str(thisrun)+ ritepad, end="")
+        else:
+          print( board.ver_closed + leftpad + str(thisrun)+ ritepad, end="")
+      ## UNCLICKED TILE    
       else:
         if thistile in board.run_tiles_list:
-         print( board.ver_closed + leftpadb + gbu.color.gray + str(thistile)+ gbu.color.white + ritepadb, end="")
+         if board.clicked_blocks.index(ver_row[vwall])== latest :
+           print( gbu.color.green + board.ver_closed + gbu.color.white + leftpadb + gbu.color.gray + str(thistile)+ gbu.color.white + ritepadb, end="")
+         else:
+           print( board.ver_closed + leftpadb + gbu.color.gray + str(thistile)+ gbu.color.white + ritepadb, end="")
         else:
-          print(board.ver_open + board.defpad,end="")         
+          print(board.ver_closed + board.defpad,end="")         
+
+    ## UNCLICKED WALL      
     else:
       if tileclicked == True:
         print( board.ver_open + leftpad + str(thisrun) + ritepad, end="")
       else:
         if thistile in board.run_tiles_list:
-          print( board.ver_closed + leftpadb + gbu.color.gray + str(thistile)+ gbu.color.white + ritepadb, end="")
+          print( board.ver_open + leftpadb + gbu.color.gray + str(thistile)+ gbu.color.white + ritepadb, end="")
         else:
           print(board.ver_open + board.defpad,end="")
   
