@@ -34,7 +34,7 @@ def show_summary(self):
   print "END GBB self.ct_block = ", self.ct_block
   print "END GBB self.clicked_blocks = ", self.clicked_blocks
   print "END GBB self.unclicked_blocks =", self.unclicked_blocks
-  showboard(self)
+  ShowBoard(self)
   print "-------- end summary ----------\n\n"     
   
   
@@ -144,7 +144,7 @@ def run_pick_click_process(self):
     print "RPC self.run_row_num = ", self.run_row_num
     self.run_row_leftedge = int(self._run_row_left_edge(self.run_row_num))
     print "RPC self.run_row_leftedge = ", self.run_row_leftedge
-    showboard(self)
+    ShowBoard(self)
   
     # if return false, catch that in main(), where this is called
     return True
@@ -521,20 +521,5 @@ def game_is_over(gb_board, gb_board_r2):
     print "    #################################\n\n"
     
   # lots more things
-  showboard(gb_board_r2)
+  ShowBoard(gb_board_r2)
   return
-
-
-
-################################# 
-def showboard(thisboard):
-  whereami(sys._getframe().f_code.co_name)
-
-  ''' TODOs:'''
-  
-  ShowBoard(thisboard)
-  
-  
-  
-  
-    
