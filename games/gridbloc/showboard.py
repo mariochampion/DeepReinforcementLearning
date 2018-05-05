@@ -4,7 +4,7 @@ GRIDBLOC function to visualize the board, first as ascii, maybe later to web/js/
 '''
 from __future__ import print_function
 import sys
-import gridbloc_utilities as gbutil
+import gridbloc_utilities as gbu
 
 
 #################################
@@ -13,7 +13,7 @@ import gridbloc_utilities as gbutil
 
 
 class ShowBoard():
-  #gbutil.whereami(sys._getframe().f_code.co_name)
+  #gbu.whereami(sys._getframe().f_code.co_name)
   
   def __init__(self, board):		
 		''' do the things to visualize runs and blocks, with nums and ... v ----?
@@ -50,7 +50,7 @@ class ShowBoard():
 
 #################################
 def printboard_unplayed(board):
-	gbutil.whereami(sys._getframe().f_code.co_name)
+	gbu.whereami(sys._getframe().f_code.co_name)
 	''' desc '''
 
 	print( "unplayed board "+ str(board.w) + " by " + str(board.h) )
@@ -78,7 +78,7 @@ def printboard_unplayed(board):
 
 #################################
 def printboard(board):
-  gbutil.whereami(sys._getframe().f_code.co_name)
+  gbu.whereami(sys._getframe().f_code.co_name)
   ''' print gridbloc game board, showing un|clicked tiles & walls'''
   
   print( "board.clicked_runs", board.clicked_runs)
@@ -100,7 +100,7 @@ def printboard(board):
 
 #################################
 def h_row(board, r):
-  gbutil.whereami(sys._getframe().f_code.co_name)
+  gbu.whereami(sys._getframe().f_code.co_name)
   ''' build a row of horizontal blockers (like the top or bottom edge '''
   
   #find index in range of odd numbers, use as b_hortiles_dict index
@@ -118,7 +118,7 @@ def h_row(board, r):
 
 #################################
 def v_row(board, r):
-  gbutil.whereami(sys._getframe().f_code.co_name)
+  gbu.whereami(sys._getframe().f_code.co_name)
   ''' build a row of vertical blockers, AND the un|clicked cell space to its right.'''
   
   #find index in range of even numbers, use as b_vertiles_dict index
@@ -156,7 +156,7 @@ def v_row(board, r):
 
 #################################
 def setpadding(thisrun):
-  gbutil.whereami(sys._getframe().f_code.co_name)
+  gbu.whereami(sys._getframe().f_code.co_name)
   ''' adjust some spacing when step numbers present to keep COLs in line '''
 
   if len(str(thisrun)) == 1 : 
@@ -174,7 +174,7 @@ def setpadding(thisrun):
 
 #################################
 def thisrun_repeat(board, thistile):
-  gbutil.whereami(sys._getframe().f_code.co_name)
+  gbu.whereami(sys._getframe().f_code.co_name)
   ''' add a "." to run num to show when back to tile. legal but gets no new point '''
   
   if board.clicked_runs.count(thistile) == 2: return board.repeat1

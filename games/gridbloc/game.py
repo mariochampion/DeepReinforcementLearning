@@ -20,7 +20,7 @@ PARAMETERS
 
 import sys, random, logging, math
 import numpy as np
-import gridbloc_utilities as gbutil
+import gridbloc_utilities as gbu
 
 
 #################################
@@ -28,7 +28,7 @@ import gridbloc_utilities as gbutil
 #################################
 
 class GridBlocBoard():
-  gbutil.whereami(sys._getframe().f_code.co_name)
+  gbu.whereami(sys._getframe().f_code.co_name)
   
   def __init__(self,w,h):		
 		''' desc here '''
@@ -145,12 +145,12 @@ class GridBlocBoard():
 
 
 #################################
-### non __init functions. # todo -- move to gbutil?
+### non __init functions. # todo -- move to gbu?
 #################################		
 
 #################################
   def _run_tiles_dict_maker(self):
-    gbutil.whereami(sys._getframe().f_code.co_name)
+    gbu.whereami(sys._getframe().f_code.co_name)
     
     '''
     build the ORIGINAL MASTER array / list of running tiles, as dict keyed by row_num.
@@ -174,7 +174,7 @@ class GridBlocBoard():
 
 #################################
   def _run_tiles_list_maker(self):
-    gbutil.whereami(sys._getframe().f_code.co_name)
+    gbu.whereami(sys._getframe().f_code.co_name)
     
     ''' just convert the KEYED run tiles dict to a list for when thats easier'''
 
@@ -189,7 +189,7 @@ class GridBlocBoard():
 
 #################################    
   def _run_row_left_edge(self, row_num):
-    gbutil.whereami(sys._getframe().f_code.co_name)
+    gbu.whereami(sys._getframe().f_code.co_name)
     
     '''
     returns an integer of the left edge vertical tile of that row 
@@ -205,7 +205,7 @@ class GridBlocBoard():
 
 #################################    
   def _run_row_right_edge(self, row_num):
-    gbutil.whereami(sys._getframe().f_code.co_name)
+    gbu.whereami(sys._getframe().f_code.co_name)
     
     ''' return int of RIGHT most VERTICAL tile on a run_row '''
     #print "ROW_NUM PASSSED:",str(row_num)
@@ -219,7 +219,7 @@ class GridBlocBoard():
 
 ################################# 
   def _get_ct_block_coords(self):
-    gbutil.whereami(sys._getframe().f_code.co_name)
+    gbu.whereami(sys._getframe().f_code.co_name)
     
     '''
     pick a starting block or in-game block as well. 
@@ -258,7 +258,7 @@ class GridBlocBoard():
 
 #################################    
   def _block_tiles_list_maker(self):
-    gbutil.whereami(sys._getframe().f_code.co_name)
+    gbu.whereami(sys._getframe().f_code.co_name)
     
     ''' build MASTER array / list of BLOCKING tiles from existing data. '''
     
@@ -269,7 +269,7 @@ class GridBlocBoard():
 
 #################################    
   def _b_hortiles_dict_maker(self):
-    gbutil.whereami(sys._getframe().f_code.co_name)
+    gbu.whereami(sys._getframe().f_code.co_name)
     
     '''
     this is the dict for parts 2 and 3 of currenttile ("ct") tuple of type, row, tilenum
@@ -289,7 +289,7 @@ class GridBlocBoard():
     
 #################################    
   def _b_vertiles_dict_maker(self):
-    gbutil.whereami(sys._getframe().f_code.co_name)
+    gbu.whereami(sys._getframe().f_code.co_name)
     
     ''' THIS WAS CHANGED to allow for printboard(). needed verttils ACROSS not UP/DOWN
     this is the dict for parts 2 and 3 of currenttile ("ct") tuple of type, row, tilenum
@@ -309,7 +309,7 @@ class GridBlocBoard():
         
 #################################    
   def _block_tiles_dict_maker(self):
-    gbutil.whereami(sys._getframe().f_code.co_name)
+    gbu.whereami(sys._getframe().f_code.co_name)
     
     ''' build block_tiles_master_dict, really just combine existing dicts with type key '''
     
@@ -322,7 +322,7 @@ class GridBlocBoard():
 
 #################################    
   def _build_edges_list(self):
-    gbutil.whereami(sys._getframe().f_code.co_name)
+    gbu.whereami(sys._getframe().f_code.co_name)
   
     ''' build edge wall list from the top bottom left right edge lists '''
   
@@ -334,7 +334,7 @@ class GridBlocBoard():
 
 #################################    
   def _close_edges(self):
-    gbutil.whereami(sys._getframe().f_code.co_name)
+    gbu.whereami(sys._getframe().f_code.co_name)
   
     ''' use list of all for edges to target them for closure '''
   
@@ -343,7 +343,7 @@ class GridBlocBoard():
     for edgewall in self.edge_walls_list:
       #print "edgewall", edgewall
     
-      if gbutil.click_tile_or_wall(self, edgewall) == True: 
+      if gbu.click_tile_or_wall(self, edgewall) == True: 
         edges_closed = True 
       else:
         edges_closed = False 
@@ -353,7 +353,7 @@ class GridBlocBoard():
 
 #################################
 def play_a_game(w, h):
-  gbutil.whereami(sys._getframe().f_code.co_name)
+  gbu.whereami(sys._getframe().f_code.co_name)
   ''' desc '''
   
   #setup a new game board
@@ -367,29 +367,29 @@ def play_a_game(w, h):
   # start round one
   print "########################## START ROUND ONE"
   cycle = 0
-  while gbutil.run_pick_click_process(gb_board) == True:
+  while gbu.run_pick_click_process(gb_board) == True:
     cycle += 1
     print "\n############\nROUND 1 MID-CYCLE", cycle
-    if gbutil.block_pick_click_process(gb_board) == False: 
+    if gbu.block_pick_click_process(gb_board) == False: 
       print "======= ERROR in round 1 ======="
       sys.exit(1)
-    gbutil.show_summary(gb_board)
+    gbu.show_summary(gb_board)
   print "ROUND ONE ENDED"
   
 
   # start round two
   print "########################## --START ROUND TWO"
   cycle = 0
-  while gbutil.run_pick_click_process(gb_board_r2) == True:
+  while gbu.run_pick_click_process(gb_board_r2) == True:
     cycle += 1
     print "\n############\nROUND 2 MID-CYCLE", cycle
-    if gbutil.block_pick_click_process(gb_board_r2) == False: 
+    if gbu.block_pick_click_process(gb_board_r2) == False: 
       print "======= ERROR in round 1 ======="
       sys.exit(1)    
-    gbutil.show_summary(gb_board_r2)
+    gbu.show_summary(gb_board_r2)
   
   # do the end game things
-  gbutil.game_is_over(gb_board, gb_board_r2)
+  gbu.game_is_over(gb_board, gb_board_r2)
   
   return True
 
@@ -633,7 +633,7 @@ class GameState():
 #################################
 #################################
 def main(args):
-  gbutil.whereami(sys._getframe().f_code.co_name)
+  gbu.whereami(sys._getframe().f_code.co_name)
   
   print "in main -- args=", args
   w = int(args[0])
