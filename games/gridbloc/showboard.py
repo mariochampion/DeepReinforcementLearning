@@ -126,6 +126,7 @@ def v_row(board, r):
   ver_row = board.b_vertiles_dict[rownum]
   for vwall in range(board.w+1):
     thistile = ver_row[vwall]+1 #get tilenum
+    leftpadb,ritepadb = setpadding(thistile)
     tileclicked = False
     
     #check if clicked run next to this vertical wall
@@ -136,19 +137,27 @@ def v_row(board, r):
       thisrun = board.clicked_points.index(thistile) + 1 # get running step number
       thisrun = str(thisrun)+repeater
       
-      # adjust for digit count to keep cols in line
+      # adjust for digit count to keep cols in line      
       leftpad,ritepad = setpadding(thisrun)
     
     if ver_row[vwall] in board.clicked_blocks:
       if tileclicked == True:
         print( board.ver_closed + leftpad + str(thisrun)+ ritepad, end="")
+        #print( board.ver_closed + leftpad + gbu.color.green + str(thisrun)+ gbu.color.white + ritepad, end="")
       else:
-        print(board.ver_closed + board.defpad,end="")
+        #print(board.ver_closed + board.defpad,end="")
+        if thistile in board.run_tiles_list:
+         print( board.ver_closed + leftpadb + gbu.color.gray + str(thistile)+ gbu.color.white + ritepadb, end="")
+        else:
+          print(board.ver_open + board.defpad,end="")         
     else:
       if tileclicked == True:
         print( board.ver_open + leftpad + str(thisrun) + ritepad, end="")
       else:
-        print(board.ver_open + board.defpad,end="")
+        if thistile in board.run_tiles_list:
+          print( board.ver_closed + leftpadb + gbu.color.gray + str(thistile)+ gbu.color.white + ritepadb, end="")
+        else:
+          print(board.ver_open + board.defpad,end="")
   
   print()
   return	
