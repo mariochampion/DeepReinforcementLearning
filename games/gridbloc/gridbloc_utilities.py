@@ -523,3 +523,30 @@ def game_is_over(gb_board, gb_board_r2):
   # lots more things
   ShowBoard(gb_board_r2)
   return
+  
+#################################   
+# pinched and tweaked from https://github.com/impshum/Multi-Quote/blob/master/run.py
+class color:
+  white, cyan, blue, red, green, yellow, magenta, black, gray, bold = '\033[0m', '\033[96m','\033[94m', '\033[91m','\033[92m','\033[93m','\033[95m', '\033[30m', '\033[30m', "\033[1m"  
+
+# maybe add bks, bolds, etc from https://godoc.org/github.com/whitedevops/colors
+class bkcolor:
+  resetall = "\033[0m"
+  default      = "\033[49m"
+  black        = "\033[40m"
+  red          = "\033[41m"
+  green        = "\033[42m"
+  yellow       = "\033[43m"
+  blue         = "\033[44m"
+  magenta      = "\033[45m"
+  cyan         = "\033[46m"
+  lightgray    = "\033[47m"
+  darkgray     = "\033[100m"
+  lightred     = "\033[101m"
+  lightgreen   = "\033[102m"
+  lightyellow  = "\033[103m"
+  lightblue    = "\033[104m"
+  lightmagenta = "\033[105m"
+  lightcyan    = "\033[106m"
+  white        = "\033[107m"
+  
