@@ -370,6 +370,7 @@ def play_a_game(w, h):
       sys.exit(1)
     gbu.show_summary(gb_board)
   print "ROUND ONE ENDED"
+  sys.exit(1)
   
 
   # start round two

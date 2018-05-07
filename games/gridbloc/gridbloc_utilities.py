@@ -28,15 +28,17 @@ def show_summary(self):
   print "self.round_num", self.round_num
   print "END GBB self.runnerpoints =",self.runnerpoints
   print "END GBB self.ct_run = ", self.ct_run
-  print "END GBB self.clicked_tiles_walls_list = ", self.clicked_tiles_walls_list
+  #print "END GBB self.clicked_tiles_walls_list = ", self.clicked_tiles_walls_list
   print "END GBB self.clicked_runs = ", self.clicked_runs
   print "END GBB self.clicked_points = ", self.clicked_points
   print "END GBB self.valid_runs = ", self.valid_runs
-  print "END GBB self.unclicked_runs =", self.unclicked_runs
-  print
-  print "END GBB self.ct_block = ", self.ct_block
-  print "END GBB self.clicked_blocks = ", self.clicked_blocks
-  print "END GBB self.unclicked_blocks =", self.unclicked_blocks
+  print "END GBB self.lr_vr = ", self.lr_vr  
+  print "END GBB self.lr_vp = ", self.lr_vp
+  #print "END GBB self.unclicked_runs =", self.unclicked_runs
+  #print
+  #print "END GBB self.ct_block = ", self.ct_block
+  #print "END GBB self.clicked_blocks = ", self.clicked_blocks
+  #print "END GBB self.unclicked_blocks =", self.unclicked_blocks
   ShowBoard(self)
   print "-------- end summary ----------\n\n"     
   
@@ -172,7 +174,7 @@ def block_pick_click_process(self):
       return False # bail out of this process, something went wrong
   
     # need to update valid runs again, with block
-    self.valid_runs = calculate_valid_runs(self, self.ct_run) 
+    self.valid_runs = calculate_valid_runs(self, self.ct_run, False) 
       
     # calculate longrange_points (and runs)
     self.longrange_runs, self.longrange_points = calculate_longrangers(self)
@@ -310,7 +312,7 @@ def click_tile_or_wall(self, clickthistile):
 
 
 ################################# 
-def calculate_valid_runs(self, fromthistile):
+def calculate_valid_runs(self, fromthistile, use_ctrun=False):
   whereami(sys._getframe().f_code.co_name)
   
   ''' click a tile or wall, check for validity, probably, by adding to clicked_walls[] '''
@@ -327,10 +329,16 @@ def calculate_valid_runs(self, fromthistile):
   
   #remove blocked runs from actuals available
   unblocked_runs = []
-  for move in actual_runs:
-    print "CVR move", move
-    if run_is_unblocked(self, move) == True:
-      unblocked_runs.append(move) # if blocked, remove from options
+  for move_to in actual_runs:
+    print "CVR move_to", move_to
+    if use_ctrun == False:
+      print "CVR - use_ctrun false"
+      if run_is_unblocked(self, move_to) == True: 
+        unblocked_runs.append(move_to) # if blocked, remove from options
+    else:
+      print "CVR - use_ctrun TRUE! ",use_ctrun 
+      if run_is_unblocked(self, move_to, use_ctrun) == True: 
+        unblocked_runs.append(move_to) # if blocked, remove from options
       
   # final check of calculated options
   '''
@@ -354,13 +362,16 @@ def calculate_longrangers(self):
   ''' from list of tiles (say, valid_runs) create dicts/lists of further valid runs and points
   this will be used to check if runner is in BLOC of used tiles, thus round over'''
   
+  # TODO - go more than validruns, but recurse for ALL unique LRVRs
   print "calculate_longrangers"
   self.lr_vr = {} # long range valid runs
   self.lr_vp = [] # long range valid points
   #calc valid runs
   for vr in self.valid_runs:
     #calculate_valid_runs(self, vr)
-    self.lr_vr[vr] = calculate_valid_runs(self, vr)
+    print "+++++++++ LRVR ct_run", self.ct_run
+    print "+++++++++ LRVR ",vr
+    self.lr_vr[vr] = calculate_valid_runs(self, vr, vr) # doesnt seem to check run_is_blocked()?
     
   # find if lrr (long range runs) in lrl (longrangelist)are worth points
   for k,lrl in self.lr_vr.items():
@@ -404,7 +415,7 @@ def find_theoretical_runs(self, fromthistile):
 
 
 #################################
-def run_is_unblocked(self, runtile):
+def run_is_unblocked(self, runtile, basetile=False):
   whereami(sys._getframe().f_code.co_name)
   
   ''' IMPORTANT FUNCTION (based on runnerpower)
@@ -412,13 +423,14 @@ def run_is_unblocked(self, runtile):
   '''
   
   # set up vars
-  thisrunrow = run_row_from_tilenum(self, self.ct_run)
-  vert_tile_coeff = (self.ct_run - run_row_starter(self, thisrunrow)) / 2
+  if basetile == False: basetile = self.ct_run
+  thisrunrow = run_row_from_tilenum(self, basetile)
+  vert_tile_coeff = (basetile - run_row_starter(self, thisrunrow)) / 2
   
-  ct_leftedge = self.ct_run - 1
-  ct_rightedge = self.ct_run + 1
-  ct_top = self.ct_run - (self.w + vert_tile_coeff) - 1
-  ct_bottom = self.ct_run + ( (2 * self.w - vert_tile_coeff))
+  ct_leftedge = basetile - 1
+  ct_rightedge = basetile + 1
+  ct_top = basetile - (self.w + vert_tile_coeff) - 1
+  ct_bottom = basetile + ( (2 * self.w - vert_tile_coeff))
   # up and down edge vertical neighbors
   ct_leftedge_up = ct_leftedge - self.vert_tile_distance
   ct_leftedge_down = ct_leftedge + self.vert_tile_distance
@@ -437,20 +449,20 @@ def run_is_unblocked(self, runtile):
     is_unblocked = True
     
     # orthagonals
-    if runtile == self.ct_run - 2: # LEFT
+    if runtile == basetile - 2: # LEFT
       if ct_leftedge in self.clicked_blocks: is_unblocked = False
 
-    if runtile == self.ct_run + 2: # RIGHT
+    if runtile == basetile + 2: # RIGHT
       if ct_rightedge in self.clicked_blocks: is_unblocked = False
 
-    if runtile == self.ct_run - self.vert_tile_distance: # UP
+    if runtile == basetile - self.vert_tile_distance: # UP
       if ct_top in self.clicked_blocks: is_unblocked = False
 
-    if runtile == self.ct_run + self.vert_tile_distance: # DN
+    if runtile == basetile + self.vert_tile_distance: # DN
       if ct_bottom in self.clicked_blocks: is_unblocked = False
 
     # diagonals
-    if runtile == self.ct_run + self.vert_tile_distance - 2: # DN LEFT
+    if runtile == basetile + self.vert_tile_distance - 2: # DN LEFT
       if ct_bottom in self.clicked_blocks and ct_leftedge in self.clicked_blocks:
         is_unblocked = False
       if ct_bottom in self.clicked_blocks and ct_btm_left in self.clicked_blocks:
@@ -458,7 +470,7 @@ def run_is_unblocked(self, runtile):
       if ct_leftedge in self.clicked_blocks and ct_leftedge_down in self.clicked_blocks:
         is_unblocked = False
       
-    if runtile == self.ct_run + self.vert_tile_distance + 2: # DN RIGHT
+    if runtile == basetile + self.vert_tile_distance + 2: # DN RIGHT
       if ct_bottom in self.clicked_blocks and ct_rightedge in self.clicked_blocks: 
         is_unblocked = False
       if ct_bottom in self.clicked_blocks and ct_btm_right in self.clicked_blocks:
@@ -466,7 +478,7 @@ def run_is_unblocked(self, runtile):
       if ct_rightedge in self.clicked_blocks and ct_rightedge_down in self.clicked_blocks:
         is_unblocked = False  
 
-    if runtile == self.ct_run - self.vert_tile_distance - 2: # UP LEFT
+    if runtile == basetile - self.vert_tile_distance - 2: # UP LEFT
       if ct_top in self.clicked_blocks and ct_leftedge in self.clicked_blocks: 
         is_unblocked = False
       if ct_top in self.clicked_blocks and ct_top_left in self.clicked_blocks: 
@@ -474,7 +486,7 @@ def run_is_unblocked(self, runtile):
       if ct_leftedge in self.clicked_blocks and ct_leftedge_up in self.clicked_blocks:
         is_unblocked = False
       
-    if runtile == self.ct_run - self.vert_tile_distance + 2: # UP RIGHT
+    if runtile == basetile - self.vert_tile_distance + 2: # UP RIGHT
       if ct_top in self.clicked_blocks and ct_rightedge in self.clicked_blocks: 
         is_unblocked = False
       if ct_top in self.clicked_blocks and ct_top_right in self.clicked_blocks: 
@@ -485,8 +497,8 @@ def run_is_unblocked(self, runtile):
 
 
   # print "RUB self.clicked_blocks", self.clicked_blocks
-  if is_unblocked == True: print "RUB UNblocked run", self.ct_run," to", runtile
-  if is_unblocked == False: print "RUB Blocked run", self.ct_run, "to", runtile
+  if is_unblocked == True: print "RUB UNblocked run", basetile," to", runtile
+  if is_unblocked == False: print "RUB Blocked run", basetile, "to", runtile
   
   return is_unblocked
 
