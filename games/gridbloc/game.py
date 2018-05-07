@@ -58,7 +58,6 @@ class GridBlocBoard():
 		self.clicked_points = [] # initially none
 		print "START GBB self.clicked_points = ", self.clicked_points
 		
-		
 		self.vert_tile_distance = 3 * self.w + 1
 		print "GBB self.vert_tile_distance = ",self.vert_tile_distance
 
@@ -74,6 +73,8 @@ class GridBlocBoard():
 		print "START GBB self.valid_runs = ", self.valid_runs
 		self.unclicked_runs = self.run_tiles_list[:] # initially COPY of all running tiles
 		print "START GBB self.unclicked_runs = ", self.unclicked_runs
+		self.lr_vp = self.run_tiles_list[:] # copy initial valid runs into LONG RANGE valid points
+		self.lr_vr = {} # longrange valid runs, keyed by tile, starts blank
 		
 		
 		
