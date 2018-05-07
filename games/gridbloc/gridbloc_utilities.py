@@ -312,7 +312,7 @@ def click_tile_or_wall(self, clickthistile):
 
 
 ################################# 
-def calculate_valid_runs(self, fromthistile, use_ctrun=False):
+def calculate_valid_runs(self, fromthistile, basetile=False):
   whereami(sys._getframe().f_code.co_name)
   
   ''' click a tile or wall, check for validity, probably, by adding to clicked_walls[] '''
@@ -331,13 +331,13 @@ def calculate_valid_runs(self, fromthistile, use_ctrun=False):
   unblocked_runs = []
   for move_to in actual_runs:
     print "CVR move_to", move_to
-    if use_ctrun == False:
-      print "CVR - use_ctrun false"
+    if basetile == False:
+      print "CVR - basetile false"
       if run_is_unblocked(self, move_to) == True: 
         unblocked_runs.append(move_to) # if blocked, remove from options
     else:
-      print "CVR - use_ctrun TRUE! ",use_ctrun 
-      if run_is_unblocked(self, move_to, use_ctrun) == True: 
+      print "CVR - basetile TRUE! ",basetile 
+      if run_is_unblocked(self, move_to, basetile) == True: 
         unblocked_runs.append(move_to) # if blocked, remove from options
       
   # final check of calculated options
@@ -419,7 +419,7 @@ def run_is_unblocked(self, runtile, basetile=False):
   whereami(sys._getframe().f_code.co_name)
   
   ''' IMPORTANT FUNCTION (based on runnerpower)
-      from self.clicked_blocks and self.ct_run calculate blocked and UNblocked run options 
+      from self.clicked_blocks and self.ct_run (or basetile if passed) calculate blocked and UNblocked run options 
   '''
   
   # set up vars
