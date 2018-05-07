@@ -7,7 +7,10 @@ GRIDBLOC support functions.
 ## GLOBAL implorts/vars (mostly for use in this file?)
 import sys, random, math
 from showboard import ShowBoard
-show_whereami = False
+
+## some global configs
+show_whereami = False # a debug print line to track function flow
+close_all_edges = True # true prevents pacman wraparound. keep True until much more development
 
 
 ##################################	
@@ -180,10 +183,13 @@ def block_pick_click_process(self):
 def is_run_or_block_available(self, r_or_b):
   whereami(sys._getframe().f_code.co_name)
 
-  ''' just check length of valid_runs or unclicked_blocks. if zero, then round is over.
-      TODO - later check that if valid runs already scored and CANNOT get to new unscored?
-  '''
-  if r_or_b == "run": availability = len(self.valid_runs)
+  ''' just check length of valid_runs or unclicked_blocks. if zero, then round is over '''
+  
+  if r_or_b == "run": 
+    availability = len(self.valid_runs)
+    ## TODO - 
+    # 1. if ALL valid runs already scored AND CANNOT get to new unscored, THEN availability = 0
+    
   if r_or_b == "block": availability = len(self.unclicked_blocks)
   print "available?", r_or_b
   
@@ -383,18 +389,8 @@ def run_is_unblocked(self, runtile):
   ct_btm_left = ct_bottom - 1
   ct_btm_right = ct_bottom + 1
 
-  
-  
   #### run thru conditionals for DUCK (others later)
-  ## orthagonals
-  # if ct_run +/- 1 in self.clicked_blocks, then no ct_run +/- 2
-  # if ct_run +/- ct_top/ct_bottom, then no vert up/dn
-  # if vert up/dn +/- 1 in self.clicked_blocks, then no vert up/dn +/- 2  
-  ## diagonals 
-  # if ct_run +/-1 AND ct_top, no then no vert up +/- 2
-  # if ct_run +/-1 AND ct_bottom, no then no vert dn +/- 2
-  # TODO -- add for two verts to block the angle move, too!!
-  
+  ## orthagonals and diagonals (include leftedge+leftegdedown, etc)
   if self.runnerpower  == "duck":
     
     is_unblocked = True
@@ -455,12 +451,12 @@ def run_is_unblocked(self, runtile):
 
 
 
-#################################  # TODO - make real!  
+#################################
 def round_is_over(self):
   whereami(sys._getframe().f_code.co_name)
 
-  ''' hmm, lotsa things. if round 1, move to 2, if 2, move to game_over. keep logs, scores, etc'''
-  ### TODO -- check if ALL valid runs in clicked_runs
+  ''' hmm, lotsa things. if round 1, move to 2, if 2, move to game_over. '''
+  ### TODO -- keep logs, scores, etc
 
   print "1 RND OVER self.round_num", self.round_num
   print "\n ############## ROUND OVER! ###############\n"
@@ -468,7 +464,7 @@ def round_is_over(self):
   self.round_num += 1
   print "2 RND OVER self.round_num", self.round_num
   
-  #lots more things
+  #lots more things, probably, but for now
   return True
 
 
