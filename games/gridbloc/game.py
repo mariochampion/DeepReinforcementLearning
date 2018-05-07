@@ -31,7 +31,11 @@ class GridBlocBoard():
   gbu.whereami(sys._getframe().f_code.co_name)
   
   def __init__(self,w,h):		
-		''' desc here '''
+		''' with params W and H, st up gameboard params, lists, dicts, etc.
+		there are formulas, below, that describe, for example, relationships of 
+		vertical_tile_distance, or length of runnig tile row, or dynamically changing
+		value of a running tile and its top-cap-blocking tile, etc. __init__ sets these up.
+		 '''
 		
 		self.w = w
 		print "GBB self.w = ", w
@@ -89,12 +93,6 @@ class GridBlocBoard():
 		print "GBB self.b_vertiles_dict = ", self.b_vertiles_dict
 		print "GBB self.block_tiles_master_dict = ", self.block_tiles_master_dict
 		
-		self.b_row_h_nums = self.w +1
-		print "GBB self.b_row_h_nums = ", self.b_row_h_nums
-		
-		self.b_row_v_nums = self.w +1
-		print "GBB self.b_row_v_nums = ", self.b_row_v_nums
-		
 		self.b_row_v_left_first = self.b_row_h_len + 1
 		print "GBB self.b_row_v_left_first = ", self.b_row_v_left_first
 		
@@ -124,30 +122,26 @@ class GridBlocBoard():
 		self.edge_walls_list = self._build_edges_list()
 		print "GBB self.edge_walls_list = ", self.edge_walls_list
 		
-		## close edges
-		close_all_edges = True # condition this to static or dyanmic config
-		if close_all_edges == True: 
+		## close edges		
+		if gbu.close_all_edges == True: 
 		  if self._close_edges() == True: self.edges_closed = True
 		print "GBB self.edges_closed = ", self.edges_closed
 		
 		
-		# runnerpower - determines self.valid_runs in calculate_valid_runs()
+		# runnerpower - determines self.valid_runs in calculate_valid_runs() & run_is_unblocked()
 		# runnerpower - also cheetah, roo, bee, mouse, chicken, frog
 		self.runnerpower = "duck" #default/beginner runnerpower
 		self.runnerpoints = 0 # blocker gets no points, ya know.
 		self.round_num = 1
 		self.round_num_max = 2 
-		self.run_style = "random"
+		self.run_style = "random" # much to change here, eventually!
 		self.block_style = "random" # h=1 or v=2 tile type
 		
 		############### wrap up __init__
 
 
-
 #################################
-### non __init functions. # todo -- move to gbu?
-#################################		
-
+##     __init__ functions
 #################################
   def _run_tiles_dict_maker(self):
     gbu.whereami(sys._getframe().f_code.co_name)
@@ -361,7 +355,7 @@ def play_a_game(w, h):
   gb_board = GridBlocBoard(w,h)
   print "\n###################  __init__ ONE DONE     #####\n"
   gb_board_r2 = GridBlocBoard(w,h)
-  gb_board_r2.round_num = 2 # todo - potentially move to Gamestate or similar class
+  gb_board_r2.round_num = 2 # todo - potentially move to new class, feel cheeeep here
   print "\n###################  __init__ TWO DONE     #####\n"
 
   # start round one
