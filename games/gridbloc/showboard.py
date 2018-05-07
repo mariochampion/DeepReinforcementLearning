@@ -84,7 +84,7 @@ def printboard(board):
   print( "board.clicked_runs", board.clicked_runs)
   print( "board.clicked_blocks", board.clicked_blocks)
   print( "board.block_tiles_master_dict", board.block_tiles_master_dict)
-  print( "PLAYED BOARD - draft 1" )
+  print( "PLAYED BOARD - in color! - d2" )
   print()
   # (2 * board.h + 2) == the number of rows in a gameboard, including top & bottom edges
   for r in range(1, (2 * board.h + 2)):

@@ -189,7 +189,10 @@ def is_run_or_block_available(self, r_or_b):
     availability = len(self.valid_runs)
     ## TODO - 
     # 1. if ALL valid runs already scored AND CANNOT get to new unscored, THEN availability = 0
+    # BUT this requires CHAINS of lookup from each valid tile, how many? all and NONE are unscored
+    # right? so is this required or is this getting deterministic and anti-A.G.0 style?
     
+  
   if r_or_b == "block": availability = len(self.unclicked_blocks)
   print "available?", r_or_b
   
