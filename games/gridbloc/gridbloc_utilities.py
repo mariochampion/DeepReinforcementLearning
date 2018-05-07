@@ -172,15 +172,19 @@ def block_pick_click_process(self):
       return False # bail out of this process, something went wrong
   
     # need to update valid runs again, with block
-    if calculate_valid_runs(self, self.ct_run) == False:
-      return False
+    self.valid_runs = calculate_valid_runs(self, self.ct_run) 
       
     # calculate longrange_points (and runs)
-    if calculate_longrange_dicts(self) == False:
-      return False
+    self.longrange_runs, self.longrange_points = calculate_longrangers(self)
     
-    #seems it all worked out!
-    return True
+    print "lrvr", self.longrange_runs
+    print "lrvp", self.longrange_points
+    
+    # what conditional?
+    if 1 ==1:
+      return True
+    else:
+      return False
     
 
 
@@ -328,6 +332,7 @@ def calculate_valid_runs(self, fromthistile):
       unblocked_runs.append(move) # if blocked, remove from options
       
   # final check of calculated options
+  '''
   if fromthistile not in unblocked_runs:
     self.valid_runs = [] # not needed, but better for human eyes
     self.valid_runs = unblocked_runs[:] # make a copy
@@ -336,24 +341,33 @@ def calculate_valid_runs(self, fromthistile):
     cvr_success = False # used by calling func block_process()
   
   print "CVR self.valid_runs", self.valid_runs
-  
-  return cvr_success
+  '''
+
+  return unblocked_runs
 
 
 
 ################################# 
-def calculate_longrange_dicts(self):
+def calculate_longrangers(self):
   whereami(sys._getframe().f_code.co_name)
   ''' from list of tiles (say, valid_runs) create dicts/lists of further valid runs and points
   this will be used to check if runner is in BLOC of used tiles, thus round over'''
   
-  
+  print "calculate_longrangers"
+  self.lr_vr = {} # long range valid runs
+  self.lr_vp = [] # long range valid points
   #calc valid runs
   for vr in self.valid_runs:
     #calculate_valid_runs(self, vr)
-    pass
+    self.lr_vr[vr] = calculate_valid_runs(self, vr)
+    
+  # find if lrr (long range runs) in lrl (longrangelist)are worth points
+  for k,lrl in self.lr_vr.items():
+    for lrr in lrl:
+      if lrr not in self.clicked_runs and lrr not in self.lr_vp:
+        self.lr_vp.append(lrr)
   
-  return True
+  return (self.lr_vr, self.lr_vp)
   
   
   
@@ -469,7 +483,7 @@ def run_is_unblocked(self, runtile):
         
 
 
-  print "RUB self.clicked_blocks", self.clicked_blocks
+  # print "RUB self.clicked_blocks", self.clicked_blocks
   if is_unblocked == True: print "RUB UNblocked run", self.ct_run," to", runtile
   if is_unblocked == False: print "RUB Blocked run", self.ct_run, "to", runtile
   
