@@ -172,10 +172,15 @@ def block_pick_click_process(self):
       return False # bail out of this process, something went wrong
   
     # need to update valid runs again, with block
-    if calculate_valid_runs(self, self.ct_run) == True:
-      return True
-    else:
+    if calculate_valid_runs(self, self.ct_run) == False:
       return False
+      
+    # calculate longrange_points (and runs)
+    if calculate_longrange_dicts(self) == False:
+      return False
+    
+    #seems it all worked out!
+    return True
     
 
 
@@ -334,6 +339,24 @@ def calculate_valid_runs(self, fromthistile):
   
   return cvr_success
 
+
+
+################################# 
+def calculate_longrange_dicts(self):
+  whereami(sys._getframe().f_code.co_name)
+  ''' from list of tiles (say, valid_runs) create dicts/lists of further valid runs and points
+  this will be used to check if runner is in BLOC of used tiles, thus round over'''
+  
+  
+  #calc valid runs
+  for vr in self.valid_runs:
+    #calculate_valid_runs(self, vr)
+    pass
+  
+  return True
+  
+  
+  
 
 
 ################################# 
