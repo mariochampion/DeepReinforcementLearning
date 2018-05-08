@@ -178,7 +178,6 @@ def block_pick_click_process(self):
       
     # calculate longrange_points (and runs)
     self.longrange_runs, self.longrange_points = calculate_longrangers(self)
-    
     print "lrvr", self.longrange_runs
     print "lrvp", self.longrange_points
     
@@ -400,14 +399,11 @@ def calculate_longrangers(self, thislist = False):
     # if tiles in lrvr_uniqs NOT IN lrvr_points and NOT IN self.lr_checked
     # then recurse with them as list? need to refactor to allow passed list...
     # so first build this new list.
-    #nextrange_pre = set(self.lr_vp).symmetric_difference(set(lrvr_uniques_list))
-    nextrange_pre = set(lrvr_uniques_list).symmetric_difference(set(self.lr_vr))
-    print "LR nextrange_pre", nextrange_pre
-    nextrange = list( set(nextrange_pre).symmetric_difference(set(self.lr_checked)) )
+    nextrange = list( set(lrvr_uniques_list) - (set(self.lr_checked)) )
     print "LR nextrange", nextrange
     
     ## OJO, RECURSION -- WATCH OUT!! ; )
-    if len(nextrange) > 0: #this is not sufficient conditional... lr_checked needs to persist
+    if len(nextrange) > 0:
       print "LR RECURSION"
       # build new LR_VPs
       calculate_longrangers(self, nextrange)
