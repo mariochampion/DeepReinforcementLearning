@@ -361,32 +361,33 @@ def calculate_longrangers(self, thislist = False):
   ''' from list of tiles (say, valid_runs) create dicts/lists of further valid runs and points
   this will be used to check if runner is in BLOC of used tiles, thus round over'''
   
-  # TODO - go more than validruns, but recurse for ALL unique LRVRs
-  print "calculate_longrangers"
-  if thislist == False: thislist = self.valid_runs
-  else: print "LR thislist", thislist
+  if thislist == False:
+    thislist = self.valid_runs
+  else:
+    print "LR thislist", thislist
+  
   self.lr_vr = {} # long range valid runs
   self.lr_vp = [] # long range valid points
   lrvr_uniques_list = [] #temp tilenum holder list for this function
   
   #calc valid runs
   for vr in thislist:
-    #calculate_valid_runs(self, vr)
     print "+++++++++ LRVR ct_run", self.ct_run
     print "+++++++++ LRVR ",vr
     self.lr_vr[vr] = calculate_valid_runs(self, vr, vr)
     if vr not in self.lr_checked :
-      self.lr_checked.append(vr) #rebuild self.valid_runs as CVRs for each one, good flowcheck
-      # todo - make list of UNIQUE tiles, as LOTS of overlap in tilenums
-      # (temptation is to score or value tiles with more uniques, but save that for deterministic benchmarking later)
-  
-  # find if lrr (long range runs) in lrl (longrangelist)are worth points
+      self.lr_checked.append(vr) # holds tilenums for checks and recursion prevention
+      
+  # find if lrr (long range runs) in lrl (longrangelist) are worth points
   for k,lrl in self.lr_vr.items():
     for lrr in lrl:
-      if lrr not in self.clicked_runs and lrr not in self.lr_vp:
-        self.lr_vp.append(lrr)
+      # add to uniques list, if not already
       if lrr not in lrvr_uniques_list:
         lrvr_uniques_list.append(lrr)
+      # add to points list, if not already
+      if lrr not in self.clicked_runs and lrr not in self.lr_vp:
+        self.lr_vp.append(lrr)
+      
   
   print "LR VRS", self.valid_runs
   print "LR RUNS", self.lr_vr
@@ -394,24 +395,20 @@ def calculate_longrangers(self, thislist = False):
   print "LR CHECKED", self.lr_checked
   print "LR POINTS", self.lr_vp
   
-  #check for need to go longER range
+  # TODO - should this ONLY be on empty LRVP? this only stretches it out one more tile distance...right?
+  # (temptation is to score or value tiles with more uniques, but save that for deterministic benchmarking later)
   if len(self.lr_vp) == 0:
-    # if tiles in lrvr_uniqs NOT IN lrvr_points as it empty and NOT IN self.lr_checked
-    # then recurse with them as list? refactored to allow passed list...
-    # so first build this new list:
+    # recurse w/lrvr_uniqs NOT IN self.lr_checked
     nextrange = list( set(lrvr_uniques_list) - (set(self.lr_checked)) )
     print "LR nextrange", nextrange
-    
     ## OJO, RECURSION -- WATCH OUT!! ; )
     if len(nextrange) > 0:
       print "LR RECURSION"
-      # build new LR_VPs
-      calculate_longrangers(self, nextrange)
-  
+      calculate_longrangers(self, nextrange) # build new LR_VPs
   
   print "LR VPs post recursion", self.lr_vp
   self.lr_checked = []
-  #sys.exit(1)
+  
   return (self.lr_vr, self.lr_vp)
   
   
