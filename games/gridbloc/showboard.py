@@ -137,6 +137,8 @@ def v_row(board, r):
     #check if clicked run next to this vertical wall
     if thistile in board.clicked_runs:
       tileclicked = True
+      lastclick = board.clicked_runs[-1] #this is a tilenum
+      #print("lastclick", lastclick)
       repeater = thisrun_repeat(board, thistile) # indicate if repeat run to this tile
       thisrun = board.clicked_points.index(thistile) + 1 # get running step number
       thisrun = str(thisrun)+repeater
@@ -149,9 +151,18 @@ def v_row(board, r):
       if tileclicked == True:
         if board.clicked_blocks.index(ver_row[vwall])== latest :
           ## MOST RECENT BLOCK WALL
-          print( gbu.color.green + board.ver_closed + gbu.color.white + leftpad + str(thisrun)+ ritepad, end="")
+          if 1 == 2:
+            ## MOST RECENT RUN TO TILE
+            print( gbu.color.green + board.ver_closed + gbu.color.white + leftpad + gbu.color.green + str(thisrun) + gbu.color.white + ritepad, end="")
+          else:
+            print( gbu.color.green + board.ver_closed + gbu.color.white + leftpad + str(thisrun) + ritepad, end="")
         else:
-          print( board.ver_closed + leftpad + str(thisrun)+ ritepad, end="")
+          if 1 == 2:
+            ## MOST RECENT RUN TO TILE
+            print( board.ver_closed + leftpad + gbu.color.green + str(thisrun) + gbu.color.white + ritepad, end="")
+          else:
+            print( board.ver_closed + leftpad + str(thisrun)+ ritepad, end="")
+     
       ## UNCLICKED TILE    
       else:
         if thistile in board.run_tiles_list:
@@ -165,7 +176,12 @@ def v_row(board, r):
     ## UNCLICKED WALL      
     else:
       if tileclicked == True:
-        print( board.ver_open + leftpad + str(thisrun) + ritepad, end="")
+        if 1 == 2:
+          ## MOST RECENT RUN
+          print( board.ver_open + leftpad + gbu.color.green + str(thisrun) + gbu.color.white + ritepad, end="")
+        else:
+          print( board.ver_open + leftpad + str(thisrun) + ritepad, end="")
+      
       else:
         if thistile in board.run_tiles_list:
           print( board.ver_open + leftpadb + gbu.color.gray + str(thistile)+ gbu.color.white + ritepadb, end="")
