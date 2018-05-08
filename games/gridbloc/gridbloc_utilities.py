@@ -366,21 +366,27 @@ def calculate_longrangers(self):
   print "calculate_longrangers"
   self.lr_vr = {} # long range valid runs
   self.lr_vp = [] # long range valid points
+  lrvr_uniques_list = [] #temp tilenum holder list for this function
   #calc valid runs
   for vr in self.valid_runs:
     #calculate_valid_runs(self, vr)
     print "+++++++++ LRVR ct_run", self.ct_run
     print "+++++++++ LRVR ",vr
     self.lr_vr[vr] = calculate_valid_runs(self, vr, vr)
-    
+    # todo - make list of UNIQUE tiles, as LOTS of overlap in tilenums
+    # (temptation is to score or value tiles with more uniques, but save that for deterministic benchmarking later)
+  
   # find if lrr (long range runs) in lrl (longrangelist)are worth points
   for k,lrl in self.lr_vr.items():
     for lrr in lrl:
       if lrr not in self.clicked_runs and lrr not in self.lr_vp:
         self.lr_vp.append(lrr)
+      if lrr not in lrvr_uniques_list:
+        lrvr_uniques_list.append(lrr)
   
   
   print "LR RUNS", self.lr_vr
+  print "LRVR_uniques_list", lrvr_uniques_list
   print "LR POINTS", self.lr_vp
   
   sys.exit(1)
