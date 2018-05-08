@@ -398,6 +398,11 @@ def calculate_longrangers(self, thislist = False):
   
   # TODO - should this ONLY be on empty LRVP? this only stretches it out one more tile distance...right?
   # (temptation is to score or value tiles with more uniques, but save that for deterministic benchmarking later)
+  # but what would make more sense? dont want to run EVERY limb out to the end each time... 
+  # dont want to set an arbitrary number either.. 
+  
+  # of course what i need to do is calculate all the tilenums ina BLOC and then all the CVRs from them 
+  # until no more can be added. then if ALL in clicked_runs then the BLOC is used and round over
   if len(self.lr_vp) == 0:
     # recurse w/lrvr_uniqs NOT IN self.lr_checked
     nextrange = list( set(lrvr_uniques_list) - (set(self.lr_checked)) )
