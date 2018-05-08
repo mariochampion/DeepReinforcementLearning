@@ -369,16 +369,17 @@ def calculate_longrangers(self, thislist = False):
   self.lr_vr = {} # long range valid runs
   self.lr_vp = [] # long range valid points
   lrvr_uniques_list = [] #temp tilenum holder list for this function
-  lrvr_checked = []
+  
   #calc valid runs
   for vr in thislist:
     #calculate_valid_runs(self, vr)
     print "+++++++++ LRVR ct_run", self.ct_run
     print "+++++++++ LRVR ",vr
     self.lr_vr[vr] = calculate_valid_runs(self, vr, vr)
-    lrvr_checked.append(vr) #rebuild self.valid_runs as CVRs for each one, good flowcheck
-    # todo - make list of UNIQUE tiles, as LOTS of overlap in tilenums
-    # (temptation is to score or value tiles with more uniques, but save that for deterministic benchmarking later)
+    if vr not in self.lr_checked :
+      self.lr_checked.append(vr) #rebuild self.valid_runs as CVRs for each one, good flowcheck
+      # todo - make list of UNIQUE tiles, as LOTS of overlap in tilenums
+      # (temptation is to score or value tiles with more uniques, but save that for deterministic benchmarking later)
   
   # find if lrr (long range runs) in lrl (longrangelist)are worth points
   for k,lrl in self.lr_vr.items():
@@ -391,28 +392,29 @@ def calculate_longrangers(self, thislist = False):
   print "LR VRS", self.valid_runs
   print "LR RUNS", self.lr_vr
   print "LRVR_uniques_list", lrvr_uniques_list
-  print "LR CHECKED", lrvr_checked
+  print "LR CHECKED", self.lr_checked
   print "LR POINTS", self.lr_vp
   
   #check for need to go longER range
   if len(self.lr_vp) == 0:
-    # if tiles in lrvr_uniqs NOT IN lrvr_points and NOT IN lrvr_checked
+    # if tiles in lrvr_uniqs NOT IN lrvr_points and NOT IN self.lr_checked
     # then recurse with them as list? need to refactor to allow passed list...
     # so first build this new list.
     #nextrange_pre = set(self.lr_vp).symmetric_difference(set(lrvr_uniques_list))
-    nextrange_pre = set(lrvr_uniques_list).symmetric_difference(set(self.lr_vp))
+    nextrange_pre = set(lrvr_uniques_list).symmetric_difference(set(self.lr_vr))
     print "LR nextrange_pre", nextrange_pre
-    nextrange = list( set(nextrange_pre).symmetric_difference(set(lrvr_checked)) )
+    nextrange = list( set(nextrange_pre).symmetric_difference(set(self.lr_checked)) )
     print "LR nextrange", nextrange
     
     ## OJO, RECURSION -- WATCH OUT!! ; )
-    if len(nextrange) > 0:
+    if len(nextrange) > 0: #this is not sufficient conditional... lr_checked needs to persist
       print "LR RECURSION"
       # build new LR_VPs
       calculate_longrangers(self, nextrange)
   
   
   print "LR VPs post recursion", self.lr_vp
+  self.lr_checked = []
   #sys.exit(1)
   return (self.lr_vr, self.lr_vp)
   
