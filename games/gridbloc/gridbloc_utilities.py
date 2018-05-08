@@ -56,7 +56,7 @@ def block_row_hor_list(self, this_b_row):
     #print "tiletype HORIZONTAL = ", this_b_row
     b_row_h_list = self.b_hortiles_dict[this_b_row]
         
-  print "this_b_row", this_b_row, "for b_row_h_list", b_row_h_list
+  #print "this_b_row", this_b_row, "for b_row_h_list", b_row_h_list
 
   return b_row_h_list  
 
@@ -75,7 +75,7 @@ def block_row_vert_list(self, this_b_col):
     #print "tiletype VERTICAL col =", this_b_col
     b_row_v_list = self.b_vertiles_dict[this_b_col]  
   
-  print "end: this_b_col",this_b_col,"has b_row_v_list", b_row_v_list
+  #print "end: this_b_col",this_b_col,"has b_row_v_list", b_row_v_list
   
   return b_row_v_list
 
@@ -146,9 +146,9 @@ def run_pick_click_process(self):
     # SET SOME VALUES BASED ON CT_RUN
     # self.run_row_num -- formerly "n" as in R(subscript n)
     self.run_row_num = int( math.ceil( float(self.ct_run) / float((3 * self.w) + 1) ) )
-    print "RPC self.run_row_num = ", self.run_row_num
+    #print "RPC self.run_row_num = ", self.run_row_num
     self.run_row_leftedge = int(self._run_row_left_edge(self.run_row_num))
-    print "RPC self.run_row_leftedge = ", self.run_row_leftedge
+    #print "RPC self.run_row_leftedge = ", self.run_row_leftedge
     ShowBoard(self)
   
     # if return false, catch that in main(), where this is called
@@ -226,8 +226,8 @@ def tilepick_run(self):
   '''
   
   # make more complete switch/case for other pick styles
-  print "self.run_style=", self.run_style
-  print "AT THIS STAGE: self.valid_runs=", self.valid_runs
+  #print "self.run_style=", self.run_style
+  #print "AT THIS STAGE: self.valid_runs=", self.valid_runs
   
   if self.run_style == "random":      
     ct_run = random.choice(self.valid_runs)
@@ -236,7 +236,7 @@ def tilepick_run(self):
     # implement other methods for choosing, but for now...
     ct_run = random.choice(self.valid_runs)
     
-  print "THIS RUN ct_run", ct_run
+  #print "THIS RUN ct_run", ct_run
   
   return ct_run
 
@@ -251,8 +251,8 @@ def tilepick_block(self):
   '''
   
   # make more complete switch/case for other pick styles
-  print "self.block_style=", self.block_style
-  print "AT THIS STAGE: self.unclicked_blocks=", self.unclicked_blocks
+  #print "self.block_style=", self.block_style
+  #print "AT THIS STAGE: self.unclicked_blocks=", self.unclicked_blocks
   
   if self.block_style == "random":      
     ct_block = random.choice(self.unclicked_blocks)
@@ -261,7 +261,7 @@ def tilepick_block(self):
     # implement other methods for choosing, but for now...
     ct_block = random.choice(self.unclicked_blocks)
     
-  print "THIS BLOCK ct_block", ct_block
+  #print "THIS BLOCK ct_block", ct_block
         
   return ct_block
 
@@ -330,13 +330,13 @@ def calculate_valid_runs(self, fromthistile, basetile=False):
   #remove blocked runs from actuals available
   unblocked_runs = []
   for move_to in actual_runs:
-    print "CVR move_to", move_to
+    #print "CVR move_to", move_to
     if basetile == False:
-      print "CVR - basetile false"
+      #print "CVR - basetile false"
       if run_is_unblocked(self, move_to) == True: 
         unblocked_runs.append(move_to) # if blocked, remove from options
     else:
-      print "CVR - basetile TRUE! ",basetile 
+      #print "CVR - basetile TRUE! ",basetile 
       if run_is_unblocked(self, move_to, basetile) == True: 
         unblocked_runs.append(move_to) # if blocked, remove from options
       
@@ -497,7 +497,7 @@ def run_is_unblocked(self, runtile, basetile=False):
 
 
   # print "RUB self.clicked_blocks", self.clicked_blocks
-  if is_unblocked == True: print "RUB UNblocked run", basetile," to", runtile
+  if is_unblocked == True: print "RUB UNblocked run", basetile,"to", runtile
   if is_unblocked == False: print "RUB Blocked run", basetile, "to", runtile
   
   return is_unblocked
