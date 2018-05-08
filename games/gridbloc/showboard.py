@@ -81,9 +81,9 @@ def printboard(board):
   gbu.whereami(sys._getframe().f_code.co_name)
   ''' print gridbloc game board, showing un|clicked tiles & walls'''
   
-  print( "board.clicked_runs", board.clicked_runs)
+  #print( "board.clicked_runs", board.clicked_runs)
   print( "board.clicked_blocks", board.clicked_blocks)
-  print( "board.block_tiles_master_dict", board.block_tiles_master_dict)
+  #print( "board.block_tiles_master_dict", board.block_tiles_master_dict)
   print( "PLAYED BOARD - in color! - d2" )
   print()
   # (2 * board.h + 2) == the number of rows in a gameboard, including top & bottom edges
