@@ -371,7 +371,7 @@ def calculate_longrangers(self):
     #calculate_valid_runs(self, vr)
     print "+++++++++ LRVR ct_run", self.ct_run
     print "+++++++++ LRVR ",vr
-    self.lr_vr[vr] = calculate_valid_runs(self, vr, vr) # doesnt seem to check run_is_blocked()?
+    self.lr_vr[vr] = calculate_valid_runs(self, vr, vr)
     
   # find if lrr (long range runs) in lrl (longrangelist)are worth points
   for k,lrl in self.lr_vr.items():
@@ -379,6 +379,11 @@ def calculate_longrangers(self):
       if lrr not in self.clicked_runs and lrr not in self.lr_vp:
         self.lr_vp.append(lrr)
   
+  
+  print "LR RUNS", self.lr_vr
+  print "LR POINTS", self.lr_vp
+  
+  sys.exit(1)
   return (self.lr_vr, self.lr_vp)
   
   
