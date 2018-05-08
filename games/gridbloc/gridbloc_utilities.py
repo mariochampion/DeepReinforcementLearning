@@ -396,9 +396,9 @@ def calculate_longrangers(self, thislist = False):
   
   #check for need to go longER range
   if len(self.lr_vp) == 0:
-    # if tiles in lrvr_uniqs NOT IN lrvr_points and NOT IN self.lr_checked
-    # then recurse with them as list? need to refactor to allow passed list...
-    # so first build this new list.
+    # if tiles in lrvr_uniqs NOT IN lrvr_points as it empty and NOT IN self.lr_checked
+    # then recurse with them as list? refactored to allow passed list...
+    # so first build this new list:
     nextrange = list( set(lrvr_uniques_list) - (set(self.lr_checked)) )
     print "LR nextrange", nextrange
     
