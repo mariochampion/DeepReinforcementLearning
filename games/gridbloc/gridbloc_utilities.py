@@ -197,10 +197,11 @@ def is_run_or_block_available(self, r_or_b):
   
   if r_or_b == "run": 
     availability = len(self.valid_runs)
-    ## TODO - 
+    ## being implemented via calculate_longrangers - 
     # 1. if ALL valid runs already scored AND CANNOT get to new unscored, THEN availability = 0
     # BUT this requires CHAINS of lookup from each valid tile, how many? all and NONE are unscored
-    # right? so is this required or is this getting deterministic and anti-A.G.0 style?
+    # right? so is this required or is this getting deterministic and anti-A.G.0 style? 
+    # not required, BUT does allow rounds to end MUCH more quickly, smartly...
     availability = len(self.lr_vp)
     
   
