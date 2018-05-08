@@ -138,7 +138,6 @@ def v_row(board, r):
     if thistile in board.clicked_runs:
       tileclicked = True
       lastclick = board.clicked_runs[-1] #this is a tilenum
-      #print("lastclick", lastclick)
       repeater = thisrun_repeat(board, thistile) # indicate if repeat run to this tile
       thisrun = board.clicked_points.index(thistile) + 1 # get running step number
       thisrun = str(thisrun)+repeater
@@ -151,13 +150,13 @@ def v_row(board, r):
       if tileclicked == True:
         if board.clicked_blocks.index(ver_row[vwall])== latest :
           ## MOST RECENT BLOCK WALL
-          if 1 == 2:
+          if thistile == lastclick:
             ## MOST RECENT RUN TO TILE
             print( gbu.color.green + board.ver_closed + gbu.color.white + leftpad + gbu.color.green + str(thisrun) + gbu.color.white + ritepad, end="")
           else:
             print( gbu.color.green + board.ver_closed + gbu.color.white + leftpad + str(thisrun) + ritepad, end="")
         else:
-          if 1 == 2:
+          if thistile == lastclick:
             ## MOST RECENT RUN TO TILE
             print( board.ver_closed + leftpad + gbu.color.green + str(thisrun) + gbu.color.white + ritepad, end="")
           else:
@@ -176,7 +175,7 @@ def v_row(board, r):
     ## UNCLICKED WALL      
     else:
       if tileclicked == True:
-        if 1 == 2:
+        if thistile == lastclick:
           ## MOST RECENT RUN
           print( board.ver_open + leftpad + gbu.color.green + str(thisrun) + gbu.color.white + ritepad, end="")
         else:
