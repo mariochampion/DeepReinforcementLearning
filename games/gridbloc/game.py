@@ -75,6 +75,7 @@ class GridBlocBoard():
 		print "START GBB self.unclicked_runs = ", self.unclicked_runs
 		self.lr_vp = self.run_tiles_list[:] # copy initial valid runs into LONG RANGE valid points
 		self.lr_vr = {} # longrange valid runs, keyed by tile, starts blank
+		self.lr_checked = [] # to prevent recursion, tracks whats been LR checked
 		
 		
 		
