@@ -32,8 +32,10 @@ def show_summary(self):
   print "END GBB self.clicked_runs = ", self.clicked_runs
   print "END GBB self.clicked_points = ", self.clicked_points
   print "END GBB self.valid_runs = ", self.valid_runs
-  print "END GBB self.lr_vr = ", self.lr_vr  
+  print "END GBB self.lr_vr = ", self.lr_vr
+  print "END GBB self.available_runs = ", self.available_runs
   print "END GBB self.lr_vp = ", self.lr_vp
+  print "END GBB self.available_points = ", self.available_points
   #print "END GBB self.unclicked_runs =", self.unclicked_runs
   #print
   #print "END GBB self.ct_block = ", self.ct_block
@@ -178,8 +180,8 @@ def block_pick_click_process(self):
       
     # calculate longrange_points (and runs)
     self.longrange_runs, self.longrange_points = calculate_longrangers(self)
-    print "lrvr", self.longrange_runs
-    print "lrvp", self.longrange_points
+    print "bpcp lrvr", self.longrange_runs
+    print "bpcp lrvp", self.longrange_points
     
     # what conditional?
     if 1 ==1:
@@ -201,8 +203,7 @@ def is_run_or_block_available(self, r_or_b):
     # BUT this requires CHAINS of lookup from each valid tile, how many? all and NONE are unscored
     # right? so is this required or is this getting deterministic and anti-A.G.0 style? 
     # not required, BUT does allow rounds to end MUCH more quickly, smartly...
-    availability = self.available_runs
-    availability = self.available_points
+    availability = self.available_runs + self.available_points
     
   
   if r_or_b == "block": availability = len(self.unclicked_blocks)
@@ -429,12 +430,13 @@ def calculate_longrangers(self, thislist = False):
   print "2 LR VPs post recursion"
   self.available_runs = len(self.lr_vr)
   self.lr_vr = {} # long range valid runs
-  
-  self.lr_vp = [] # long range valid points
   self.available_points = len(self.lr_vp)
+  self.lr_vp = [] # long range valid points
   
   self.lrvr_uniques_list = [] #temp tilenum holder list for this function
   self.lr_checked = []
+  print "self.available_runs", self.available_runs
+  print "self.available_points", self.available_points
   
   return (self.available_runs, self.available_points)
   
