@@ -416,8 +416,12 @@ def calculate_longrangers(self, thislist = False):
     if len(nextrange) > 0:
       print "LR RECURSION"
       calculate_longrangers(self, nextrange) # build new LR_VPs
+  else:
+    print "1 LR VPs post recursion", self.lr_vp
+    self.lr_checked = []
+    return (self.lr_vr, self.lr_vp)
   
-  print "LR VPs post recursion", self.lr_vp
+  print "2 LR VPs post recursion", self.lr_vp
   self.lr_checked = []
   
   return (self.lr_vr, self.lr_vp)
