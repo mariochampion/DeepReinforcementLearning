@@ -362,10 +362,13 @@ def calculate_longrangers(self, thislist = False):
   ''' from list of tiles (say, valid_runs) create dicts/lists of further valid runs and points
   this will be used to check if runner is in BLOC of used tiles, thus round over'''
   
+  print color.green + "\nSTART calculate_longrangers" + color.white
+  
   if thislist == False:
     thislist = self.valid_runs
-  else:
-    print "LR thislist", thislist
+    print color.green + "thislist FALSE, use default valid_runs" + color.white
+  
+  print "LR thislist", thislist
   
   self.lr_vr = {} # long range valid runs
   self.lr_vp = [] # long range valid points
@@ -373,8 +376,7 @@ def calculate_longrangers(self, thislist = False):
   
   #calc valid runs
   for vr in thislist:
-    print "+++++++++ LRVR ct_run", self.ct_run
-    print "+++++++++ LRVR ",vr
+    print "+++++++++ LRVR vr ("+str(vr)+") not ct_run " + str(self.ct_run)
     self.lr_vr[vr] = calculate_valid_runs(self, vr, vr)
     if vr not in self.lr_checked :
       self.lr_checked.append(vr) # holds tilenums for checks and recursion prevention
@@ -396,14 +398,16 @@ def calculate_longrangers(self, thislist = False):
   print "LR CHECKED", self.lr_checked
   print "LR POINTS", self.lr_vp
   
-  # todo - start a new branch - game_gridbloc_longranger
   # TODO - should this ONLY be on empty LRVP? this only stretches it out one more tile distance...right?
   # (temptation is to score or value tiles with more uniques, but save that for deterministic benchmarking later)
   # but what would make more sense? dont want to run EVERY limb out to the end each time... 
   # dont want to set an arbitrary number either.. 
   
-  # of course what i need to do is calculate all the tilenums ina BLOC and then all the CVRs from them 
+  # of course what i need to do is calculate all the tilenums in a BLOC and then all the CVRs from them 
   # until no more can be added. then if ALL in clicked_runs then the BLOC is used and round over
+  #### OR if the one-distance VRs are NOT VP ("scoreable"), then check THEIR one-distance VRs, 
+  # and if they are not, keep checking... BUT soon as you get at least ONE VR in VP
+  # stop checking for round end as round is NOT over
   if len(self.lr_vp) == 0:
     # recurse w/lrvr_uniqs NOT IN self.lr_checked
     nextrange = list( set(lrvr_uniques_list) - (set(self.lr_checked)) )
