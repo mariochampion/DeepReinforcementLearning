@@ -424,7 +424,8 @@ def calculate_longrangers(self, thislist = False):
     return (self.lr_vr, self.lr_vp)
   '''
   
-  # NOT RECURSING HERE, so clear some stuff out for next pass
+  # NOT RECURSING HERE, 
+  # todo - so clear some stuff out for next pass, # this doesnt work
   print "2 LR VPs post recursion"
   self.available_runs = len(self.lr_vr)
   self.lr_vr = {} # long range valid runs
