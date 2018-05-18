@@ -195,14 +195,14 @@ def is_run_or_block_available(self, r_or_b):
 
   ''' just check length of valid_runs or unclicked_blocks. if zero, then round is over '''
   
-  if r_or_b == "run": 
-    availability = len(self.valid_runs)
+  if r_or_b == "run":     
     ## being implemented via calculate_longrangers - 
     # 1. if ALL valid runs already scored AND CANNOT get to new unscored, THEN availability = 0
     # BUT this requires CHAINS of lookup from each valid tile, how many? all and NONE are unscored
     # right? so is this required or is this getting deterministic and anti-A.G.0 style? 
     # not required, BUT does allow rounds to end MUCH more quickly, smartly...
-    availability = len(self.lr_vp)
+    availability = self.available_runs
+    availability = self.available_points
     
   
   if r_or_b == "block": availability = len(self.unclicked_blocks)
@@ -370,23 +370,25 @@ def calculate_longrangers(self, thislist = False):
   
   print "LR thislist", thislist
   
-  self.lr_vr = {} # long range valid runs
-  self.lr_vp = [] # long range valid points
-  lrvr_uniques_list = [] #temp tilenum holder list for this function
+  #self.lr_vr = {} # long range valid runs
+  #self.lr_vp = [] # long range valid points
+  #self.lrvr_uniques_list = [] #temp tilenum holder list for this function
   
   #calc valid runs
   for vr in thislist:
     print "+++++++++ LRVR vr ("+str(vr)+") not ct_run " + str(self.ct_run)
     self.lr_vr[vr] = calculate_valid_runs(self, vr, vr)
     if vr not in self.lr_checked :
+      print "checked", self.lr_checked
       self.lr_checked.append(vr) # holds tilenums for checks and recursion prevention
+      print "checked -- appended", self.lr_checked
       
   # find if lrr (long range runs) in lrl (longrangelist) are worth points
   for k,lrl in self.lr_vr.items():
     for lrr in lrl:
       # add to uniques list, if not already
-      if lrr not in lrvr_uniques_list:
-        lrvr_uniques_list.append(lrr)
+      if lrr not in self.lrvr_uniques_list:
+        self.lrvr_uniques_list.append(lrr)
       # add to points list, if not already
       if lrr not in self.clicked_runs and lrr not in self.lr_vp:
         self.lr_vp.append(lrr)
@@ -394,7 +396,7 @@ def calculate_longrangers(self, thislist = False):
   
   print "LR VRS", self.valid_runs
   print "LR RUNS", self.lr_vr
-  print "LRVR_uniques_list", lrvr_uniques_list
+  print "self.lrvr_uniques_list", self.lrvr_uniques_list
   print "LR CHECKED", self.lr_checked
   print "LR POINTS", self.lr_vp
   
@@ -408,23 +410,32 @@ def calculate_longrangers(self, thislist = False):
   #### OR if the one-distance VRs are NOT VP ("scoreable"), then check THEIR one-distance VRs, 
   # and if they are not, keep checking... BUT soon as you get at least ONE VR in VP
   # stop checking for round end as round is NOT over
-  if len(self.lr_vp) == 0:
+  if len(self.lr_vr) > 0:
     # recurse w/lrvr_uniqs NOT IN self.lr_checked
-    nextrange = list( set(lrvr_uniques_list) - (set(self.lr_checked)) )
+    nextrange = list( set(self.lrvr_uniques_list) - (set(self.lr_checked)) )
     print "LR nextrange", nextrange
     ## OJO, RECURSION -- WATCH OUT!! ; )
     if len(nextrange) > 0:
       print "LR RECURSION"
       calculate_longrangers(self, nextrange) # build new LR_VPs
-  else:
+  ''' else:
     print "1 LR VPs post recursion", self.lr_vp
     self.lr_checked = []
     return (self.lr_vr, self.lr_vp)
+  '''
   
-  print "2 LR VPs post recursion", self.lr_vp
+  # NOT RECURSING HERE, so clear some stuff out for next pass
+  print "2 LR VPs post recursion"
+  self.available_runs = len(self.lr_vr)
+  self.lr_vr = {} # long range valid runs
+  
+  self.lr_vp = [] # long range valid points
+  self.available_points = len(self.lr_vp)
+  
+  self.lrvr_uniques_list = [] #temp tilenum holder list for this function
   self.lr_checked = []
   
-  return (self.lr_vr, self.lr_vp)
+  return (self.available_runs, self.available_points)
   
   
   
