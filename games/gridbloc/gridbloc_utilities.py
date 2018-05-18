@@ -396,6 +396,7 @@ def calculate_longrangers(self, thislist = False):
   print "LR CHECKED", self.lr_checked
   print "LR POINTS", self.lr_vp
   
+  # todo - start a new branch - game_gridbloc_longranger
   # TODO - should this ONLY be on empty LRVP? this only stretches it out one more tile distance...right?
   # (temptation is to score or value tiles with more uniques, but save that for deterministic benchmarking later)
   # but what would make more sense? dont want to run EVERY limb out to the end each time... 
