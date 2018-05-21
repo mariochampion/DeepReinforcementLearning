@@ -179,9 +179,10 @@ def block_pick_click_process(self):
     self.valid_runs = calculate_valid_runs(self, self.ct_run, False) 
       
     # calculate longrange_points (and runs)
-    self.longrange_runs, self.longrange_points = calculate_longrangers(self)
-    print "bpcp lrvr", self.longrange_runs
-    print "bpcp lrvp", self.longrange_points
+    #self.available_runs, self.available_points = calculate_longrangers(self)
+    calculate_longrangers(self)
+    print "bpcp avail runs", self.available_runs
+    print "bpcp avail points", self.available_points
     
     # what conditional?
     if 1 ==1:
@@ -417,28 +418,24 @@ def calculate_longrangers(self, thislist = False):
     print "LR nextrange", nextrange
     ## OJO, RECURSION -- WATCH OUT!! ; )
     if len(nextrange) > 0:
-      print "LR RECURSION"
+      print color.yellow + "LR RECURSION" + color.white
+      self.available_runs = len(self.lr_vr)
+      print "self.available_runs", self.available_runs
+      self.available_points = len(self.lr_vp)
+      print "self.available_points", self.available_points
       calculate_longrangers(self, nextrange) # build new LR_VPs
-  ''' else:
-    print "1 LR VPs post recursion", self.lr_vp
-    self.lr_checked = []
-    return (self.lr_vr, self.lr_vp)
-  '''
+
   
   # NOT RECURSING HERE, 
   # todo - so clear some stuff out for next pass, # this doesnt work
   print "2 LR VPs post recursion"
-  self.available_runs = len(self.lr_vr)
   self.lr_vr = {} # long range valid runs
-  self.available_points = len(self.lr_vp)
   self.lr_vp = [] # long range valid points
-  
   self.lrvr_uniques_list = [] #temp tilenum holder list for this function
   self.lr_checked = []
-  print "self.available_runs", self.available_runs
-  print "self.available_points", self.available_points
   
-  return (self.available_runs, self.available_points)
+  #return (self.available_runs, self.available_points)
+  return
   
   
   
