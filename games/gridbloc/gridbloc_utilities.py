@@ -412,6 +412,9 @@ def calculate_longrangers(self, thislist = False):
   #### OR if the one-distance VRs are NOT VP ("scoreable"), then check THEIR one-distance VRs, 
   # and if they are not, keep checking... BUT soon as you get at least ONE VR in VP
   # stop checking for round end as round is NOT over
+
+  ### PUT THIS IN WHILE LOOP AND BREAK FROM THERE?? (re: recursion double up "2 LR VPs post recursion" issue)
+  
   if len(self.lr_vr) > 0:
     # recurse w/lrvr_uniqs NOT IN self.lr_checked
     nextrange = list( set(self.lrvr_uniques_list) - (set(self.lr_checked)) )
