@@ -14,6 +14,7 @@ close_all_edges = True # true prevents pacman wraparound. keep True until much m
 s3bucket = "mmc-tester-01"
 
 
+
 ##################################	
 ## just a debug placefinder to help trace actions
 def whereami(funcname):
@@ -622,7 +623,7 @@ def buildlogs(self):
   
   # temp stuff to test
   rando_chars = "log"
-  logfile_suffix = ".txt"
+  logfile_suffix = ".html"
   log_dir = "logs"
   path_to_file = log_dir + "/"+ rando_chars + "_" + time.strftime("%H%M%S") + logfile_suffix
   thisdict = {1:["aaa","bee","cee",4], "two":["one","toooo","tree"]}
@@ -647,7 +648,7 @@ def buildlogs(self):
 ################################# 
 def sendec2(logfilename):
   whereami(sys._getframe().f_code.co_name)
-  
+  ## TODO - fpo code
   print "ec2 codez for :", logfilename
   s3 = boto3.resource('s3')
   # Print out bucket names
@@ -656,6 +657,9 @@ def sendec2(logfilename):
   
   data = open(logfilename, 'rb')
   s3.Bucket(s3bucket).put_object(Key=logfilename, Body=data)
+  print "uploaded ", logfilename
+  
+  return True
   
   
   
