@@ -5,12 +5,13 @@ GRIDBLOC support functions.
 
 
 ## GLOBAL implorts/vars (mostly for use in this file?)
-import sys, random, math
+import sys, random, math, os, time,boto3
 from showboard import ShowBoard
 
 ## some global configs
 show_whereami = False # a debug print line to track function flow
 close_all_edges = True # true prevents pacman wraparound. keep True until much more development
+s3bucket = "mmc-tester-01"
 
 
 ##################################	
@@ -607,22 +608,60 @@ def game_is_over(gb_board, gb_board_r2):
     
   # lots more things
   ShowBoard(gb_board_r2)
+  
+  (buildlog_status, logfilename) = buildlogs(gb_board_r2)
+  if buildlog_status == True:
+    sendec2(logfilename)
+  
   return
 
 
 ################################# 
-def buildlogs():
+def buildlogs(self):
   whereami(sys._getframe().f_code.co_name)
   
-  pass
+  # temp stuff to test
+  rando_chars = "log"
+  logfile_suffix = ".txt"
+  log_dir = "logs"
+  path_to_file = log_dir + "/"+ rando_chars + "_" + time.strftime("%H%M%S") + logfile_suffix
+  thisdict = {1:["aaa","bee","cee",4], "two":["one","toooo","tree"]}
+  
+  
+  #make / append a file from a dict
+  fmake = open(path_to_file, "a")
+  for k,v in thisdict.items():
+    fmake.write(str(k)+","+str(v)+"\n")  
+  fmake.close()
+  
+  if os.stat(path_to_file).st_size == 0:
+    status = False
+  else:
+    print "yay! created: " + path_to_file
+    status = True 
+
+  print #just a line for readability
+  return (status, path_to_file)
 
 
 ################################# 
-def sendec2():
+def sendec2(logfilename):
   whereami(sys._getframe().f_code.co_name)
   
-  print "ec2 codez"
-  pass
+  print "ec2 codez for :", logfilename
+  s3 = boto3.resource('s3')
+  # Print out bucket names
+  for bucket in s3.buckets.all():
+    print bucket.name
+  
+  data = open(logfilename, 'rb')
+  s3.Bucket(s3bucket).put_object(Key=logfilename, Body=data)
+  
+  
+  
+  
+  
+  
   
 #################################   
 # pinched and tweaked from https://github.com/impshum/Multi-Quote/blob/master/run.py
