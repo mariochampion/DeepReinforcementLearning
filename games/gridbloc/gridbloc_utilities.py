@@ -608,6 +608,21 @@ def game_is_over(gb_board, gb_board_r2):
   # lots more things
   ShowBoard(gb_board_r2)
   return
+
+
+################################# 
+def buildlogs():
+  whereami(sys._getframe().f_code.co_name)
+  
+  pass
+
+
+################################# 
+def sendec2():
+  whereami(sys._getframe().f_code.co_name)
+  
+  print "ec2 codez"
+  pass
   
 #################################   
 # pinched and tweaked from https://github.com/impshum/Multi-Quote/blob/master/run.py
