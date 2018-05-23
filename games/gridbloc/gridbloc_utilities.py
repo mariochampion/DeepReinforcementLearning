@@ -631,6 +631,7 @@ def buildlogs(self):
   
   #make / append a file from a dict
   fmake = open(path_to_file, "a")
+  fmake.write("<!DOCTYPE html>\n")
   for k,v in thisdict.items():
     fmake.write(str(k)+","+str(v)+"\n")  
   fmake.close()
@@ -656,7 +657,7 @@ def sendec2(logfilename):
     print bucket.name
   
   data = open(logfilename, 'rb')
-  s3.Bucket(s3bucket).put_object(Key=logfilename, Body=data)
+  s3.Bucket(s3bucket).put_object(Key=logfilename, Body=data, ContentType='text/html')
   print "uploaded ", logfilename
   
   return True
